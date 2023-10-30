@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="Create fields table" author="aobubu">
+        <createTable tableName="fields">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="field_id"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="square_area" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="geom" type="geometry(Geometry,0)"> <!-- Указываем тип Geometry -->
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="color" type="varchar(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity_start" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="activity_end" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="organization_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

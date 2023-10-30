@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  database:
+    image: bitnami/postgresql:14
+    container_name: crops-db
+    env_file:
+      - ./src/main/resources/application.properties
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+      - ./src/main/resources/db/changelog/create-extension-postgis.sql:/docker-entrypoint-initdb.d/create-extension-postgis.sql
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  pgdbdata:
+

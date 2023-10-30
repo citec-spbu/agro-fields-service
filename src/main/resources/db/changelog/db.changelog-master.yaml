@@ -1,0 +1,9 @@
+databaseChangeLog:
+  -   include:
+        file: db/changelog/table-crops.xml
+  -   include:
+        file: db/changelog/table-fields.xml
+  -   include:
+        file: db/changelog/table-crop-rotations.xml
+  -   include:
+        file: db/changelog/default-crops.xml
