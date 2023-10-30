@@ -1,7 +1,7 @@
 package agroscience.fields.services;
 
-import agroscience.fields.dao.FieldAndCurrentCrop;
-import agroscience.fields.dao.FieldAndCurrentCropImpl;
+import agroscience.fields.dao.models.FieldAndCurrentCrop;
+import agroscience.fields.dao.models.FieldAndCurrentCropImpl;
 import agroscience.fields.dao.entities.CropRotation;
 import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dao.repositories.CropRotationRepository;
@@ -28,9 +28,10 @@ public class FieldService {
     }
 
     public ResponseField getFieldWithCR(Long id){
-//        var field = fRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Не найдено поле с id: " + id));
-//        var cropRotation = crRepository.findLatestCR(id);
         var fieldAndCR = fRepository.fieldWithLatestCrop(id);
+        if(fieldAndCR == null){
+            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+        }
         return fMapper.fieldToResponseField(fieldAndCR);
     }
 

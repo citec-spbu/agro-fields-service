@@ -1,15 +1,13 @@
-FROM openjdk:17 as builder
-ADD . /src
-WORKDIR /src
-RUN ./mvnw package -DskipTests
-
 FROM openjdk:17
-WORKDIR .
-ENV JAVA_HOME=/opt/java-minimal
-ENV PATH="$PATH:$JAVA_HOME/bin"
-COPY --from=builder /src/target/crops-*.jar app.jar
-EXPOSE 8000
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# Устанавливаем директорию приложения внутри контейнера
+WORKDIR /app
+
+# Копируем JAR-файл в контейнер
+COPY target/*.jar fields.jar
+
+# Определяем команду для запуска приложения при запуске контейнера
+CMD ["java", "-jar", "fields.jar"]
 
 
 

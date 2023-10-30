@@ -13,4 +13,6 @@ public interface CropsRepository extends JpaRepository<Crop, Long> {
 //    Crop findLatestCrop(Long fieldId);
 
     Crop findCropById(Long cropId);
+
+
 }

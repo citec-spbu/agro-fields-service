@@ -1,9 +1,9 @@
-package agroscience.fields.dto;
+package agroscience.fields.dto.croprotation;
 
 import lombok.Data;
 
 @Data
 public class ResponseFieldName {
-    private Integer id;
+    private Long id;
     private String name;
 }

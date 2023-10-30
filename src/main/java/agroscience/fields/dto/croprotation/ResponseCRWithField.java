@@ -1,4 +1,4 @@
-package agroscience.fields.dto;
+package agroscience.fields.dto.croprotation;
 
 import agroscience.fields.dto.crop.ResponseCrop;
 import lombok.Data;

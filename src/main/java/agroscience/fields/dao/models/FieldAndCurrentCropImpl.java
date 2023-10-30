@@ -1,8 +1,8 @@
-package agroscience.fields.dao;
+package agroscience.fields.dao.models;
 
-import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.dao.entities.CropRotation;
 import agroscience.fields.dao.entities.Field;
+import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

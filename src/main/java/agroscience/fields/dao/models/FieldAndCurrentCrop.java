@@ -1,4 +1,4 @@
-package agroscience.fields.dao;
+package agroscience.fields.dao.models;
 
 import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.dao.entities.CropRotation;

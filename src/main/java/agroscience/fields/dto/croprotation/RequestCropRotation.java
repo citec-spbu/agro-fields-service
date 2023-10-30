@@ -1,5 +1,6 @@
-package agroscience.fields.dto;
+package agroscience.fields.dto.croprotation;
 
+import agroscience.fields.dto.TimeDTO;
 import agroscience.fields.utilities.validation.constraints.LocalDateTimeFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,17 +10,27 @@ import lombok.Data;
 
 @Data
 @LocalDateTimeFormat
-public class RequestCropRotation {
+public class RequestCropRotation implements TimeDTO {
     @NotNull
     @Min(value = 1, message = "Id не может быть меньше 1")
     private Long fieldId;
     @NotNull
     @Min(value = 1, message = "Id не может быть меньше 1")
     private Long cropId;
-    @NotBlank(message = "Нужно заполнить")
+
     private String startDate;
-    @NotBlank(message = "Нужно заполнить")
     private String endDate;
+
     @Size(max = 256, message = "Максимум 256 символов")
     private String description;
+
+    @Override
+    public String start() {
+        return startDate;
+    }
+
+    @Override
+    public String end() {
+        return endDate;
+    }
 }

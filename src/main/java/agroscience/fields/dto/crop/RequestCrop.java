@@ -1,4 +1,4 @@
-package agroscience.fields.dto;
+package agroscience.fields.dto.crop;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
