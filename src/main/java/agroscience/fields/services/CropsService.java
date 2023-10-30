@@ -13,9 +13,6 @@ public class CropsService {
     private final CropsRepository cropsRepository;
     private final CropRotationRepository CRRepository;
 
-    public Crop getCurrentCrop(Long fieldId) {
-        return cropsRepository.findLatestCrop(fieldId);
-    }
     public Crop createCrop(Crop crop){
         return cropsRepository.save(crop);
     }

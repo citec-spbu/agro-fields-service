@@ -1,11 +1,8 @@
 package agroscience.fields.mappers;
 
-import agroscience.fields.dao.FieldAndCurrentCrop;
-import agroscience.fields.dao.entities.Crop;
-import agroscience.fields.dao.entities.CropRotation;
+import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dto.field.*;
-import agroscience.fields.utilities.LocalDateConverting;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.mapstruct.Mapper;
@@ -14,8 +11,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

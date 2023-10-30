@@ -1,6 +1,6 @@
 package agroscience.fields.utilities.validation.validators;
 
-import agroscience.fields.dto.RequestCropRotation;
+import agroscience.fields.dto.TimeDTO;
 import agroscience.fields.utilities.LocalDateConverting;
 import agroscience.fields.utilities.validation.constraints.LocalDateTimeFormat;
 import jakarta.validation.ConstraintValidator;
@@ -8,16 +8,16 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 
-public class LocalDateTimeFormatValidator implements ConstraintValidator<LocalDateTimeFormat, RequestCropRotation> {
+public class LocalDateTimeFormatValidator implements ConstraintValidator<LocalDateTimeFormat, TimeDTO> {
     @Override
-    public boolean isValid(RequestCropRotation request, ConstraintValidatorContext context) {
+    public boolean isValid(TimeDTO request, ConstraintValidatorContext context) {
 
         LocalDate localStartDate = null;
         LocalDate localEndDate = null;
         boolean isValid = true;
 
         try {
-            localStartDate = LocalDateConverting.stringToLocalDateTime(request.getStartDate());
+            localStartDate = LocalDateConverting.stringToLocalDateTime(request.start());
         } catch (Exception e) {
             isValid = false;
             context.disableDefaultConstraintViolation();
@@ -25,7 +25,7 @@ public class LocalDateTimeFormatValidator implements ConstraintValidator<LocalDa
         }
 
         try {
-            localEndDate = LocalDateConverting.stringToLocalDateTime(request.getEndDate());
+            localEndDate = LocalDateConverting.stringToLocalDateTime(request.end());
         } catch (Exception e) {
             isValid = false;
             context.disableDefaultConstraintViolation();
