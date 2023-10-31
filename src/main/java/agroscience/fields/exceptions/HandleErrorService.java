@@ -35,6 +35,6 @@ public class HandleErrorService {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("resultCode", HttpStatus.NOT_FOUND.value());
         errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
