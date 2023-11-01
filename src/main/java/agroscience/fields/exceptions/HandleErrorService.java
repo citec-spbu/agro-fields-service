@@ -48,4 +48,13 @@ public class HandleErrorService {
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(DuplicateFieldException.class)
+    public ResponseEntity<Object> handleDuplicateEvpException(DuplicateFieldException ex){
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("name:", ex.getMessage());
+        Map<String, Object> response = new HashMap<>();
+        response.put("errors", errorMap);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 }

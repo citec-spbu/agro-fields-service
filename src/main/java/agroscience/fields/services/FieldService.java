@@ -8,9 +8,11 @@ import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseField;
+import agroscience.fields.exceptions.DuplicateFieldException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,11 @@ public class FieldService {
     private final FieldMapper fMapper;
 
     public FieldAndCurrentCrop createField(Field field){
-        return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
+        try {
+            return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
+        } catch (DataIntegrityViolationException ex) {
+            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+        }
     }
 
     public ResponseField getFieldWithCR(Long id){
