@@ -1,9 +1,8 @@
 package agroscience.fields.dto.croprotation;
 
-import agroscience.fields.dto.TimeDTO;
-import agroscience.fields.utilities.validation.constraints.LocalDateTimeFormat;
+import  agroscience.fields.dto.TimeDTO;
+import agroscience.fields.exceptions.validation.constraints.LocalDateTimeFormat;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;

@@ -23,7 +23,18 @@ public class HandleErrorService {
         ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
             errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
         });
+        Map<String, Object> response = new HashMap<>();
+        response.put("errors", errorMap);
 
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DateException.class)
+    public ResponseEntity<Object> handleValidationException(DateException ex) {
+        Map<String, Object> errorMap = new HashMap<>();
+        ex.getFieldErrors().forEach(fieldError -> {
+            errorMap.put(fieldError.getFirst(), fieldError.getSecond());
+        });
         Map<String, Object> response = new HashMap<>();
         response.put("errors", errorMap);
 

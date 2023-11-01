@@ -1,6 +1,6 @@
-package agroscience.fields.utilities.validation.constraints;
+package agroscience.fields.exceptions.validation.constraints;
 
-import agroscience.fields.utilities.validation.validators.LocalDateTimeFormatValidator;
+import agroscience.fields.exceptions.validation.validators.LocalDateTimeFormatValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = LocalDateTimeFormatValidator.class)
 public @interface LocalDateTimeFormat {
     String message() default "Дата введена неверно";
+    String fieldName() default ""; // Добавляем поле для указания имени поля
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
