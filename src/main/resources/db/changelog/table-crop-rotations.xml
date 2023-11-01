@@ -13,7 +13,7 @@
                 <constraints nullable="false" foreignKeyName="fr_field_crop_rotations" references="fields(id)"/>
             </column>
             <column name="crop_id" type="integer">
-                <constraints nullable="false" foreignKeyName="fr_crop_crop_rotations" references="crops(id)"/>
+                    <constraints nullable="false" foreignKeyName="fr_crop_crop_rotations" references="crops(id)"/>
             </column>
             <column name="start_date" type="date">
                 <constraints nullable="false"/>
