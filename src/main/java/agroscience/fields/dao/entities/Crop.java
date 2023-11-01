@@ -15,7 +15,7 @@ public class Crop {
     @SequenceGenerator(name = "crops_id_seq", sequenceName = "crops_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "crop", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
