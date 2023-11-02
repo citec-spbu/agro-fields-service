@@ -24,14 +24,14 @@ public class SoilController {
         return soilMapper.soilToResponseSoil(soilService.createSoil(soilMapper.requestSoilToSoil(request), request.getFieldId()));
     }
 
-//    @PutMapping
-//    @Operation(description = "Обновление культуры")
-//    public ResponseCrop updateCrop(@Valid@Min(1) Long cropId, @Valid @RequestBody RequestCrop request){
-//        return cropMapper.cropToResponseCrop(cropsService.updateCrop(cropId, cropMapper.requestCropToCrop(request)));
-//    }
-//
+    @PutMapping
+    @Operation(description = "Обновление агрохимии, fieldId фиктивный в request, он не меняется, было лень использовать другую dto")
+    public ResponseSoil updateCrop(@Valid@Min(1) Long soilId, @Valid @RequestBody RequestSoil request){
+        return soilMapper.soilToResponseSoil(soilService.updateCrop(soilId, soilMapper.requestSoilToSoil(request)));
+    }
+
     @DeleteMapping
-    @Operation(description = "Удаление культуры, вместе с ней удалятся и все севообороты, которые на неё ссылаются")
+    @Operation(description = "Удаление агрохимии")
     public ResponseEntity<Void> deleteCrop(@Valid@Min(1) Long soilId){
         soilService.deleteSoilById(soilId);
         return ResponseEntity.noContent().build();
