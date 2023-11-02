@@ -43,17 +43,13 @@ public interface CropRotationMapper {
     CropRotation CropRotatopnRequestToCropRotation(RequestCropRotation request);
     @Named("localDateToString")
     default String localDateToString(LocalDate date){
-        return LocalDateConverting.localDateTimeToString(date);
+        return LocalDateConverting.localDateToString(date);
     }
 
     @Named("stringToLocalDate")
     default LocalDate localDateToString(String date) throws ParseException {
-        return LocalDateConverting.stringToLocalDateTime(date);
+        return LocalDateConverting.stringToLocalDate(date);
     }
-//    @Named("cropName")
-//    default String cropName(Crop crop){
-//        return crop.getName();
-//    }
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "field", ignore = true)

@@ -1,13 +1,13 @@
 package agroscience.fields.dto.field;
 
 import agroscience.fields.dto.TimeDTO;
-import agroscience.fields.exceptions.validation.constraints.LocalDateTimeFormat;
+import agroscience.fields.exceptions.validation.constraints.LocalDateFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-@LocalDateTimeFormat
+@LocalDateFormat
 public class RequestField implements TimeDTO {
     @NotNull
     @Min(value = 1, message = "Id не может быть меньше 1")
