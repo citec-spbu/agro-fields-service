@@ -8,7 +8,7 @@ import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseField;
-import agroscience.fields.exceptions.DuplicateFieldException;
+import agroscience.fields.exceptions.DuplicateException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class FieldService {
         try {
             return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
         } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+            throw new DuplicateException("Поле с именем " + field.getName() + " уже существует", "name");
         }
     }
 
@@ -63,7 +63,7 @@ public class FieldService {
         try {
             fRepository.save(field);
         }catch (DataIntegrityViolationException ex) {
-            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+            throw new DuplicateException("Поле с именем " + field.getName() + " уже существует", "name");
         }
         return fieldWithCrop;
     }
