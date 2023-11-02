@@ -50,6 +50,9 @@ public class Field {
     @EqualsAndHashCode.Exclude
     private List<CropRotation> cropRotations;
 
-    @Transient
-    private Crop crop;
+    @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.LAZY, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Soil> soils;
 }
