@@ -3,7 +3,7 @@ package agroscience.fields.services;
 import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.CropsRepository;
-import agroscience.fields.exceptions.DuplicateFieldException;
+import agroscience.fields.exceptions.DuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,7 +19,7 @@ public class CropsService {
         try {
             return cropsRepository.save(crop);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateFieldException("Культура с именем " + crop.getName() + " уже существует");
+            throw new DuplicateException("Культура с именем " + crop.getName() + " уже существует", "name");
         }
     }
 
@@ -29,7 +29,7 @@ public class CropsService {
         try {
             return cropsRepository.save(crop);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateFieldException("Культура с именем " + crop.getName() + " уже существует");
+            throw new DuplicateException("Культура с именем " + crop.getName() + " уже существует", "name");
         }
     }
 
