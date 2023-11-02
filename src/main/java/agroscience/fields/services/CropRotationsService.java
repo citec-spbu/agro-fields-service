@@ -30,8 +30,6 @@ public class CropRotationsService {
 
     public List<FandCRandC> getAll(Long orgId, PageRequest request) {
         return CRRepository.findAllByOrgId(orgId, request).toList();
-//        return DifficultMapping.listResponseCRWithFieldList(cropRotations.get, fieldNames);
-//        return null;
     }
 
     public ResponseCRWithField createCR(CropRotation cropRotation, Long cropId, Long fieldId){
