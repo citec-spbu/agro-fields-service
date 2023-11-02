@@ -55,9 +55,16 @@ public class FieldService {
 
     public FieldAndCurrentCrop updateField(Long id, RequestField request) {
         var fieldWithCrop =  fRepository.fieldWithLatestCrop(id);
+        if(fieldWithCrop == null){
+            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+        }
         var field = fieldWithCrop.getField();
         fMapper.requestFieldToField(field, request);
-        fRepository.save(field);
+        try {
+            fRepository.save(field);
+        }catch (DataIntegrityViolationException ex) {
+            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+        }
         return fieldWithCrop;
     }
 
