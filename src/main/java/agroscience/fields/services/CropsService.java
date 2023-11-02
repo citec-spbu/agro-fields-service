@@ -26,7 +26,11 @@ public class CropsService {
     public Crop updateCrop(Long id, Crop newCrop){
         var crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + id));
         crop.setName(newCrop.getName());
-        return cropsRepository.save(crop);
+        try {
+            return cropsRepository.save(crop);
+        }catch (DataIntegrityViolationException ex){
+            throw new DuplicateFieldException("Культура с именем " + crop.getName() + " уже существует");
+        }
     }
 
     public void deleteCropById(Long id) {
