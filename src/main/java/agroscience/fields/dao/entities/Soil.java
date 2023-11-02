@@ -15,7 +15,7 @@ public class Soil {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "soil_id_seq")
     @SequenceGenerator(name = "soil_id_seq", sequenceName = "soil_id_seq", allocationSize = 1)
-    private UUID id;
+    private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "field_id", referencedColumnName = "id", nullable = false)
@@ -26,7 +26,7 @@ public class Soil {
     @Column(name = "ph")
     private String ph;
 
-    @Column(name = "sample_date")
+    @Column(name = "sample_date", nullable = false, unique = true)
     private LocalDate sampleDate;
 
     @Column(name = "organic_matter")
@@ -44,8 +44,8 @@ public class Soil {
     @Column(name = "nitrate_n")
     private String nitrateN;
 
-    @Column(name = "amonium_n")
-    private String amoniumN;
+    @Column(name = "ammonium_n")
+    private String ammoniumN;
 
     @Column(name = "hydrolytic_acidity")
     private String hydrolyticAcidity;
