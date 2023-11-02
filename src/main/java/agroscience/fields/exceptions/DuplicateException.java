@@ -1,7 +1,16 @@
 package agroscience.fields.exceptions;
 
-public class DuplicateFieldException extends RuntimeException{
-    public DuplicateFieldException(String message) {
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Setter
+@Getter
+public class DuplicateException extends RuntimeException{
+    private String fieldName;
+    public DuplicateException(String message, String fieldName) {
         super(message);
+        this.fieldName = fieldName;
     }
+
 }

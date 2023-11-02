@@ -3,14 +3,14 @@ package agroscience.fields.exceptions.validation.validators;
 import agroscience.fields.dto.TimeDTO;
 import agroscience.fields.exceptions.DateException;
 import agroscience.fields.utilities.LocalDateConverting;
-import agroscience.fields.exceptions.validation.constraints.LocalDateTimeFormat;
+import agroscience.fields.exceptions.validation.constraints.LocalDateFormat;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.data.util.Pair;
 
 import java.time.LocalDate;
 
-public class LocalDateTimeFormatValidator implements ConstraintValidator<LocalDateTimeFormat, TimeDTO> {
+public class LocalDateFormatValidator implements ConstraintValidator<LocalDateFormat, TimeDTO> {
     @Override
     public boolean isValid(TimeDTO request, ConstraintValidatorContext context) {
 
@@ -21,7 +21,6 @@ public class LocalDateTimeFormatValidator implements ConstraintValidator<LocalDa
         try {
             localStartDate = LocalDateConverting.stringToLocalDate(request.start());
         } catch (Exception e) {
-
             ex.getFieldErrors().add(Pair.of("start", "Дата написана неправильно"));
         }
 
