@@ -74,16 +74,4 @@ public interface FieldMapper {
         }
         return geometryFactory.createPolygon(polygonCoordinates);
     }
-
-
-
-//    @Named("localDateToString")
-//    default String localDateToString(LocalDate date){
-//        return LocalDateConverting.localDateTimeToString(date);
-//    }
-//
-//    @Named("stringToLocalDate")
-//    default LocalDate localDateToString(String date) throws ParseException {
-//        return LocalDateConverting.stringToLocalDateTime(date);
-//    }
 }

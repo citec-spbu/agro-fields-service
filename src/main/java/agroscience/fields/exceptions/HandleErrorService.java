@@ -8,12 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 @RestControllerAdvice
 public class HandleErrorService {
@@ -49,10 +44,10 @@ public class HandleErrorService {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateFieldException.class)
-    public ResponseEntity<Object> handleDuplicateEvpException(DuplicateFieldException ex){
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<Object> handleDuplicateEvpException(DuplicateException ex){
         Map<String, Object> errorMap = new HashMap<>();
-        errorMap.put("name:", ex.getMessage());
+        errorMap.put(ex.getFieldName(), ex.getMessage());
         Map<String, Object> response = new HashMap<>();
         response.put("errors", errorMap);
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);

@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class LocalDateConverting {
     static String stringFormat = "dd-MM-yyyy";
-    public static LocalDate stringToLocalDateTime(String date) throws ParseException {
+    public static LocalDate stringToLocalDate(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(stringFormat);
         dateFormat.setLenient(false);
         return dateFormat
@@ -16,7 +16,7 @@ public class LocalDateConverting {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
     }
-    public static String localDateTimeToString(LocalDate localDate){
+    public static String localDateToString(LocalDate localDate){
         return localDate.format(DateTimeFormatter.ofPattern(stringFormat));
     }
 }

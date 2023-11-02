@@ -14,7 +14,6 @@ public class ResponseField{
     private String squareArea;
     private GeomDTO geom;
     private String description;
-    @Pattern(regexp = "^([A-Fa-f0-9]{6})$",message = "Цвет записан не в HEX")
     private String color;
     private String activityStart;
     private String activityEnd;

@@ -1,14 +1,14 @@
 package agroscience.fields.dto.croprotation;
 
 import  agroscience.fields.dto.TimeDTO;
-import agroscience.fields.exceptions.validation.constraints.LocalDateTimeFormat;
+import agroscience.fields.exceptions.validation.constraints.LocalDateFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-@LocalDateTimeFormat
+@LocalDateFormat
 public class RequestCropRotation implements TimeDTO {
     @NotNull
     @Min(value = 1, message = "Id не может быть меньше 1")
