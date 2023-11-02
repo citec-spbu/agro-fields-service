@@ -23,7 +23,18 @@ public class HandleErrorService {
         ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
             errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
         });
+        Map<String, Object> response = new HashMap<>();
+        response.put("errors", errorMap);
 
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DateException.class)
+    public ResponseEntity<Object> handleValidationException(DateException ex) {
+        Map<String, Object> errorMap = new HashMap<>();
+        ex.getFieldErrors().forEach(fieldError -> {
+            errorMap.put(fieldError.getFirst(), fieldError.getSecond());
+        });
         Map<String, Object> response = new HashMap<>();
         response.put("errors", errorMap);
 
@@ -35,6 +46,15 @@ public class HandleErrorService {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("resultCode", HttpStatus.NOT_FOUND.value());
         errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateFieldException.class)
+    public ResponseEntity<Object> handleDuplicateEvpException(DuplicateFieldException ex){
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("name:", ex.getMessage());
+        Map<String, Object> response = new HashMap<>();
+        response.put("errors", errorMap);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }

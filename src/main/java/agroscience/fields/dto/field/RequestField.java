@@ -1,7 +1,7 @@
 package agroscience.fields.dto.field;
 
 import agroscience.fields.dto.TimeDTO;
-import agroscience.fields.utilities.validation.constraints.LocalDateTimeFormat;
+import agroscience.fields.exceptions.validation.constraints.LocalDateTimeFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;

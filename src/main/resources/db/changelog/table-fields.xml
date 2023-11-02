@@ -10,7 +10,7 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="field_id"/>
             </column>
             <column name="name" type="varchar(100)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="square_area" type="varchar(40)">
                 <constraints nullable="false"/>

@@ -23,7 +23,7 @@ public class Field {
     @Column(name = "organization_id", nullable = false)
     private Long organizationId;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", length = 100, nullable = false, unique = true)
     private String name;
 
     @Column(name = "square_area", length = 40, nullable = false)

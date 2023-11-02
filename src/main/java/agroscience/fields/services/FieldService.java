@@ -8,9 +8,11 @@ import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseField;
+import agroscience.fields.exceptions.DuplicateFieldException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,11 @@ public class FieldService {
     private final FieldMapper fMapper;
 
     public FieldAndCurrentCrop createField(Field field){
-        return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
+        try {
+            return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
+        } catch (DataIntegrityViolationException ex) {
+            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+        }
     }
 
     public ResponseField getFieldWithCR(Long id){
@@ -49,9 +55,16 @@ public class FieldService {
 
     public FieldAndCurrentCrop updateField(Long id, RequestField request) {
         var fieldWithCrop =  fRepository.fieldWithLatestCrop(id);
+        if(fieldWithCrop == null){
+            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+        }
         var field = fieldWithCrop.getField();
         fMapper.requestFieldToField(field, request);
-        fRepository.save(field);
+        try {
+            fRepository.save(field);
+        }catch (DataIntegrityViolationException ex) {
+            throw new DuplicateFieldException("Поле с именем " + field.getName() + " уже существует");
+        }
         return fieldWithCrop;
     }
 
