@@ -13,13 +13,15 @@
                 <constraints nullable="false" foreignKeyName="fk_field_soil" references="fields(id)"/>
             </column>
             <column name="ph" type="varchar(10)"/>
-            <column name="sample_date" type="date"/>
+            <column name="sample_date" type="date">
+                <constraints nullable="false" unique="true"/>
+            </column>
             <column name="organic_matter" type="varchar(10)"/>
             <column name="mobile_p" type="varchar(10)"/>
             <column name="mobile_k" type="varchar(10)"/>
             <column name="mobile_s" type="varchar(10)"/>
             <column name="nitrate_n" type="varchar(10)"/>
-            <column name="amonium_n" type="varchar(10)"/>
+            <column name="ammonium_n" type="varchar(10)"/>
             <column name="hydrolytic_acidity" type="varchar(10)"/>
             <column name="ca_exchange" type="varchar(10)"/>
             <column name="mg_exchange" type="varchar(10)"/>
