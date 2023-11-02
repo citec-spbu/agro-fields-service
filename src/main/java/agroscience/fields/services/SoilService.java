@@ -1,5 +1,6 @@
 package agroscience.fields.services;
 
+import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.dao.entities.Soil;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dao.repositories.SoilRepository;
@@ -27,5 +28,10 @@ public class SoilService {
                     LocalDateConverting.localDateToString(soil.getSampleDate()) +
                     " уже существует", "sampleDate");
         }
+    }
+
+    public void deleteSoilById(Long soilId) {
+        Soil soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
+        soilRepository.delete(soil);
     }
 }

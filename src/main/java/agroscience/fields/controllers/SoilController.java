@@ -6,7 +6,9 @@ import agroscience.fields.mappers.SoilMapper;
 import agroscience.fields.services.SoilService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,16 +30,10 @@ public class SoilController {
 //        return cropMapper.cropToResponseCrop(cropsService.updateCrop(cropId, cropMapper.requestCropToCrop(request)));
 //    }
 //
-//    @DeleteMapping
-//    @Operation(description = "Удаление культуры, вместе с ней удалятся и все севообороты, которые на неё ссылаются")
-//    public ResponseEntity<Void> deleteCrop(@Valid@Min(1) Long cropId){
-//        cropsService.deleteCropById(cropId);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @GetMapping
-//    @Operation(description = "Получение культуры по id")
-//    public ResponseCrop getCrop(@Valid@Min(1) Long cropId){
-//        return cropMapper.cropToResponseCrop(cropsService.getCrop(cropId));
-//    }
+    @DeleteMapping
+    @Operation(description = "Удаление культуры, вместе с ней удалятся и все севообороты, которые на неё ссылаются")
+    public ResponseEntity<Void> deleteCrop(@Valid@Min(1) Long soilId){
+        soilService.deleteSoilById(soilId);
+        return ResponseEntity.noContent().build();
+    }
 }
