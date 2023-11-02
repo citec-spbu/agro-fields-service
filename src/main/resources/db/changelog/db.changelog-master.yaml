@@ -6,4 +6,6 @@ databaseChangeLog:
   -   include:
         file: db/changelog/table-crop-rotations.xml
   -   include:
+        file: db/changelog/table-soil.xml
+  -   include:
         file: db/changelog/default-crops.xml

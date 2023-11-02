@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="Create fields table" author="aobubu">
+    <changeSet id="Create fields table" author="asavershin">
         <createTable tableName="fields">
             <column name="id" type="integer" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="field_id"/>

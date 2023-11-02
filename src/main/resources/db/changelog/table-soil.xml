@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="Create soil field" author="asavershin">
+        <createTable tableName="soil">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="soil_id"/>
+            </column>
+            <column name="field_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_field_soil" references="fields(id)"/>
+            </column>
+            <column name="ph" type="varchar(10)"/>
+            <column name="sample_date" type="date"/>
+            <column name="organic_matter" type="varchar(10)"/>
+            <column name="mobile_p" type="varchar(10)"/>
+            <column name="mobile_k" type="varchar(10)"/>
+            <column name="mobile_s" type="varchar(10)"/>
+            <column name="nitrate_n" type="varchar(10)"/>
+            <column name="amonium_n" type="varchar(10)"/>
+            <column name="hydrolytic_acidity" type="varchar(10)"/>
+            <column name="ca_exchange" type="varchar(10)"/>
+            <column name="mg_exchange" type="varchar(10)"/>
+            <column name="b" type="varchar(10)"/>
+            <column name="co" type="varchar(10)"/>
+            <column name="mn" type="varchar(10)"/>
+            <column name="zn" type="varchar(10)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
