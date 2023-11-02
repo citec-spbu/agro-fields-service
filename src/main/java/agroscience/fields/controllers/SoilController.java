@@ -18,7 +18,7 @@ public class SoilController {
 
     @PostMapping
     @Operation(description = "Создание агрохимии")
-    public ResponseSoil createCrop(@Valid @RequestBody RequestSoil request){
+    public ResponseSoil createSoil(@Valid @RequestBody RequestSoil request){
         return soilMapper.soilToResponseSoil(soilService.createSoil(soilMapper.requestSoilToSoil(request), request.getFieldId()));
     }
 
