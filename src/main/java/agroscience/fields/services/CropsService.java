@@ -3,8 +3,10 @@ package agroscience.fields.services;
 import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.CropsRepository;
+import agroscience.fields.exceptions.DuplicateFieldException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +16,11 @@ public class CropsService {
     private final CropRotationRepository CRRepository;
 
     public Crop createCrop(Crop crop){
-        return cropsRepository.save(crop);
+        try {
+            return cropsRepository.save(crop);
+        }catch (DataIntegrityViolationException ex){
+            throw new DuplicateFieldException("Культура с именем " + crop.getName() + " уже существует");
+        }
     }
 
     public Crop updateCrop(Long id, Crop newCrop){
