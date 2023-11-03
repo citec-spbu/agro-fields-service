@@ -28,7 +28,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FieldService {
     private final FieldRepository fRepository;
-    private final CropRotationRepository crRepository;
     private final FieldMapper fMapper;
     private final JBDCFieldDao jbdcFieldDao;
     private final RestTemplate restTemplate;
@@ -41,28 +40,21 @@ public class FieldService {
         }
     }
 
-//    private final String fieldServiceApiUrl = "http://meteo-back:8003/api/vi/meteo/";
-//    String url = fieldServiceApiUrl + fieldId;
-//    String jsonResponse = restTemplate.getForObject(url, String.class);
-//    JSONObject jsonObject = new JSONObject(jsonResponse);
-//    JSONArray jsonArray = jsonObject.getJSONObject("geom").getJSONArray("coordinates");
-//    JSONObject firstCoordinate = jsonArray.getJSONObject(0);
-//    double longitude = firstCoordinate.getDouble("longitude");
-//    double latitude = firstCoordinate.getDouble("latitude");
-//        return new Coordinate(longitude, latitude);
     public ResponseFullField getFullField(Long id){
         var FCRSC = fRepository.getFullField(id);
 
-        ResponseMeteo meteo = restTemplate.getForObject("http://meteo-back:8003/api/vi/meteo/" + id, ResponseMeteo.class);
+        ResponseMeteo meteo;
+        try {
+            meteo = restTemplate.getForObject("http://meteo-back:8003/api/vi/meteo/" + id, ResponseMeteo.class);
+        }catch (Exception e){
+            meteo = null;
+        }
 
         if(FCRSC == null){
             throw new EntityNotFoundException("Не найдено поле с id: "+id);
         }else if (FCRSC.getField() == null){
             throw new EntityNotFoundException("Не найдено поле с id: "+id);
         }
-
-
-
 
         return fMapper.fieldToResponseFullField(FCRSC, meteo);
     }
