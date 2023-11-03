@@ -9,7 +9,7 @@ import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dao.repositories.JBDCFieldDao;
 import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.RequestField;
-import agroscience.fields.dto.field.ResponseField;
+import agroscience.fields.dto.field.ResponseFullField;
 import agroscience.fields.exceptions.DuplicateException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,12 +36,16 @@ public class FieldService {
         }
     }
 
-    public ResponseField getFieldWithCR(Long id){
-        var fieldAndCR = fRepository.fieldWithLatestCrop(id);
-        if(fieldAndCR == null){
+    public ResponseFullField getFullField(Long id){
+        var FCRSC = fRepository.getFullField(id);
+
+        if(FCRSC == null){
+            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+        }else if (FCRSC.getField() == null){
             throw new EntityNotFoundException("Не найдено поле с id: "+id);
         }
-        return fMapper.fieldToResponseField(fieldAndCR);
+
+        return fMapper.fieldToResponseFullField(FCRSC, null);
     }
 
     public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id){
