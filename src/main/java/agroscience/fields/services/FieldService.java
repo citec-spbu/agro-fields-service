@@ -6,6 +6,8 @@ import agroscience.fields.dao.entities.CropRotation;
 import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
+import agroscience.fields.dao.repositories.JBDCFieldDao;
+import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseField;
 import agroscience.fields.exceptions.DuplicateException;
@@ -24,6 +26,7 @@ public class FieldService {
     private final FieldRepository fRepository;
     private final CropRotationRepository crRepository;
     private final FieldMapper fMapper;
+    private final JBDCFieldDao jbdcFieldDao;
 
     public FieldAndCurrentCrop createField(Field field){
         try {
@@ -77,5 +80,9 @@ public class FieldService {
 
     public List<FieldAndCurrentCrop> getFieldsForPreview(Long orgId, Pageable pageable){
         return fRepository.fieldsWithLatestCrops(orgId, pageable).toList();
+    }
+
+    public List<CoordinatesDTO> getAllCoordinates(){
+        return jbdcFieldDao.getAllCoordinates();
     }
 }

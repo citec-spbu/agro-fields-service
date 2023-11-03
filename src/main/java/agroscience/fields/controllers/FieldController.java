@@ -1,6 +1,7 @@
 package agroscience.fields.controllers;
 
 import agroscience.fields.dto.Page;
+import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseField;
 import agroscience.fields.dto.field.ResponseFieldPreview;
@@ -67,5 +68,11 @@ public class FieldController {
     public List<ResponseField> getFieldsPreview(@Valid @Min(1) Long organizationId, @Valid Page page){
         return fieldService.getFieldsForPreview(organizationId, PageRequest.of(page.getPage(), page.getSize())).stream()
                 .map(fMapper::fieldToResponseField).toList();
+    }
+
+    @GetMapping("/meteo/all-coordinates")
+    @Operation(description = "Получение середин всех контуров")
+    public List<CoordinatesDTO> getAllCoordinates(){
+        return fieldService.getAllCoordinates();
     }
 }

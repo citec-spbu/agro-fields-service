@@ -2,7 +2,7 @@ version: '3'
 
 services:
   client-backend:
-    container_name: crops-back
+    container_name: fields-back
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
 
   database:
     image: bitnami/postgresql:14
-    container_name: crops-db
+    container_name: fields-db
     env_file:
       - ./src/main/resources/application.properties
     ports:
