@@ -32,7 +32,9 @@ public class RequestField implements TimeDTO {
     @Pattern(regexp = "^([A-Fa-f0-9]{6})$",message = "Цвет записан не в HEX")
     private String color;
 
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Дата введена неверно")
     private String activityStart;
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Дата введена неверно")
     private String activityEnd;
 
     @Override
