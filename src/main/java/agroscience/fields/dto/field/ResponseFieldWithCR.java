@@ -1,17 +1,10 @@
 package agroscience.fields.dto.field;
 
-import agroscience.fields.dao.entities.CropRotation;
-import agroscience.fields.dto.ResponseMeteo;
 import agroscience.fields.dto.croprotation.ResponseCRForF;
-import agroscience.fields.dto.soil.ResponseSoilForF;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @Data
-public class ResponseField{
+public class ResponseFieldWithCR {
     private Long id;
     private Long organizationId;
     private String name;
