@@ -1,10 +1,7 @@
 package agroscience.fields.controllers;
 
 import agroscience.fields.dto.Page;
-import agroscience.fields.dto.field.CoordinatesDTO;
-import agroscience.fields.dto.field.RequestField;
-import agroscience.fields.dto.field.ResponseField;
-import agroscience.fields.dto.field.ResponseFieldPreview;
+import agroscience.fields.dto.field.*;
 import agroscience.fields.mappers.FieldMapper;
 import agroscience.fields.services.FieldService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,14 +29,14 @@ public class FieldController {
     }
 
     @GetMapping
-    @Operation(description = "Получение поле с полной информацией по текущему севообороту")
-    public ResponseField getField(Long fieldId){
-        return fieldService.getFieldWithCR(fieldId);
+    @Operation(description = "Получение поля с полной информацией")
+    public ResponseFullField getField(Long fieldId){
+        return fieldService.getFullField(fieldId);
     }
 
-    @GetMapping("/organization/preview")
+    @GetMapping("/organization")
     @Operation(description = "Получение полей организации с текущими севооборотами")
-    public List<ResponseField> getFields(@Valid @Min(1) Long organizationId, @Valid Page page){
+    public List<ResponseFieldWithCR> getFields(@Valid @Min(1) Long organizationId, @Valid Page page){
         return fieldService.getFields(organizationId, PageRequest.of(page.getPage(), page.getSize())).stream()
                 .map(fMapper::fieldToResponseField).toList();
     }
@@ -63,11 +60,11 @@ public class FieldController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/organization")
+    @GetMapping("/organization/preview")
     @Operation(description = "Получение полей организации вместе с растущими на них культурами(не севообороты, а именно культуры)")
-    public List<ResponseField> getFieldsPreview(@Valid @Min(1) Long organizationId, @Valid Page page){
+    public List<ResponseFieldPreview> getFieldsPreview(@Valid @Min(1) Long organizationId, @Valid Page page){
         return fieldService.getFieldsForPreview(organizationId, PageRequest.of(page.getPage(), page.getSize())).stream()
-                .map(fMapper::fieldToResponseField).toList();
+                .map(fMapper::fieldToResponseFPreview).toList();
     }
 
     @GetMapping("/meteo/all-coordinates")

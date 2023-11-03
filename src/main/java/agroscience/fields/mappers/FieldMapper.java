@@ -2,6 +2,8 @@ package agroscience.fields.mappers;
 
 import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import agroscience.fields.dao.entities.Field;
+import agroscience.fields.dao.models.FieldCRsSoil;
+import agroscience.fields.dto.ResponseMeteo;
 import agroscience.fields.dto.field.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -14,7 +16,7 @@ import org.mapstruct.Named;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {FieldMapper.class,CropRotationMapper.class, CropMapper.class})
+@Mapper(componentModel = "spring", uses = {FieldMapper.class,CropRotationMapper.class, CropMapper.class, SoilMapper.class})
 public interface FieldMapper {
     @Mapping(target = "activityStart", source = "activityStart", qualifiedByName = "stringToLocalDate")
     @Mapping(target = "activityEnd", source = "activityEnd", qualifiedByName = "stringToLocalDate")
@@ -39,7 +41,7 @@ public interface FieldMapper {
     ResponseFieldPreview fieldToResponseFPreview(FieldAndCurrentCrop dto);
 
     @Mapping(target = "activityStart", source = "dto.field.activityStart", qualifiedByName = "localDateToString")
-    @Mapping(target = "activityEnd", source = "field.activityEnd", qualifiedByName = "localDateToString")
+    @Mapping(target = "activityEnd", source = "dto.field.activityEnd", qualifiedByName = "localDateToString")
     @Mapping(target = "geom", source = "dto.field.geom", qualifiedByName = "geomToResponseGeom")
     @Mapping(target = "id", source = "dto.field.id")
     @Mapping(target = "organizationId", source = "dto.field.organizationId")
@@ -48,7 +50,21 @@ public interface FieldMapper {
     @Mapping(target = "description", source = "dto.field.description")
     @Mapping(target = "color", source = "dto.field.color")
     @Mapping(target = "cropRotation", source = "dto.cropRotation")
-    ResponseField fieldToResponseField(FieldAndCurrentCrop dto);
+    ResponseFieldWithCR fieldToResponseField(FieldAndCurrentCrop dto);
+
+    @Mapping(target = "activityStart", source = "dto.field.activityStart", qualifiedByName = "localDateToString")
+    @Mapping(target = "activityEnd", source = "dto.field.activityEnd", qualifiedByName = "localDateToString")
+    @Mapping(target = "geom", source = "dto.field.geom", qualifiedByName = "geomToResponseGeom")
+    @Mapping(target = "id", source = "dto.field.id")
+    @Mapping(target = "organizationId", source = "dto.field.organizationId")
+    @Mapping(target = "name", source = "dto.field.name")
+    @Mapping(target = "squareArea", source = "dto.field.squareArea")
+    @Mapping(target = "description", source = "dto.field.description")
+    @Mapping(target = "color", source = "dto.field.color")
+    @Mapping(target = "cropRotation", source = "dto.cropRotation")
+    @Mapping(target = "soil", source = "dto.soil")
+    @Mapping(target = "meteo", source = "meteo")
+    ResponseFullField fieldToResponseFullField(FieldCRsSoil dto, ResponseMeteo meteo);
 
     @Named("geomToResponseGeom")
     default GeomDTO geomToResponseGeom(Geometry geom) {

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = CropMapper.class)
-public interface CropRotationMapper {
+public interface CropRotationMapper{
     @Mapping(target = "startDate", source = "startDate", qualifiedByName = "localDateToString")
     @Mapping(target = "endDate", source = "endDate", qualifiedByName = "localDateToString")
     @Mapping(target = "crop", source = "crop")

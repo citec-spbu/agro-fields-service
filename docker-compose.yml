@@ -35,3 +35,8 @@ services:
 volumes:
   pgdbdata:
 
+networks:
+  default:
+    external:
+      name: agronetwork
+
