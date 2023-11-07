@@ -4,19 +4,16 @@ import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import agroscience.fields.dao.models.FieldAndCurrentCropImpl;
 import agroscience.fields.dao.entities.CropRotation;
 import agroscience.fields.dao.entities.Field;
-import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dao.repositories.JBDCFieldDao;
 import agroscience.fields.dto.ResponseMeteo;
-import agroscience.fields.dto.field.CoordinatesDTO;
+import agroscience.fields.dto.field.CoordinatesWithFieldId;
 import agroscience.fields.dto.field.RequestField;
 import agroscience.fields.dto.field.ResponseFullField;
 import agroscience.fields.exceptions.DuplicateException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -97,7 +94,7 @@ public class FieldService {
         return fRepository.fieldsWithLatestCrops(orgId, pageable).toList();
     }
 
-    public List<CoordinatesDTO> getAllCoordinates(){
+    public List<CoordinatesWithFieldId> getAllCoordinates(){
         return jbdcFieldDao.getAllCoordinates();
     }
 }

@@ -69,7 +69,7 @@ public class FieldController {
 
     @GetMapping("/meteo/all-coordinates")
     @Operation(description = "Получение середин всех контуров")
-    public List<CoordinatesDTO> getAllCoordinates(){
+    public List<CoordinatesWithFieldId> getAllCoordinates(){
         return fieldService.getAllCoordinates();
     }
 }
