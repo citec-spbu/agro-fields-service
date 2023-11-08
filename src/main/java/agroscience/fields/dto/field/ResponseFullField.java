@@ -5,6 +5,8 @@ import agroscience.fields.dto.croprotation.ResponseCRForF;
 import agroscience.fields.dto.soil.ResponseSoilForF;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ResponseFullField{
     private Long id;
@@ -18,5 +20,5 @@ public class ResponseFullField{
     private String activityEnd;
     private ResponseCRForF cropRotation;
     private ResponseSoilForF soil;
-    private ResponseMeteo meteo;
+    private List<ResponseMeteo> meteoList;
 }

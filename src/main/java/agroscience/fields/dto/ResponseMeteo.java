@@ -2,11 +2,11 @@ package agroscience.fields.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class ResponseMeteo {
-    private LocalDateTime lastUpdate;
+    private LocalDate lastUpdate;
     private Long fieldId;
     private Double temperature;
     private Double humidity;

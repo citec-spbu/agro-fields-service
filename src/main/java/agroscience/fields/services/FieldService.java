@@ -14,8 +14,11 @@ import agroscience.fields.exceptions.DuplicateException;
 import agroscience.fields.mappers.FieldMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,11 +43,24 @@ public class FieldService {
     public ResponseFullField getFullField(Long id){
         var FCRSC = fRepository.getFullField(id);
 
-        ResponseMeteo meteo;
+        List<ResponseMeteo> meteoList;
         try {
-            meteo = restTemplate.getForObject("http://meteo-back:8003/api/vi/meteo/" + id, ResponseMeteo.class);
-        }catch (Exception e){
-            meteo = null;
+            ResponseEntity<List<ResponseMeteo>> response = restTemplate.exchange(
+                    "http://meteo-back:8003/api/v1/meteo/" + id,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {
+                    }
+            );
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                meteoList = response.getBody();
+            } else {
+                throw new RuntimeException("From meteo " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            meteoList = null;
         }
 
         if(FCRSC == null){
@@ -53,7 +69,7 @@ public class FieldService {
             throw new EntityNotFoundException("Не найдено поле с id: "+id);
         }
 
-        return fMapper.fieldToResponseFullField(FCRSC, meteo);
+        return fMapper.fieldToResponseFullField(FCRSC, meteoList);
     }
 
     public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id){
