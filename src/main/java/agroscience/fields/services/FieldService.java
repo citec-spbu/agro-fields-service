@@ -44,22 +44,24 @@ public class FieldService {
         var FCRSC = fRepository.getFullField(id);
 
         List<ResponseMeteo> meteoList;
-//        try {
+        try {
             ResponseEntity<List<ResponseMeteo>> response = restTemplate.exchange(
                     "http://meteo-back:8003/api/v1/meteo/" + id,
                     HttpMethod.GET,
                     null,
-                    new ParameterizedTypeReference<List<ResponseMeteo>>() {}
+                    new ParameterizedTypeReference<>() {
+                    }
             );
 
-//            if (response.getStatusCode().is2xxSuccessful()) {
+            if (response.getStatusCode().is2xxSuccessful()) {
                 meteoList = response.getBody();
-//            } else {
-//                throw new RuntimeException("From meteo " + response.getStatusCode());
-//            }
-//        } catch (Exception e) {
-//            meteoList = null;
-//        }
+            } else {
+                throw new RuntimeException("From meteo " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            meteoList = null;
+        }
 
         if(FCRSC == null){
             throw new EntityNotFoundException("Не найдено поле с id: "+id);
