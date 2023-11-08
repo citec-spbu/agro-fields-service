@@ -9,10 +9,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CoordinatesWithFieldId extends CoordinatesDTO{
-    private final Long fieldId;
+    private final Long id;
 
-    public CoordinatesWithFieldId(Long fieldId, Double longitude, Double latitude) {
+    public CoordinatesWithFieldId(Long id, Double longitude, Double latitude) {
         super(longitude, latitude);
-        this.fieldId = fieldId;
+        this.id = id;
     }
 }

@@ -63,8 +63,8 @@ public interface FieldMapper {
     @Mapping(target = "color", source = "dto.field.color")
     @Mapping(target = "cropRotation", source = "dto.cropRotation")
     @Mapping(target = "soil", source = "dto.soil")
-    @Mapping(target = "meteo", source = "meteo")
-    ResponseFullField fieldToResponseFullField(FieldCRsSoil dto, ResponseMeteo meteo);
+    @Mapping(target = "meteoList", source = "meteoList")
+    ResponseFullField fieldToResponseFullField(FieldCRsSoil dto, List<ResponseMeteo> meteoList);
 
     @Named("geomToResponseGeom")
     default GeomDTO geomToResponseGeom(Geometry geom) {
