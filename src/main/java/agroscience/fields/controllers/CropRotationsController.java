@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v1/fields/crop-rotations/")
+@RequestMapping(path = "api/v1/fields/crop-rotations")
 public class CropRotationsController {
     private final CropRotationsService CRService;
     private final CropRotationMapper CRMapper;
@@ -51,7 +51,7 @@ public class CropRotationsController {
 
     @PostMapping()
     @Operation(description = "Создать севооборот")
-    public ResponseCRWithField createCR(@Valid RequestCropRotation request, HttpServletRequest header){
+    public ResponseCRWithField createCR(@Valid@RequestBody RequestCropRotation request, HttpServletRequest header){
         return CRService.createCR(auth.doFilter(header, new Role.Builder().worker().organization().build()),
                 CRMapper.CropRotatopnRequestToCropRotation(request), request.getCropId(), request.getFieldId());
     }

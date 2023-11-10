@@ -39,7 +39,6 @@ public class HandleErrorService {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex){
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("resultCode", HttpStatus.NOT_FOUND.value());
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
