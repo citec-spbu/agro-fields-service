@@ -15,7 +15,7 @@ public class AuthoriseService {
     private final JwtFilter filter;
 
     /**
-     * Проверяет корректность jwt, осуществляет авторизацию, отдаёт id организации
+     * Checks the correctness of jwt, performs authorization, gives the id of the organization
      */
     public Long doFilter(HttpServletRequest request, List<Role> roles){
         Role role = null;
