@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 @LocalDateFormat
 public class RequestField implements TimeDTO {
-    @NotNull
-    @Min(value = 1, message = "Id не может быть меньше 1")
-    private Long organizationId;
+//    @NotNull
+//    @Min(value = 1, message = "Id не может быть меньше 1")
+//    private Long organizationId;
 
     @Size(max = 100, message = "Максимум 100 символов")
     @NotBlank(message = "Должно быть заполнено")

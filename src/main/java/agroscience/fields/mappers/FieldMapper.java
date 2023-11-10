@@ -18,15 +18,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {FieldMapper.class,CropRotationMapper.class, CropMapper.class, SoilMapper.class})
 public interface FieldMapper {
-    @Mapping(target = "activityStart", source = "activityStart", qualifiedByName = "stringToLocalDate")
-    @Mapping(target = "activityEnd", source = "activityEnd", qualifiedByName = "stringToLocalDate")
-    @Mapping(target = "geom", source = "geom", qualifiedByName = "geom")
-    Field requestFieldToField(RequestField request);
+    @Mapping(target = "activityStart", source = "request.activityStart", qualifiedByName = "stringToLocalDate")
+    @Mapping(target = "activityEnd", source = "request.activityEnd", qualifiedByName = "stringToLocalDate")
+    @Mapping(target = "geom", source = "request.geom", qualifiedByName = "geom")
+    Field requestFieldToField(RequestField request, Long organizationId);
 
-    @Mapping(target = "activityStart", source = "activityStart", qualifiedByName = "stringToLocalDate")
-    @Mapping(target = "activityEnd", source = "activityEnd", qualifiedByName = "stringToLocalDate")
-    @Mapping(target = "geom", source = "geom", qualifiedByName = "geom")
-    void requestFieldToField(@MappingTarget Field field, RequestField request);
+    @Mapping(target = "activityStart", source = "request.activityStart", qualifiedByName = "stringToLocalDate")
+    @Mapping(target = "activityEnd", source = "request.activityEnd", qualifiedByName = "stringToLocalDate")
+    @Mapping(target = "geom", source = "request.geom", qualifiedByName = "geom")
+    void requestFieldToField(@MappingTarget Field field, RequestField request, Long organizationId);
 
     @Mapping(target = "activityStart", source = "dto.field.activityStart", qualifiedByName = "localDateToString")
     @Mapping(target = "activityEnd", source = "field.activityEnd", qualifiedByName = "localDateToString")

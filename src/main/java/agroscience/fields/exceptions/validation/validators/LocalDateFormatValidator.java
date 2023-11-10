@@ -21,13 +21,13 @@ public class LocalDateFormatValidator implements ConstraintValidator<LocalDateFo
         try {
             localStartDate = LocalDateConverting.stringToLocalDate(request.start());
         } catch (Exception e) {
-            ex.getFieldErrors().add(Pair.of("start", "Дата написана неправильно"));
+            ex.getFieldErrors().add(Pair.of("start", "Дата введена неправильно"));
         }
 
         try {
             localEndDate = LocalDateConverting.stringToLocalDate(request.end());
         } catch (Exception e) {
-            ex.getFieldErrors().add(Pair.of("end", "Дата написана неправильно"));
+            ex.getFieldErrors().add(Pair.of("end", "Дата введена неправильно"));
         }
 
         if (localStartDate != null && localEndDate != null && localEndDate.isBefore(localStartDate)) {

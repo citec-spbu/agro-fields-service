@@ -2,9 +2,12 @@ package agroscience.fields.controllers;
 
 import agroscience.fields.dto.crop.RequestCrop;
 import agroscience.fields.dto.crop.ResponseCrop;
+import agroscience.fields.security.AuthoriseService;
+import agroscience.fields.security.Role;
 import agroscience.fields.services.CropsService;
 import agroscience.fields.mappers.CropMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v1/crops")
+@RequestMapping(path = "api/v1/admin")
 public class CropsController {
     private final CropsService cropsService;
     private final CropMapper cropMapper;
+    private final AuthoriseService auth;
 
     @PostMapping
     @Operation(description = "Создание культуры")

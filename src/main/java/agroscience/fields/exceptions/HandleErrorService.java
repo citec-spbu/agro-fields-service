@@ -39,7 +39,6 @@ public class HandleErrorService {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex){
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("resultCode", HttpStatus.NOT_FOUND.value());
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
@@ -51,5 +50,12 @@ public class HandleErrorService {
         Map<String, Object> response = new HashMap<>();
         response.put("errors", errorMap);
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> handleAuthException(AuthException ex){
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 }
