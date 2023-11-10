@@ -8,11 +8,11 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import java.util.List;
 
 @Repository
-public class JBDCFieldDao {
+public class JbdcDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JBDCFieldDao(DriverManagerDataSource dataSource) {
+    public JbdcDao(DriverManagerDataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     public List<CoordinatesWithFieldId> getAllCoordinates() {
@@ -22,6 +22,27 @@ public class JBDCFieldDao {
                 (rs, rowNum) -> new CoordinatesWithFieldId(rs.getLong("fieldId"),
                         rs.getDouble("longitude"),
                         rs.getDouble("latitude"))
+        );
+    }
+
+    public Long getOrgIdBySoilId(Long soilId){
+        return jdbcTemplate.queryForObject(
+                "SELECT f.organization_id as orgId \n" +
+                        "FROM fields f\n" +
+                        "WHERE f.id = ?",
+                Long.class,
+                soilId
+        );
+    }
+
+    public Long getOrgIdByFieldId(Long fieldId){
+        return jdbcTemplate.queryForObject(
+                "SELECT f.organization_id as orgId \n" +
+                        "FROM soil s\n" +
+                        "JOIN fields f ON s.field_id = f.id\n" +
+                        "WHERE s.id = ?",
+                Long.class,
+                fieldId
         );
     }
 }
