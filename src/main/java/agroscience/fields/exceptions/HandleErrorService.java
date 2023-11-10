@@ -52,4 +52,11 @@ public class HandleErrorService {
         response.put("errors", errorMap);
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> handleAuthException(AuthException ex){
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
 }
