@@ -7,14 +7,16 @@ import agroscience.fields.security.AuthoriseService;
 import agroscience.fields.security.Role;
 import agroscience.fields.services.SoilService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +28,13 @@ public class SoilController {
 
     @PostMapping
     @Operation(description = "Создание агрохимии")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Удачно"),
+            @ApiResponse(responseCode = "404", description = "Контент не найден", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "403", description = "Ошибка авторизации", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
+    })
     public ResponseSoil createSoil(@Valid @RequestBody RequestSoil request, HttpServletRequest header){
         return soilMapper.soilToResponseSoil(soilService.createSoil(auth.doFilter(header,
                 new Role.Builder().organization().worker().build()), soilMapper.requestSoilToSoil(request), request.getFieldId()));
@@ -33,14 +42,26 @@ public class SoilController {
 
     @PutMapping
     @Operation(description = "Обновление агрохимии, fieldId фиктивный в request, он не меняется, было лень использовать другую dto")
-    public ResponseSoil updateCrop(@Valid@Min(1) Long soilId, @Valid @RequestBody RequestSoil request, HttpServletRequest header){
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Удачно"),
+            @ApiResponse(responseCode = "404", description = "Контент не найден", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "403", description = "Ошибка авторизации", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
+    })
+    public ResponseSoil updateSoil(@Valid@Min(1) Long soilId, @Valid @RequestBody RequestSoil request, HttpServletRequest header){
         return soilMapper.soilToResponseSoil(soilService.updateSoil(auth.doFilter(header, new Role.Builder().worker().organization().build()),
                 soilId, soilMapper.requestSoilToSoil(request)));
     }
 
     @DeleteMapping
     @Operation(description = "Удаление агрохимии")
-    public ResponseEntity<Void> deleteCrop(@Valid@Min(1) Long soilId, HttpServletRequest request){
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Удачно"),
+            @ApiResponse(responseCode = "404", description = "Контент не найден", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())})
+    })
+    public ResponseEntity<Void> deleteSoil(@Valid@Min(1) Long soilId, HttpServletRequest request){
         soilService.deleteSoilById(soilId, auth.doFilter(request, new Role.Builder().worker().organization().build()));
         return ResponseEntity.noContent().build();
     }
