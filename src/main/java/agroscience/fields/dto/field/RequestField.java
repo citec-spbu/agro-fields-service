@@ -4,10 +4,16 @@ import agroscience.fields.dto.TimeDTO;
 import agroscience.fields.exceptions.validation.constraints.LocalDateFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @LocalDateFormat
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class RequestField implements TimeDTO {
 
     @Size(max = 100, message = "Максимум 100 символов")
