@@ -34,6 +34,7 @@
 		<jackson-datatype-jts.version>2.14</jackson-datatype-jts.version>
 		<jts-core.version>1.19.0</jts-core.version>
 		<hibernate-spatial.version>6.3.1.Final</hibernate-spatial.version>
+		<containers.version>1.19.1</containers.version>
 	</properties>
 
 
@@ -42,6 +43,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>3.1.5</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -132,6 +140,19 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${containers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${containers.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 
@@ -174,6 +195,34 @@
 							<version>${org.mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+
+				</executions>
+				<configuration>
+					<includes>
+						<include>agroscience/fields/services/CropRotations*</include>
+						<include>agroscience/fields/services/Field*</include>
+						<include>agroscience/fields/services/Soil*</include>
+					</includes>
 				</configuration>
 			</plugin>
 		</plugins>
