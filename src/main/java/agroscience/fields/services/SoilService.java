@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -41,21 +42,25 @@ public class SoilService {
         }
     }
 
+    @Transactional
     public void deleteSoilById(Long soilId, Long orgId) {
-        var orgIdBySoilId = dao.getOrgIdBySoilId(soilId);
-
-        if(!Objects.equals(orgId, orgIdBySoilId)){
-            throw new AuthException("Вы не принадлежите организации с id " + orgIdBySoilId);
+//        var orgIdBySoilId = dao.getOrgIdBySoilId(soilId);
+        var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
+        var field = soil.getField();
+        if(!Objects.equals(orgId, field.getOrganizationId())){
+            throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
         }
-        
-        Soil soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
+
+        field.getSoils().remove(soil);
+        soil.setField(null);
+
         soilRepository.delete(soil);
     }
 
     public Soil updateSoil(Long orgId, Long soilId, Soil newSoil) {
         var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
 
-        var orgIdBySoilId = dao.getOrgIdBySoilId(soilId);
+        var orgIdBySoilId = soil.getField().getOrganizationId();
 
         if(!Objects.equals(orgId, orgIdBySoilId)){
             throw new AuthException("Вы не принадлежите организации с id " + orgIdBySoilId);

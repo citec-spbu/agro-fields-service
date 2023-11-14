@@ -4,8 +4,10 @@ import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import agroscience.fields.dao.models.FieldAndCurrentCropImpl;
 import agroscience.fields.dao.entities.CropRotation;
 import agroscience.fields.dao.entities.Field;
+import agroscience.fields.dao.repositories.CropRotationRepository;
 import agroscience.fields.dao.repositories.FieldRepository;
 import agroscience.fields.dao.repositories.JbdcDao;
+import agroscience.fields.dao.repositories.SoilRepository;
 import agroscience.fields.dto.ResponseMeteo;
 import agroscience.fields.dto.field.CoordinatesWithFieldId;
 import agroscience.fields.dto.field.RequestField;
@@ -33,6 +35,8 @@ public class FieldService {
     private final FieldMapper fMapper;
     private final JbdcDao jbdcFieldDao;
     private final RestTemplate restTemplate;
+    private final SoilRepository soilRepository;
+    private final CropRotationRepository CRRepository;
 
     public FieldAndCurrentCrop createField(Field field){
         try {
@@ -124,6 +128,9 @@ public class FieldService {
             throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
         }
 
+        // Важно удалить у кропов тоже, иначе будет DataIntegrityViolationException
+        //Либо удаление вовсе не сработает
+        field.getCropRotations().forEach(CR -> CR.getCrop().getCropRotations().remove(CR));
         fRepository.delete(field);
     }
 
