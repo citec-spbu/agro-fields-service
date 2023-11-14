@@ -17,30 +17,24 @@ public class JwtFilter {
     @Value("${JWT.SECRET.KEY}")
     private String secretKey;
 
-    public String extractJwtFromRequest(HttpServletRequest request) {
+    public Claims extractJwtFromRequest(HttpServletRequest request) {
         String jwt = null;
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
             jwt = header.substring(7); // Убираем "Bearer " из заголовка
         }
-        return jwt;
-    }
-
-    public Role extractRoleFromJwt(String jwt) {
-        Claims claims = Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes()) // Здесь укажите ваш ключ для декодирования токена
                 .build()
                 .parseClaimsJws(jwt)
                 .getBody();
+    }
+
+    public Role extractRoleFromJwt(Claims claims) {
         return Role.valueOf(claims.get("role", String.class)); // Предполагается, что роль хранится в поле "role"
     }
 
-    public Long extractOrganizationIdFromJwt(String jwt) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey.getBytes()) // Здесь укажите ваш ключ для декодирования токена
-                .build()
-                .parseClaimsJws(jwt)
-                .getBody();
+    public Long extractOrganizationIdFromJwt(Claims claims) {
         return claims.get("org", Long.class); // Предполагается, что organizationId хранится в поле "organizationId"
     }
 
