@@ -1,14 +1,12 @@
 package agroscience.fields.security;
 
 import agroscience.fields.exceptions.AuthException;
-import io.jsonwebtoken.Claims;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -20,11 +18,12 @@ public class AuthoriseService {
      */
     public Long doFilter(HttpServletRequest request, List<Role> roles){
         Role role = null;
-        Claims claims = null;
+        Map<String, Object> claims = null;
         Long orgId = null;
         try {
             claims = filter.extractJwtFromRequest(request);
         }catch (Exception e){
+            System.out.println("Hello");
             throw new AuthException("Невалидый jwt");
         }
 
