@@ -1,18 +1,20 @@
 package agroscience.fields.dao.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.locationtech.jts.geom.Geometry;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 @Entity
 @Table(name = "fields")
 @Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class Field {
 
     @Id
@@ -48,11 +50,11 @@ public class Field {
             fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<CropRotation> cropRotations;
+    private List<CropRotation> cropRotations = new ArrayList<>();
 
     @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Soil> soils;
+    private List<Soil> soils = new ArrayList<>();
 }

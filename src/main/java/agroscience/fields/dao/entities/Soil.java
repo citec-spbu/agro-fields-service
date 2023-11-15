@@ -1,9 +1,7 @@
 package agroscience.fields.dao.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,6 +9,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "soil")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Soil {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "soil_id_seq")

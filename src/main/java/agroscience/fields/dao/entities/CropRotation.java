@@ -8,6 +8,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "crop_rotations")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CropRotation {
 
     @Id

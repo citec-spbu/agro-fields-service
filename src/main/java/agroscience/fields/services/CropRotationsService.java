@@ -59,7 +59,7 @@ public class CropRotationsService {
         return CRMapper.responseCRWithField(new FandCRandCImpl(field, cropRotation, crop));
     }
 
-    public ResponseCRWithField getCR(Long id, Long orgId) throws WebClientRequestException  {
+    public ResponseCRWithField getCR(Long id, Long orgId) {
         var cropRotation = CRRepository.findCropRotationById(id);
 
         var cropRotationOrgId = cropRotation.getField().getOrganizationId();
@@ -74,7 +74,7 @@ public class CropRotationsService {
         return CRMapper.responseCRWithField(cropRotation);
     }
 
-    public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId)throws WebClientRequestException {
+    public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId) {
         var cropRotation = CRRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Не найден севооборот с id: " + id));
 
@@ -89,7 +89,6 @@ public class CropRotationsService {
         CRMapper.newCRToCR(cropRotation, newCropRotation);
         cropRotation.setCrop(newCrop);
         return CRMapper.responseCRWithField(new FandCRandCImpl(cropRotation.getField(), CRRepository.save(cropRotation), newCrop));
-
     }
 
     public void deleteCR(Long id, Long orgId) {
@@ -103,8 +102,12 @@ public class CropRotationsService {
         }
 
         var crop = cropRotation.getCrop();
-        cropRotation.setCrop(null);
+        var field = cropRotation.getField();
         crop.getCropRotations().remove(cropRotation);
+        cropRotation.setCrop(null);
+        field.getCropRotations().remove(cropRotation);
+        cropRotation.setField(null);
+
         CRRepository.delete(cropRotation);
     }
 }

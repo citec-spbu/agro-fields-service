@@ -3,6 +3,7 @@ package agroscience.fields.dao.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,5 +23,5 @@ public class Crop {
             fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<CropRotation> cropRotations;
+    private List<CropRotation> cropRotations = new ArrayList<>();
 }

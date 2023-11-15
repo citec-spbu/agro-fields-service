@@ -36,6 +36,11 @@ public class CropsService {
     public void deleteCropById(Long id) {
         Crop crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + id));
 
+        for(var CR : crop.getCropRotations()){
+            CR.getField().getCropRotations().remove(CR);
+            CR.setField(null);
+        }
+
         cropsRepository.delete(crop);
     }
 
