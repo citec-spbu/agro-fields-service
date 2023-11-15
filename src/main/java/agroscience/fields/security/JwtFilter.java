@@ -10,8 +10,6 @@ import java.util.Map;
 
 @Component
 public class JwtFilter {
-    @Value("${JWT.SECRET.KEY}")
-    private String secretKey;
 
     public Map<String, Object> extractJwtFromRequest(HttpServletRequest request) throws ParseException {
         String jwt = null;
