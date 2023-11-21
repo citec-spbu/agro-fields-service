@@ -1,5 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-fields,agroscience.fields.services,SoilService,58,97,3,3,9,18,6,4,3,4
-fields,agroscience.fields.services,CropRotationsService,154,111,10,2,24,22,15,3,9,3
-fields,agroscience.fields.services,FieldService.new ParameterizedTypeReference() {...},0,6,0,0,0,1,0,1,0,1
-fields,agroscience.fields.services,FieldService,134,142,12,8,24,25,15,6,5,6
