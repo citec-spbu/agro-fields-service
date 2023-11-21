@@ -2,7 +2,7 @@ version: '3'
 
 services:
   client-backend:
-    container_name: fields-back
+    container_name: fields-service
     build:
       context: .
       dockerfile: Dockerfile

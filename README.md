@@ -1,9 +1,6 @@
 # Запуск проекта
-Первая команда создаёт сеть для контейнеров  
-Вторая команда поднимает контейнеры для fields сервиса
-* sudo docker network create agronetwork
 
-* docker compose up
+    docker compose up
 
 # Конфигурация
 Порт 8002, для бд порт 5434
