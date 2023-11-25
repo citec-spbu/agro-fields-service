@@ -18,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClientRequestExceptio
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,18 +61,19 @@ public class CropRotationsService {
     }
 
     public ResponseCRWithField getCR(Long id, Long orgId) {
-        var cropRotation = CRRepository.findCropRotationById(id);
+        var fandCRandC = CRRepository.findCropRotationById(id);
 
-        var cropRotationOrgId = cropRotation.getField().getOrganizationId();
+        Optional.ofNullable(fandCRandC).orElseThrow(
+                () -> new EntityNotFoundException("Не найден севооборот с id: " + id)
+        );
+
+        var cropRotationOrgId = fandCRandC.getField().getOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)){
             throw new AuthException("Вы не принадлежите организации с id " + cropRotationOrgId);
         }
 
-        if(cropRotation == null){
-            throw new EntityNotFoundException("Не найден севооборот с id: " + id);
-        }
-        return CRMapper.responseCRWithField(cropRotation);
+        return CRMapper.responseCRWithField(fandCRandC);
     }
 
     public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId) {
