@@ -130,9 +130,9 @@ public class FieldServiceTest {
                 .organizationId(1L).description("").geom(geom).build();
         field = fieldRepository.save(field);
         var meteoList = List.of(
-                ResponseMeteo.builder().fieldId(field.getId()).lastUpdate(LocalDate.now()).
+                ResponseMeteo.builder().fieldId(field.getId()).day(LocalDate.now()).
                         temperature(1.).pressure(1.).humidity(1.).build(),
-                ResponseMeteo.builder().fieldId(field.getId()).lastUpdate(LocalDate.now()).
+                ResponseMeteo.builder().fieldId(field.getId()).day(LocalDate.now()).
                         temperature(1.).pressure(1.).humidity(1.).build()
         );
         ResponseEntity<List<ResponseMeteo>> mockResponse = new ResponseEntity<>(meteoList, HttpStatus.OK);

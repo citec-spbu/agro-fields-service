@@ -1,5 +1,6 @@
 package agroscience.fields.services;
 
+import agroscience.fields.configuration.MeteoProperties;
 import agroscience.fields.dao.models.FieldAndCurrentCrop;
 import agroscience.fields.dao.models.FieldAndCurrentCropImpl;
 import agroscience.fields.dao.entities.CropRotation;
@@ -35,8 +36,7 @@ public class FieldService {
     private final FieldMapper fMapper;
     private final JbdcDao jbdcFieldDao;
     private final RestTemplate restTemplate;
-    private final SoilRepository soilRepository;
-    private final CropRotationRepository CRRepository;
+    private final MeteoProperties meteoProperties;
 
     public FieldAndCurrentCrop createField(Field field){
         try {
@@ -52,7 +52,7 @@ public class FieldService {
         List<ResponseMeteo> meteoList;
         try {
             ResponseEntity<List<ResponseMeteo>> response = restTemplate.exchange(
-                    "http://meteo-back:8003/api/v1/meteo/" + id,
+                    "http://"+meteoProperties.getHost()+":"+meteoProperties.getPort()+"/api/v1/meteo/" + id,
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<>() {
