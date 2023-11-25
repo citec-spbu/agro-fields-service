@@ -20,7 +20,7 @@ public class PostgreTestContainerConfig {
     private static PostgreSQLContainer<?> getPostgreSQLContainer() {
         PostgreSQLContainer<?> instance = postgreSQLContainer;
         if (instance == null) {
-            DockerImageName myImage = DockerImageName.parse("mdillon/postgis:9.5").asCompatibleSubstituteFor("postgres");
+            DockerImageName myImage = DockerImageName.parse("postgis/postgis:15-3.4-alpine").asCompatibleSubstituteFor("postgres");
             synchronized (PostgreSQLContainer.class) {
                 postgreSQLContainer = instance =
                         new PostgreSQLContainer<>(myImage)
