@@ -8,21 +8,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@RequiredArgsConstructor
 public class Config {
-
-//    private final PostgreProperties postgreProperties;
-//
-//    @Bean
-//    public DriverManagerDataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(postgreProperties.getDriverClassName());
-//        dataSource.setUrl(postgreProperties.getUrl());
-//        dataSource.setUsername(postgreProperties.getUsername());
-//        dataSource.setPassword(postgreProperties.getPassword());
-//        return dataSource;
-//    }
-
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
