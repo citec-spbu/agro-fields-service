@@ -11,17 +11,17 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class Config {
 
-    private final PostgreProperties postgreProperties;
-
-    @Bean
-    public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(postgreProperties.getDriverClassName());
-        dataSource.setUrl(postgreProperties.getUrl());
-        dataSource.setUsername(postgreProperties.getUsername());
-        dataSource.setPassword(postgreProperties.getPassword());
-        return dataSource;
-    }
+//    private final PostgreProperties postgreProperties;
+//
+//    @Bean
+//    public DriverManagerDataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(postgreProperties.getDriverClassName());
+//        dataSource.setUrl(postgreProperties.getUrl());
+//        dataSource.setUsername(postgreProperties.getUsername());
+//        dataSource.setPassword(postgreProperties.getPassword());
+//        return dataSource;
+//    }
 
     @Bean
     public RestTemplate restTemplate() {

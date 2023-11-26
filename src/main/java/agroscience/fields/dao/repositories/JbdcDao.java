@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -13,7 +14,7 @@ public class JbdcDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JbdcDao(DriverManagerDataSource dataSource) {
+    public JbdcDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     public List<CoordinatesWithFieldId> getAllCoordinates() {
