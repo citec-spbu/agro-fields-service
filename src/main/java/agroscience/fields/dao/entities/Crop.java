@@ -9,6 +9,9 @@ import java.util.List;
 @Entity
 @Table(name = "crops")
 @Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class Crop {
 
     @Id

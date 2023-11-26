@@ -14,6 +14,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import java.util.List;
@@ -30,6 +32,9 @@ public class CropRotationsService {
     private final JbdcDao dao;
 
     public List<CropRotation> getAllByFieldId(Long orgId, Long fieldId, PageRequest request) {
+        if(!fRepository.existsById(fieldId)){
+            throw new EntityNotFoundException("Не найдено поле с id: " + fieldId);
+        }
         var fieldOrgId = dao.getOrgIdByFieldId(fieldId);
         if(!Objects.equals(fieldOrgId, orgId)){
             throw new AuthException("Вы не принадлежите организации с id " + fieldOrgId);
