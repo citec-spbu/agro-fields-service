@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordinatesDTO {
-    @NotNull(message = "Должно быть заполнено")
+    @NotNull(message = "Must be filled")
     private Double longitude;
-    @NotNull(message = "Должно быть заполнено")
+    @NotNull(message = "Must be filled")
     private Double latitude;
 }

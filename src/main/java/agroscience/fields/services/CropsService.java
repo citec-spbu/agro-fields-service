@@ -19,22 +19,22 @@ public class CropsService {
         try {
             return cropsRepository.save(crop);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateException("Культура с именем " + crop.getName() + " уже существует", "name");
+            throw new DuplicateException("Crop with name " + crop.getName() + " already exists", "name");
         }
     }
 
     public Crop updateCrop(Long id, Crop newCrop){
-        var crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + id));
+        var crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field with id " + id + " not found"));
         crop.setName(newCrop.getName());
         try {
             return cropsRepository.save(crop);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateException("Культура с именем " + crop.getName() + " уже существует", "name");
+            throw new DuplicateException("Crop with name " + crop.getName() + " already exists", "name");
         }
     }
 
     public void deleteCropById(Long id) {
-        Crop crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + id));
+        Crop crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field with id " + id + " not found"));
 
         for(var CR : crop.getCropRotations()){
             CR.getField().getCropRotations().remove(CR);
@@ -45,6 +45,6 @@ public class CropsService {
     }
 
     public Crop getCrop(Long cropId) {
-        return cropsRepository.findById(cropId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + cropId));
+        return cropsRepository.findById(cropId).orElseThrow(() -> new EntityNotFoundException("Field with id " + cropId + " not found"));
     }
 }

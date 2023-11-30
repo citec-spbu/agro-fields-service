@@ -5,6 +5,7 @@ import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dao.models.FieldCRsSoil;
 import agroscience.fields.dto.ResponseMeteo;
 import agroscience.fields.dto.field.*;
+import agroscience.fields.exceptions.WrongCoordinatesException;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.mapstruct.Mapper;
@@ -88,6 +89,11 @@ public interface FieldMapper {
             polygonCoordinates[i] =
                     new Coordinate(coordinates.get(i).getLongitude(), coordinates.get(i).getLatitude());
         }
-        return geometryFactory.createPolygon(polygonCoordinates);
+        try {
+            var geometry = geometryFactory.createPolygon(polygonCoordinates);
+            return geometry;
+        }catch (IllegalArgumentException e){
+            throw new WrongCoordinatesException("Points of polygon do not form a closed linestring");
+        }
     }
 }

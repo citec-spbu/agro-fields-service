@@ -33,11 +33,11 @@ public class CropRotationsService {
 
     public List<CropRotation> getAllByFieldId(Long orgId, Long fieldId, PageRequest request) {
         if(!fRepository.existsById(fieldId)){
-            throw new EntityNotFoundException("Не найдено поле с id: " + fieldId);
+            throw new EntityNotFoundException("Field with id " + fieldId + " not found");
         }
         var fieldOrgId = dao.getOrgIdByFieldId(fieldId);
         if(!Objects.equals(fieldOrgId, orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + fieldOrgId);
+            throw new AuthException("You do not belong to an organization with id " + fieldOrgId);
 
         }
         return CRRepository.findAllByFieldId(fieldId, request).toList();
@@ -49,13 +49,13 @@ public class CropRotationsService {
 
     public ResponseCRWithField createCR(Long orgId, CropRotation cropRotation, Long cropId, Long fieldId){
         var crop = cropsRepository.findById(cropId)
-                .orElseThrow(() -> new EntityNotFoundException("Не найдена культура с id: " + cropId));
+                .orElseThrow(() -> new EntityNotFoundException("Crop with id " + cropId + " not found"));
 
         var field = fRepository.findById(fieldId)
-                .orElseThrow(() -> new EntityNotFoundException("Не найден поле с id: " + fieldId));
+                .orElseThrow(() -> new EntityNotFoundException("Field with id " + fieldId + " not found"));
 
         if (!Objects.equals(field.getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + field.getOrganizationId());
         }
 
         cropRotation.setCrop(crop);
@@ -69,13 +69,13 @@ public class CropRotationsService {
         var fandCRandC = CRRepository.findCropRotationById(id);
 
         Optional.ofNullable(fandCRandC).orElseThrow(
-                () -> new EntityNotFoundException("Не найден севооборот с id: " + id)
+                () -> new EntityNotFoundException("Crop rotation with id " + id + " not found")
         );
 
         var cropRotationOrgId = fandCRandC.getField().getOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + cropRotationOrgId);
+            throw new AuthException("You do not belong to an organization with с id " + cropRotationOrgId);
         }
 
         return CRMapper.responseCRWithField(fandCRandC);
@@ -83,16 +83,16 @@ public class CropRotationsService {
 
     public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId) {
         var cropRotation = CRRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Не найден севооборот с id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
         var cropRotationOrgId = cropRotation.getField().getOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + cropRotationOrgId);
+            throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);
         }
 
         var newCrop = cropsRepository
-                .findById(cropId).orElseThrow(() -> new EntityNotFoundException("Не найдена культура с id: " + cropId));
+                .findById(cropId).orElseThrow(() -> new EntityNotFoundException("Crop with id " + id + " not found"));
         CRMapper.newCRToCR(cropRotation, newCropRotation);
         cropRotation.setCrop(newCrop);
         return CRMapper.responseCRWithField(new FandCRandCImpl(cropRotation.getField(), CRRepository.save(cropRotation), newCrop));
@@ -100,12 +100,12 @@ public class CropRotationsService {
 
     public void deleteCR(Long id, Long orgId) {
         var cropRotation = CRRepository.findById(id).
-                orElseThrow(() -> new EntityNotFoundException("Не найден севооборот с id: " + id));
+                orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
         var cropRotationOrgId = cropRotation.getField().getOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + cropRotationOrgId);
+            throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);
         }
 
         var crop = cropRotation.getCrop();

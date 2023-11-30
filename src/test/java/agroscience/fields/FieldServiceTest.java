@@ -122,13 +122,19 @@ public class FieldServiceTest {
     }
 
     @Test
+    @Transactional
     public void getFullFieldTest() {
         // Given
         var geom = geom();
         var field = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
                 .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
                 .organizationId(1L).description("").geom(geom).build();
-        field = fieldRepository.save(field);
+        var crop = cropsRepository.findCropById(1L);
+        var CR = CropRotation.builder().crop(crop).
+                startDate(LocalDate.now()).endDate(LocalDate.now()).description("").field(field).build();
+        field.getCropRotations().add(CR);
+        crop.getCropRotations().add(CR);
+        field = fieldRepository.saveAndFlush(field);
         var meteoList = List.of(
                 ResponseMeteo.builder().fieldId(field.getId()).day(LocalDate.now()).
                         temperature(1.).pressure(1.).humidity(1.).build(),
@@ -142,6 +148,8 @@ public class FieldServiceTest {
                 eq(null),
                 any(ParameterizedTypeReference.class)
         )).thenReturn(mockResponse);
+
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
         // When
         var result = fieldService.getFullField(field.getId(), field.getOrganizationId());

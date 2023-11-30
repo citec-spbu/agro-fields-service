@@ -2,60 +2,81 @@ package agroscience.fields.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class HandleErrorService {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
-        Map<String, Object> errorMap = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
-        });
-        Map<String, Object> response = new HashMap<>();
-        response.put("errors", errorMap);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleValidationException(MethodArgumentNotValidException ex) {
+        ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
+        List<FieldError> errors = ex.getBindingResult().getFieldErrors();
+        exceptionBody.setErrors(errors.stream()
+                .collect(Collectors.toMap(FieldError::getField,
+                        FieldError::getDefaultMessage)));
+        return exceptionBody;
     }
 
     @ExceptionHandler(DateException.class)
-    public ResponseEntity<Object> handleValidationException(DateException ex) {
-        Map<String, Object> errorMap = new HashMap<>();
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleValidationException(DateException ex) {
+        ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
+        Map<String, String> errorMap = new HashMap<>();
         ex.getFieldErrors().forEach(fieldError -> {
             errorMap.put(fieldError.getFirst(), fieldError.getSecond());
         });
-        Map<String, Object> response = new HashMap<>();
-        response.put("errors", errorMap);
+        exceptionBody.setErrors(errorMap);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return exceptionBody;
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex){
-        Map<String, Object> errorResponse = new HashMap<>();
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionBody handleEntityNotFoundException(EntityNotFoundException ex){
+        var exceptionBody = new ExceptionBody("Model not found.");
+        Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        exceptionBody.setErrors(errorResponse);
+        return exceptionBody;
     }
 
     @ExceptionHandler(DuplicateException.class)
-    public ResponseEntity<Object> handleDuplicateEvpException(DuplicateException ex){
-        Map<String, Object> errorMap = new HashMap<>();
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ExceptionBody handleDuplicateException(DuplicateException ex){
+        var exceptionBody = new ExceptionBody("Duolicate exception.");
+        Map<String, String> errorMap = new HashMap<>();
         errorMap.put(ex.getFieldName(), ex.getMessage());
-        Map<String, Object> response = new HashMap<>();
-        response.put("errors", errorMap);
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        exceptionBody.setErrors(errorMap);
+        return exceptionBody;
     }
 
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<Object> handleAuthException(AuthException ex){
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("error", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionBody handleAuthException(AuthException ex){
+        var exceptionBody = new ExceptionBody("Auth exception.");
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("auth", ex.getMessage());
+        exceptionBody.setErrors(errorMap);
+        return exceptionBody;
+    }
+
+    @ExceptionHandler(WrongCoordinatesException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleWrongCoordinatesException(WrongCoordinatesException ex){
+        var exceptionBody = new ExceptionBody("Validation failed.");
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("geom", ex.getMessage());
+        exceptionBody.setErrors(errorMap);
+        return exceptionBody;
     }
 }
