@@ -13,7 +13,7 @@ public class ResponseFieldPreview{
     private String squareArea;
     private GeomDTO geom;
     private String description;
-    @Pattern(regexp = "^([A-Fa-f0-9]{6})$",message = "Цвет записан не в HEX")
+    @Pattern(regexp = "^([A-Fa-f0-9]{6})$",message = "The color must be written in HEX format")
     private String color;
     private String activityStart;
     private String activityEnd;

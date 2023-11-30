@@ -16,7 +16,7 @@ public interface FieldRepository extends JpaRepository<Field, Long> {
 
     @Query("SELECT f as field, cr as cropRotation " +
             "FROM Field f " +
-            "LEFT JOIN f.cropRotations cr " +
+            "LEFT JOIN FETCH f.cropRotations cr " +
             "WHERE (cr.startDate = (SELECT MAX(cr2.startDate) " +
             "                      FROM CropRotation cr2 " +
             "                      WHERE cr2.field = f) " +
@@ -26,7 +26,7 @@ public interface FieldRepository extends JpaRepository<Field, Long> {
 
     @Query("SELECT f as field, cr as cropRotation " +
             "FROM Field f " +
-            "LEFT JOIN f.cropRotations cr " +
+            "LEFT JOIN FETCH f.cropRotations cr " +
             "WHERE (cr.startDate = (SELECT MAX(cr2.startDate) " +
             "                      FROM CropRotation cr2 " +
             "                      WHERE cr2.field = f) " +
@@ -36,7 +36,7 @@ public interface FieldRepository extends JpaRepository<Field, Long> {
 
     @Query("SELECT f as field, cr as cropRotation, s as soil, c as crop " +
             "FROM Field f " +
-            "LEFT JOIN f.cropRotations cr " +
+            "LEFT JOIN FETCH f.cropRotations cr " +
             "LEFT JOIN f.soils s " +
             "LEFT JOIN cr.crop c " +
             "WHERE f.id = :fieldId " +

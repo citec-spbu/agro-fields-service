@@ -42,7 +42,7 @@ public class FieldService {
         try {
             return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
         } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateException("Поле с именем " + field.getName() + " уже существует", "name");
+            throw new DuplicateException("Field with name " + field.getName() + " already exists", "name");
         }
     }
 
@@ -70,13 +70,13 @@ public class FieldService {
         }
 
         if(FCRSC == null){
-            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+            throw new EntityNotFoundException("Field with id " + id + " not found");
         }else if (FCRSC.getField() == null){
-            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+            throw new EntityNotFoundException("Field with id " + id + " not found");
         }
 
         if (!Objects.equals(FCRSC.getField().getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + FCRSC.getField().getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + FCRSC.getField().getOrganizationId());
         }
 
         return fMapper.fieldToResponseFullField(FCRSC, meteoList);
@@ -85,10 +85,10 @@ public class FieldService {
     public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id, Long orgId){
         var fieldAndCropRotation = fRepository.fieldWithLatestCrop(id);
         if(fieldAndCropRotation.getField() == null){
-            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+            throw new EntityNotFoundException("Field with id " + id + " not found");
         }
         if(!Objects.equals(fieldAndCropRotation.getField().getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + fieldAndCropRotation.getField().getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + fieldAndCropRotation.getField().getOrganizationId());
         }
 
         return fieldAndCropRotation;
@@ -101,13 +101,13 @@ public class FieldService {
     public FieldAndCurrentCrop updateField(Long id, RequestField request, Long orgId) {
         var fieldWithCrop =  fRepository.fieldWithLatestCrop(id);
         if(fieldWithCrop == null){
-            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+            throw new EntityNotFoundException("Field with id " + id + " not found");
         } else if (fieldWithCrop.getField() == null) {
-            throw new EntityNotFoundException("Не найдено поле с id: "+id);
+            throw new EntityNotFoundException("Field with id " + id + " not found");
         }
 
         if(!Objects.equals(fieldWithCrop.getField().getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + fieldWithCrop.getField().getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + fieldWithCrop.getField().getOrganizationId());
         }
 
         var field = fieldWithCrop.getField();
@@ -115,17 +115,17 @@ public class FieldService {
         try {
             fRepository.save(field);
         }catch (DataIntegrityViolationException ex) {
-            throw new DuplicateException("Поле с именем " + field.getName() + " уже существует", "name");
+            throw new DuplicateException("Field with name " + field.getName() + " already exists", "name");
         }
         return fieldWithCrop;
     }
 
     public void deleteField(Long id, Long orgId){
 
-        var field = fRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Не найдено поле с id: " + id));
+        var field = fRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field with id " + id + " not found"));
 
         if (!Objects.equals(field.getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + field.getOrganizationId());
         }
 
         // Важно удалить у кропов тоже, иначе будет DataIntegrityViolationException

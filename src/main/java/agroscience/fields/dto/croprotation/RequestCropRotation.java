@@ -13,19 +13,19 @@ import lombok.Data;
 public class RequestCropRotation implements TimeDTO {
 
     @NotNull
-    @Min(value = 1, message = "Id не может быть меньше 1")
+    @Min(value = 1, message = "ID cannot be less than 1")
     private Long fieldId;
 
     @NotNull
-    @Min(value = 1, message = "Id не может быть меньше 1")
+    @Min(value = 1, message = "ID cannot be less than 1")
     private Long cropId;
 
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Дата введена неверно")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
     private String startDate;
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Дата введена неверно")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
     private String endDate;
 
-    @Size(max = 256, message = "Максимум 256 символов")
+    @Size(max = 256, message = "Maximum 256 characters")
     private String description;
 
     @Override

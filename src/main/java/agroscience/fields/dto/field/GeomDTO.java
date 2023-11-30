@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class GeomDTO {
-    @NotBlank(message = "Должно быть заполнено")
+    @NotBlank(message = "Must be filled")
     private String type;
     @Size(min = 3)
     @Valid

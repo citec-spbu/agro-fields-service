@@ -23,24 +23,23 @@ public class AuthoriseService {
         try {
             claims = filter.extractJwtFromRequest(request);
         }catch (Exception e){
-            System.out.println("Hello");
-            throw new AuthException("Невалидый jwt");
+            throw new AuthException("Invalid jwt.");
         }
 
         try {
             role = filter.extractRoleFromJwt(claims);
         }catch (Exception e){
-            throw new AuthException("Невалидная роль");
+            throw new AuthException("Invalid role");
         }
 
         if(!roles.contains(role)){
-            throw new AuthException("Отказано в доступе, нужна одна из ролей: " + roles);
+            throw new AuthException("Access denied, one of the roles is required: " + roles);
         }
 
         try {
             orgId = filter.extractOrganizationIdFromJwt(claims);
         }catch (Exception e){
-            throw new AuthException("Невалидное id организации");
+            throw new AuthException("Invalid organization id");
         }
         return orgId;
     }

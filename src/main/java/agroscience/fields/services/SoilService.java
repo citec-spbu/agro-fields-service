@@ -22,33 +22,32 @@ public class SoilService {
     private final SoilRepository soilRepository;
     private final FieldRepository fRepository;
     private final SoilMapper soilMapper;
-    private final JbdcDao dao;
 
     public Soil createSoil(Long orgId, Soil soil, Long fieldId){
         var field = fRepository.findById(fieldId)
-                .orElseThrow(() -> new EntityNotFoundException("Не найден поле с id: " + fieldId));
+                .orElseThrow(() -> new EntityNotFoundException("Field with id " + fieldId + " not found"));
 
         if(!Objects.equals(field.getOrganizationId(), orgId)){
-            throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + orgId);
         }
 
         soil.setField(field);
         try {
             return soilRepository.save(soil);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateException("Забор почвы с датой " +
+            throw new DuplicateException("Soil with date  " +
                     LocalDateConverting.localDateToString(soil.getSampleDate()) +
-                    " уже существует", "sampleDate");
+                    " already exists", "sampleDate");
         }
     }
 
     @Transactional
     public void deleteSoilById(Long soilId, Long orgId) {
 //        var orgIdBySoilId = dao.getOrgIdBySoilId(soilId);
-        var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
+        var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Soil with id " + soilId + " not found"));
         var field = soil.getField();
         if(!Objects.equals(orgId, field.getOrganizationId())){
-            throw new AuthException("Вы не принадлежите организации с id " + field.getOrganizationId());
+            throw new AuthException("You do not belong to an organization with id " + orgId);
         }
 
         field.getSoils().remove(soil);
@@ -58,21 +57,21 @@ public class SoilService {
     }
 
     public Soil updateSoil(Long orgId, Long soilId, Soil newSoil) {
-        var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Crop not found with id: " + soilId));
+        var soil = soilRepository.findById(soilId).orElseThrow(() -> new EntityNotFoundException("Soil with id " + soilId + " not found"));
 
         var orgIdBySoilId = soil.getField().getOrganizationId();
 
         if(!Objects.equals(orgId, orgIdBySoilId)){
-            throw new AuthException("Вы не принадлежите организации с id " + orgIdBySoilId);
+            throw new AuthException("You do not belong to an organization with id " + orgId);
         }
 
         soilMapper.newSoilToSoil(soil, newSoil);
         try {
             return soilRepository.save(soil);
         }catch (DataIntegrityViolationException ex){
-            throw new DuplicateException("Забор почвы с датой " +
+            throw new DuplicateException("Soil with date " +
                     LocalDateConverting.localDateToString(soil.getSampleDate()) +
-                    " уже существует", "sampleDate");
+                    " already exists.", "sampleDate");
         }
     }
 }
