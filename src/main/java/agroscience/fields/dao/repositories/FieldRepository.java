@@ -43,4 +43,6 @@ public interface FieldRepository extends JpaRepository<Field, Long> {
             "ORDER BY cr.startDate DESC, s.sampleDate DESC " +
             "LIMIT 1")
     FieldCRsSoil getFullField(@Param("fieldId") Long fieldId);
+
+    boolean existsByName(String name);
 }

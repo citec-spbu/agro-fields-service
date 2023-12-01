@@ -53,7 +53,7 @@ public class HandleErrorService {
     @ExceptionHandler(DuplicateException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionBody handleDuplicateException(DuplicateException ex){
-        var exceptionBody = new ExceptionBody("Duolicate exception.");
+        var exceptionBody = new ExceptionBody("Duplicate exception.");
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(ex.getFieldName(), ex.getMessage());
         exceptionBody.setErrors(errorMap);

@@ -6,6 +6,7 @@ import agroscience.fields.dao.entities.Soil;
 import agroscience.fields.dao.repositories.*;
 import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.GeomDTO;
+import agroscience.fields.exceptions.DuplicateException;
 import agroscience.fields.services.CropsService;
 import agroscience.fields.services.SoilService;
 import org.junit.jupiter.api.AfterEach;
@@ -124,11 +125,18 @@ public class SoilServiceTest {
         field = fieldRepository.save(field);
 
         var newSoil = Soil.builder().sampleDate(LocalDate.parse("2000-10-10")).build();
+        var newSoil2 = Soil.builder().sampleDate(LocalDate.parse("2000-10-10")).build();
+        var newSoil3 = Soil.builder().sampleDate(LocalDate.parse("2001-10-10")).build();
         // When
-        newSoil = soilService.createSoil(field.getOrganizationId(),newSoil, field.getId());
+        var orgId = field.getOrganizationId();
+        var fieldId = field.getId();
+        newSoil = soilService.createSoil(orgId,newSoil, fieldId);
+        assertThrows(DuplicateException.class, ()->soilService.createSoil(orgId, newSoil2, fieldId));
+        newSoil3 = soilService.createSoil(orgId,newSoil3, fieldId);
 
         // Then
-        assertEquals(soilRepository.findAll().size(), 2);
+        assertEquals(soilRepository.findAll().size(), 3);
+        assertEquals(newSoil.getId() + 1, newSoil3.getId());
         assertEquals(soilRepository.findById(newSoil.getId()).orElseThrow().getField().getId(), field.getId());
         assertEquals(newSoil.getSampleDate(), LocalDate.parse("2000-10-10"));
     }

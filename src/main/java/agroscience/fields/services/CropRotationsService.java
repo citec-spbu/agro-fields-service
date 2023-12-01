@@ -32,11 +32,11 @@ public class CropRotationsService {
     private final JbdcDao dao;
 
     public List<CropRotation> getAllByFieldId(Long orgId, Long fieldId, PageRequest request) {
-        if(!fRepository.existsById(fieldId)){
+        if (!fRepository.existsById(fieldId)) {
             throw new EntityNotFoundException("Field with id " + fieldId + " not found");
         }
         var fieldOrgId = dao.getOrgIdByFieldId(fieldId);
-        if(!Objects.equals(fieldOrgId, orgId)){
+        if (!Objects.equals(fieldOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + fieldOrgId);
 
         }
@@ -47,14 +47,15 @@ public class CropRotationsService {
         return CRRepository.findAllByOrgId(orgId, request).toList();
     }
 
-    public ResponseCRWithField createCR(Long orgId, CropRotation cropRotation, Long cropId, Long fieldId){
+    @Transactional
+    public ResponseCRWithField createCR(Long orgId, CropRotation cropRotation, Long cropId, Long fieldId) {
         var crop = cropsRepository.findById(cropId)
                 .orElseThrow(() -> new EntityNotFoundException("Crop with id " + cropId + " not found"));
 
         var field = fRepository.findById(fieldId)
                 .orElseThrow(() -> new EntityNotFoundException("Field with id " + fieldId + " not found"));
 
-        if (!Objects.equals(field.getOrganizationId(), orgId)){
+        if (!Objects.equals(field.getOrganizationId(), orgId)) {
             throw new AuthException("You do not belong to an organization with id " + field.getOrganizationId());
         }
 
@@ -74,20 +75,21 @@ public class CropRotationsService {
 
         var cropRotationOrgId = fandCRandC.getField().getOrganizationId();
 
-        if (!Objects.equals(cropRotationOrgId, orgId)){
+        if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with с id " + cropRotationOrgId);
         }
 
         return CRMapper.responseCRWithField(fandCRandC);
     }
 
+    @Transactional
     public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId) {
         var cropRotation = CRRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
         var cropRotationOrgId = cropRotation.getField().getOrganizationId();
 
-        if (!Objects.equals(cropRotationOrgId, orgId)){
+        if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);
         }
 
@@ -98,13 +100,14 @@ public class CropRotationsService {
         return CRMapper.responseCRWithField(new FandCRandCImpl(cropRotation.getField(), CRRepository.save(cropRotation), newCrop));
     }
 
+    @Transactional
     public void deleteCR(Long id, Long orgId) {
         var cropRotation = CRRepository.findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
         var cropRotationOrgId = cropRotation.getField().getOrganizationId();
 
-        if (!Objects.equals(cropRotationOrgId, orgId)){
+        if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);
         }
 
