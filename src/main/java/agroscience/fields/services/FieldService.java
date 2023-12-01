@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -38,21 +39,33 @@ public class FieldService {
     private final RestTemplate restTemplate;
     private final MeteoProperties meteoProperties;
 
-    public FieldAndCurrentCrop createField(Field field){
-        try {
-            return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
-        } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateException("Field with name " + field.getName() + " already exists", "name");
+    private boolean validateName(String name) {
+        if (name == null || name.isBlank() || fRepository.existsByName(name)) {
+            throw new DuplicateException("Field with name " + name + " already exists", "name");
         }
+        return true;
     }
 
-    public ResponseFullField getFullField(Long id, Long orgId){
-        var FCRSC = fRepository.getFullField(id);
+    @Transactional
+    public FieldAndCurrentCrop createField(Field field) {
+        validateName(field.getName());
+        return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
+    }
 
+    public ResponseFullField getFullField(Long id, Long orgId) {
+        var FCRSC = fRepository.getFullField(id);
+        if (FCRSC == null) {
+            throw new EntityNotFoundException("Field with id " + id + " not found");
+        } else if (FCRSC.getField() == null) {
+            throw new EntityNotFoundException("Field with id " + id + " not found");
+        }
+        if (!Objects.equals(FCRSC.getField().getOrganizationId(), orgId)) {
+            throw new AuthException("You do not belong to an organization with id " + FCRSC.getField().getOrganizationId());
+        }
         List<ResponseMeteo> meteoList;
         try {
             ResponseEntity<List<ResponseMeteo>> response = restTemplate.exchange(
-                    "http://"+meteoProperties.getHost()+":"+meteoProperties.getPort()+"/api/v1/meteo/" + id,
+                    "http://" + meteoProperties.getHost() + ":" + meteoProperties.getPort() + "/api/v1/meteo/" + id,
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<>() {
@@ -69,62 +82,59 @@ public class FieldService {
             meteoList = null;
         }
 
-        if(FCRSC == null){
-            throw new EntityNotFoundException("Field with id " + id + " not found");
-        }else if (FCRSC.getField() == null){
-            throw new EntityNotFoundException("Field with id " + id + " not found");
-        }
-
-        if (!Objects.equals(FCRSC.getField().getOrganizationId(), orgId)){
-            throw new AuthException("You do not belong to an organization with id " + FCRSC.getField().getOrganizationId());
-        }
-
         return fMapper.fieldToResponseFullField(FCRSC, meteoList);
     }
 
-    public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id, Long orgId){
+    public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id, Long orgId) {
         var fieldAndCropRotation = fRepository.fieldWithLatestCrop(id);
-        if(fieldAndCropRotation.getField() == null){
+
+        if (fieldAndCropRotation == null || fieldAndCropRotation.getField() == null) {
             throw new EntityNotFoundException("Field with id " + id + " not found");
         }
-        if(!Objects.equals(fieldAndCropRotation.getField().getOrganizationId(), orgId)){
+        if (!Objects.equals(fieldAndCropRotation.getField().getOrganizationId(), orgId)) {
             throw new AuthException("You do not belong to an organization with id " + fieldAndCropRotation.getField().getOrganizationId());
         }
 
         return fieldAndCropRotation;
     }
 
-    public List<FieldAndCurrentCrop> getFields(Long orgId, Pageable page){
-        return fRepository.fieldsWithLatestCrops(orgId,page).toList();
+    public List<FieldAndCurrentCrop> getFields(Long orgId, Pageable page) {
+        return fRepository.fieldsWithLatestCrops(orgId, page).toList();
     }
 
+    @Transactional
     public FieldAndCurrentCrop updateField(Long id, RequestField request, Long orgId) {
-        var fieldWithCrop =  fRepository.fieldWithLatestCrop(id);
-        if(fieldWithCrop == null){
+        var fieldWithCrop = fRepository.fieldWithLatestCrop(id);
+        if (fieldWithCrop == null) {
             throw new EntityNotFoundException("Field with id " + id + " not found");
         } else if (fieldWithCrop.getField() == null) {
             throw new EntityNotFoundException("Field with id " + id + " not found");
         }
 
-        if(!Objects.equals(fieldWithCrop.getField().getOrganizationId(), orgId)){
+        if (!Objects.equals(fieldWithCrop.getField().getOrganizationId(), orgId)) {
             throw new AuthException("You do not belong to an organization with id " + fieldWithCrop.getField().getOrganizationId());
         }
 
         var field = fieldWithCrop.getField();
+        var nameBefore = field.getName();
         fMapper.requestFieldToField(field, request, orgId);
+        if(!Objects.equals(field.getName(), nameBefore)){
+            validateName(field.getName());
+        }
         try {
             fRepository.save(field);
-        }catch (DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             throw new DuplicateException("Field with name " + field.getName() + " already exists", "name");
         }
         return fieldWithCrop;
     }
 
-    public void deleteField(Long id, Long orgId){
+    @Transactional
+    public void deleteField(Long id, Long orgId) {
 
         var field = fRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field with id " + id + " not found"));
 
-        if (!Objects.equals(field.getOrganizationId(), orgId)){
+        if (!Objects.equals(field.getOrganizationId(), orgId)) {
             throw new AuthException("You do not belong to an organization with id " + field.getOrganizationId());
         }
 
@@ -134,11 +144,11 @@ public class FieldService {
         fRepository.delete(field);
     }
 
-    public List<FieldAndCurrentCrop> getFieldsForPreview(Long orgId, Pageable pageable){
+    public List<FieldAndCurrentCrop> getFieldsForPreview(Long orgId, Pageable pageable) {
         return fRepository.fieldsWithLatestCrops(orgId, pageable).toList();
     }
 
-    public List<CoordinatesWithFieldId> getAllCoordinates(){
+    public List<CoordinatesWithFieldId> getAllCoordinates() {
         return jbdcFieldDao.getAllCoordinates();
     }
 }

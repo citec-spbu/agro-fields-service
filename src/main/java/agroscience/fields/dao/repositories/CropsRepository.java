@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CropsRepository extends JpaRepository<Crop, Long> {
     Crop findCropById(Long cropId);
+
+    boolean existsByName(String name);
 }
