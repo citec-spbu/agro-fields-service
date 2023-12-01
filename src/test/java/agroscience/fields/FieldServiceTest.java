@@ -12,6 +12,8 @@ import agroscience.fields.dto.ResponseMeteo;
 import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.GeomDTO;
 import agroscience.fields.dto.field.RequestField;
+import agroscience.fields.exceptions.DuplicateException;
+import agroscience.fields.exceptions.ExceptionBody;
 import agroscience.fields.mappers.FieldMapper;
 import agroscience.fields.services.FieldService;
 import org.checkerframework.checker.units.qual.C;
@@ -111,10 +113,24 @@ public class FieldServiceTest {
         var field = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
                         .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
                         .organizationId(1L).description("").geom(geom).build();
+        var field2 = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
+                .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
+                .organizationId(1L).description("").geom(geom).build();
+        var field3 = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
+                .name("field3").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
+                .organizationId(1L).description("").geom(geom).build();
         // When
         var testField = fieldService.createField(field);
+        assertThrows(Exception.class, ()->fieldService.createField(field2));
+        System.out.println("hello");
+        var testField2 = fieldService.createField(field3);
+        // Then
         assertNotNull(testField);
         assertNotNull(testField.getField());
+        assertNotNull(testField2);
+        assertEquals(testField2.getField().getId(), testField.getField().getId() + 1);
+        assertNotNull(testField2.getField());
+        assertEquals(2, fieldRepository.findAll().size());
         assertEquals(4, testField.getField().getGeom().getCoordinates().length);
         assertNull(testField.getCropRotation().getId());
         assertNotNull(testField.getField().getId());
