@@ -9,3 +9,5 @@ databaseChangeLog:
         file: db/changelog/table-soil.xml
   -   include:
         file: db/changelog/default-crops.xml
+  -   include:
+        file: db/changelog/10-12-2023-indexes.xml

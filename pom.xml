@@ -203,6 +203,7 @@
 						<include>agroscience/fields/services/CropRotations*</include>
 						<include>agroscience/fields/services/Field*</include>
 						<include>agroscience/fields/services/Soil*</include>
+						<include>agroscience/fields/services/Crops*</include>
 					</includes>
 				</configuration>
 			</plugin>

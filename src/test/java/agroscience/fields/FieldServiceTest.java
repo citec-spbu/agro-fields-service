@@ -50,9 +50,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SpringBootTest
-@ContextConfiguration(initializers = PostgreTestContainerConfig.Initializer.class)
-public class FieldServiceTest {
+
+public class FieldServiceTest extends AbstractTest{
     @Autowired
     private FieldService fieldService;
     @Autowired

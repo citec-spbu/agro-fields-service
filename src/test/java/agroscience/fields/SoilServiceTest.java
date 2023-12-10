@@ -7,7 +7,6 @@ import agroscience.fields.dao.repositories.*;
 import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.GeomDTO;
 import agroscience.fields.exceptions.DuplicateException;
-import agroscience.fields.services.CropsService;
 import agroscience.fields.services.SoilService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +15,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,9 +23,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@ContextConfiguration(initializers = PostgreTestContainerConfig.Initializer.class)
-public class SoilServiceTest {
+
+public class SoilServiceTest extends AbstractTest{
     @Autowired
     private FieldRepository fieldRepository;
     @Autowired

@@ -3,7 +3,7 @@ package agroscience.fields.controllers;
 import agroscience.fields.dto.crop.RequestCrop;
 import agroscience.fields.dto.crop.ResponseCrop;
 import agroscience.fields.security.AuthoriseService;
-import agroscience.fields.services.CropsService;
+import agroscience.fields.services.AdminService;
 import agroscience.fields.mappers.CropMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/admin")
 public class AdminController {
-    private final CropsService cropsService;
+    private final AdminService cropsService;
     private final CropMapper cropMapper;
     private final AuthoriseService auth;
 
