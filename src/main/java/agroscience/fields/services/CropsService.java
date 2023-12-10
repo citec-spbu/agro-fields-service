@@ -6,10 +6,14 @@ import agroscience.fields.dao.repositories.CropsRepository;
 import agroscience.fields.exceptions.DuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -54,5 +58,11 @@ public class CropsService {
 
     public Crop getCrop(Long cropId) {
         return cropsRepository.findById(cropId).orElseThrow(() -> new EntityNotFoundException("Field with id " + cropId + " not found"));
+    }
+
+    public List<Crop> getCrop(String name, int page, int size) {
+        return cropsRepository.getAllByNameStartingWith(
+                name, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name"))
+        );
     }
 }
