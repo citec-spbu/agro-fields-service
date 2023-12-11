@@ -30,9 +30,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
-@ContextConfiguration(initializers = PostgreTestContainerConfig.Initializer.class)
-public class CropRotationsServiceTest {
+
+public class CropRotationsServiceTest extends AbstractTest {
     @Autowired
     private FieldRepository fieldRepository;
     @Autowired
