@@ -84,6 +84,9 @@ public class CropRotationsService {
 
     @Transactional
     public ResponseCRWithField updateCR(Long orgId, Long id, CropRotation newCropRotation, Long cropId) {
+        if(id == null){
+            throw new EntityNotFoundException("Crop rotation with id " + id + " not found");
+        }
         var cropRotation = CRRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 

@@ -4,7 +4,6 @@ import agroscience.fields.dto.Page;
 import agroscience.fields.dto.croprotation.ResponseListCropRotationsForField;
 import agroscience.fields.dto.croprotation.RequestCropRotation;
 import agroscience.fields.dto.croprotation.ResponseCRWithField;
-import agroscience.fields.exceptions.HandleErrorService;
 import agroscience.fields.mappers.CropRotationMapper;
 import agroscience.fields.security.AuthoriseService;
 import agroscience.fields.security.Role;
@@ -85,7 +84,7 @@ public class CropRotationsController {
                 CRMapper.CropRotatopnRequestToCropRotation(request), request.getCropId(), request.getFieldId());
     }
 
-    @PutMapping(path = "/crop-rotations")
+    @PutMapping()
     @Operation(description = "Обновить севооборот по id. Нельзя поменять поле у севооборота. Вместо fieldId можно внести любое значение")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Удачно"),
@@ -94,9 +93,9 @@ public class CropRotationsController {
             @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
     })
-    public ResponseCRWithField updateCR(@Valid@Min(1) Long id, @Valid RequestCropRotation request, HttpServletRequest header){
+    public ResponseCRWithField updateCR(@Valid@Min(1) Long cropRotationId, @Valid @RequestBody RequestCropRotation request, HttpServletRequest header){
         return CRService.updateCR(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-                id, CRMapper.CropRotatopnRequestToCropRotation(request), request.getCropId());
+                cropRotationId, CRMapper.CropRotatopnRequestToCropRotation(request), request.getCropId());
     }
 
     @DeleteMapping()

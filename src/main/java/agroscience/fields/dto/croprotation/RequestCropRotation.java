@@ -20,9 +20,9 @@ public class RequestCropRotation implements TimeDTO {
     @Min(value = 1, message = "ID cannot be less than 1")
     private Long cropId;
 
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     private String startDate;
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     private String endDate;
 
     @Size(max = 256, message = "Maximum 256 characters")

@@ -35,9 +35,9 @@ public class RequestField implements TimeDTO {
     @Pattern(regexp = "^([A-Fa-f0-9]{6})$",message = "The color must be written in HEX format")
     private String color;
 
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     private String activityStart;
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     private String activityEnd;
 
     @Override
