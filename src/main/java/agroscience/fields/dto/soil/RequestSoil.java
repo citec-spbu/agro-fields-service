@@ -16,7 +16,7 @@ public class RequestSoil {
     private String ph;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Maximum 256 characters")
+    @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     @LocalDateFormat
     private String sampleDate;
 
