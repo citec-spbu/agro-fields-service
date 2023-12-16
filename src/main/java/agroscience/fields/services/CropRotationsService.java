@@ -12,6 +12,7 @@ import agroscience.fields.exceptions.AuthException;
 import agroscience.fields.mappers.CropRotationMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CropRotationsService {
     private final CropRotationRepository CRRepository;
     private final CropsRepository cropsRepository;
@@ -35,6 +37,7 @@ public class CropRotationsService {
         if (!fRepository.existsById(fieldId)) {
             throw new EntityNotFoundException("Field with id " + fieldId + " not found");
         }
+        log.info("Get orgId");
         var fieldOrgId = dao.getOrgIdByFieldId(fieldId);
         if (!Objects.equals(fieldOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + fieldOrgId);
