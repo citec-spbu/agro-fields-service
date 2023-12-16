@@ -17,9 +17,8 @@ public class JbdcDao {
     private final JdbcTemplate jdbcTemplate;
     private final String GET_ORG_ID_BY_FIELD_ID = """
             SELECT f.organization_id as orgId 
-            FROM soil s
-            JOIN fields f ON s.field_id = f.id
-            WHERE s.id = ?
+            FROM fields f
+            WHERE f.id = ?
             """;
 
     private final String GET_ALL_COORDINATES = """
