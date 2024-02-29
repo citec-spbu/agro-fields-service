@@ -16,18 +16,15 @@ import java.time.LocalDate;
 
 @Mapper(componentModel = "spring")
 public interface SoilMapper {
-    @Mapping(target = "sampleDate", source = "sampleDate", qualifiedByName = "stringToLocalDate2")
+    @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "stringToLocalDate2")
     Soil requestSoilToSoil(RequestSoil requestSoil);
 
-    @Mapping(target = "sampleDate", source = "sampleDate", qualifiedByName = "localDateToString2")
+    @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "localDateToString2")
     @Mapping(target = "fieldId", source = "field", qualifiedByName = "fieldId")
     ResponseSoil soilToResponseSoil(Soil soil);
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "soilId", ignore = true)
     @Mapping(target = "field", ignore = true)
-    Soil newSoilToSoil(@MappingTarget Soil soil, Soil newSoil);
-
-    @Mapping(target = "sampleDate", source = "sampleDate", qualifiedByName = "localDateToString2")
-    ResponseSoilForF soilForF(Soil soil);
+    void newSoilToSoil(@MappingTarget Soil soil, Soil newSoil);
 
     @Named("localDateToString2")
     default String localDateToString2(LocalDate date){
@@ -40,7 +37,7 @@ public interface SoilMapper {
     }
     @Named("fieldId")
     default Long getFieldId(Field field) {
-        return field.getId();
+        return field.getFieldId();
     }
 
 }
