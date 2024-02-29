@@ -18,14 +18,14 @@ public class JbdcDao {
     private final String GET_ORG_ID_BY_FIELD_ID = """
             SELECT f.field_organization_id as orgId 
             FROM field f
-            WHERE f.id = ?
+            WHERE f.field_id = ?
             """;
 
     private final String GET_ALL_COORDINATES = """
             SELECT 
                 field_id, 
-                ST_X(ST_Centroid(geom)) as longitude, 
-                ST_Y(ST_Centroid(geom)) as latitude 
+                ST_X(ST_Centroid(field_geom)) as longitude, 
+                ST_Y(ST_Centroid(field_geom)) as latitude 
             FROM field
             """;
     public List<CoordinatesWithFieldId> getAllCoordinates() {

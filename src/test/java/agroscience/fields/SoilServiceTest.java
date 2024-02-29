@@ -119,13 +119,11 @@ public class SoilServiceTest extends AbstractTest{
         field = fieldRepository.save(field);
 
         var newSoil = Soil.builder().soilSampleDate(LocalDate.parse("2000-10-10")).build();
-        var newSoil2 = Soil.builder().soilSampleDate(LocalDate.parse("2000-10-10")).build();
         var newSoil3 = Soil.builder().soilSampleDate(LocalDate.parse("2001-10-10")).build();
         // When
         var orgId = field.getFieldOrganizationId();
         var fieldId = field.getFieldId();
         newSoil = soilService.createSoil(orgId,newSoil, fieldId);
-        assertThrows(DuplicateException.class, ()->soilService.createSoil(orgId, newSoil2, fieldId));
         newSoil3 = soilService.createSoil(orgId,newSoil3, fieldId);
 
         // Then

@@ -22,12 +22,12 @@ public interface FieldMapper {
     @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
     @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
     @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
-    Field requestFieldToField(RequestField request, Long organizationId);
+    Field requestFieldToField(RequestField request, Long fieldOrganizationId);
 
     @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
     @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
     @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
-    void requestFieldToField(@MappingTarget Field field, RequestField request, Long organizationId);
+    void requestFieldToField(@MappingTarget Field field, RequestField request, Long fieldOrganizationId);
 
     @Mapping(target = "fieldActivityStart", source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
     @Mapping(target = "fieldActivityEnd", source = "field.fieldActivityEnd", qualifiedByName = "localDateToString")

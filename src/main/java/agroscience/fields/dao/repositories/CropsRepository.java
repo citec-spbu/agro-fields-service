@@ -11,5 +11,5 @@ public interface CropsRepository extends JpaRepository<Crop, Long> {
 
     boolean existsByCropName(String name);
 
-    List<Crop> findAllByCropNameIgnoreCaseStartingWith(String name, PageRequest of);
+    List<Crop> findAllByCropNameIgnoreCaseStartingWith(String cropName, PageRequest of);
 }

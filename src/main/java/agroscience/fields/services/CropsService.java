@@ -16,7 +16,7 @@ public class CropsService {
 
     public List<Crop> getCrop(String name, int page, int size) {
         return cropsRepository.findAllByCropNameIgnoreCaseStartingWith(
-                name, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name"))
+                name, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "cropName"))
         );
     }
 }

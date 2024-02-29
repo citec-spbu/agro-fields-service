@@ -15,8 +15,8 @@ import java.util.List;
 public class Crop {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crop_rotation_pkey")
-    @SequenceGenerator(name = "crop_rotation_pkey", sequenceName = "crop_rotation_pkey", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crop_crop_id_seq")
+    @SequenceGenerator(name = "crop_crop_id_seq", sequenceName = "crop_crop_id_seq", allocationSize = 1)
     @Column(name = "crop_id")
     private Long cropId;
 

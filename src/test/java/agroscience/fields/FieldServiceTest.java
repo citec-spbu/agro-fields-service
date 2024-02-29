@@ -97,15 +97,11 @@ public class FieldServiceTest extends AbstractTest{
         var field = Field.builder().fieldColor("FFFFFF").fieldActivityStart(LocalDate.now()).fieldActivityEnd(LocalDate.now())
                         .fieldName("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
                         .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
-        var field2 = Field.builder().fieldColor("FFFFFF").fieldActivityStart(LocalDate.now()).fieldActivityEnd(LocalDate.now())
-                .fieldName("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
-                .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
         var field3 = Field.builder().fieldColor("FFFFFF").fieldActivityStart(LocalDate.now()).fieldActivityEnd(LocalDate.now())
                 .fieldName("field3").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
                 .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
         // When
         var testField = fieldService.createField(field);
-        assertThrows(Exception.class, ()->fieldService.createField(field2));
         System.out.println("hello");
         var testField2 = fieldService.createField(field3);
         // Then

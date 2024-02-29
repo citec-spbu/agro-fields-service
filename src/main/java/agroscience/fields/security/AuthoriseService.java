@@ -17,30 +17,30 @@ public class AuthoriseService {
      * Checks the correctness of jwt, performs authorization, gives the id of the organization
      */
     public Long doFilter(HttpServletRequest request, List<Role> roles){
-//        Role role = null;
-//        Map<String, Object> claims = null;
-//        Long orgId = null;
-//        try {
-//            claims = filter.extractJwtFromRequest(request);
-//        }catch (Exception e){
-//            throw new AuthException("Invalid jwt.");
-//        }
-//
-//        try {
-//            role = filter.extractRoleFromJwt(claims);
-//        }catch (Exception e){
-//            throw new AuthException("Invalid role");
-//        }
-//
-//        if(!roles.contains(role)){
-//            throw new AuthException("Access denied, one of the roles is required: " + roles);
-//        }
-//
-//        try {
-//            orgId = filter.extractOrganizationIdFromJwt(claims);
-//        }catch (Exception e){
-//            throw new AuthException("Invalid organization id");
-//        }
-        return 1L;
+        Role role = null;
+        Map<String, Object> claims = null;
+        Long orgId = null;
+        try {
+            claims = filter.extractJwtFromRequest(request);
+        }catch (Exception e){
+            throw new AuthException("Invalid jwt.");
+        }
+
+        try {
+            role = filter.extractRoleFromJwt(claims);
+        }catch (Exception e){
+            throw new AuthException("Invalid role");
+        }
+
+        if(!roles.contains(role)){
+            throw new AuthException("Access denied, one of the roles is required: " + roles);
+        }
+
+        try {
+            orgId = filter.extractOrganizationIdFromJwt(claims);
+        }catch (Exception e){
+            throw new AuthException("Invalid organization id");
+        }
+        return orgId;
     }
 }

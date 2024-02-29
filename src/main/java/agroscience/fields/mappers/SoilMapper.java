@@ -3,6 +3,7 @@ package agroscience.fields.mappers;
 import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dao.entities.Soil;
 import agroscience.fields.dto.soil.RequestSoil;
+import agroscience.fields.dto.soil.RequestSoilWithouFieldId;
 import agroscience.fields.dto.soil.ResponseSoil;
 import agroscience.fields.dto.soil.ResponseSoilForF;
 import agroscience.fields.utilities.LocalDateConverting;
@@ -39,5 +40,6 @@ public interface SoilMapper {
     default Long getFieldId(Field field) {
         return field.getFieldId();
     }
-
+    @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "stringToLocalDate2")
+    Soil requestSoilToSoil(RequestSoilWithouFieldId request);
 }

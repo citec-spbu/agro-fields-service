@@ -37,16 +37,8 @@ public class FieldService {
     private final RestTemplate restTemplate;
     private final MeteoProperties meteoProperties;
 
-    private boolean validateName(String name) {
-        if (name == null || name.isBlank() || fRepository.existsByFieldName(name)) {
-            throw new DuplicateException("Field with name " + name + " already exists", "name");
-        }
-        return true;
-    }
-
     @Transactional
     public FieldAndCurrentCrop createField(Field field) {
-        validateName(field.getFieldName());
         return new FieldAndCurrentCropImpl(fRepository.save(field), new CropRotation());
     }
 
@@ -116,9 +108,6 @@ public class FieldService {
         var field = fieldWithCrop.getField();
         var nameBefore = field.getFieldName();
         fMapper.requestFieldToField(field, request, orgId);
-        if(!Objects.equals(field.getFieldName(), nameBefore)){
-            validateName(field.getFieldName());
-        }
         try {
             fRepository.save(field);
         } catch (DataIntegrityViolationException ex) {

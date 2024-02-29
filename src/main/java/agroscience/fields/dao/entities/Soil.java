@@ -27,7 +27,7 @@ public class Soil {
     @Column(name = "soil_ph")
     private String soilPh;
 
-    @Column(name = "soil_sample_date", nullable = false, unique = true)
+    @Column(name = "soil_sample_date", nullable = false)
     private LocalDate soilSampleDate;
 
     @Column(name = "soil_organic_matter")
