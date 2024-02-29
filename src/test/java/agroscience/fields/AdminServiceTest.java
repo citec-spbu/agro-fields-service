@@ -72,25 +72,25 @@ public class AdminServiceTest extends AbstractTest{
     public void deleteCropTest(){
         // Given
         var geom = geom();
-        var field = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
-                .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
-                .organizationId(1L).description("").geom(geom).build();
-        var crop = cropsRepository.findCropById(1L);
+        var field = Field.builder().fieldColor("FFFFFF").fieldActivityStart(LocalDate.now()).fieldActivityEnd(LocalDate.now())
+                .fieldName("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
+                .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
+        var crop = cropsRepository.findCropByCropId(1L);
         var CR = CropRotation.builder().crop(crop).
-                startDate(LocalDate.now()).endDate(LocalDate.now()).description("").field(field).build();
+                cropRotationStartDate(LocalDate.now()).cropRotationEndDate(LocalDate.now()).cropRotationDescription("").field(field).build();
         field.getCropRotations().add(CR);
         crop.getCropRotations().add(CR);
-        var soil = Soil.builder().sampleDate(LocalDate.now()).field(field).build();
+        var soil = Soil.builder().soilSampleDate(LocalDate.now()).field(field).build();
         field.getSoils().add(soil);
         field = fieldRepository.save(field);
         crop = field.getCropRotations().get(0).getCrop();
 
-        var cropId = crop.getId();
-        var fieldId = field.getId();
-        var CRId = field.getCropRotations().get(0).getId();
+        var cropId = crop.getCropId();
+        var fieldId = field.getFieldId();
+        var CRId = field.getCropRotations().get(0).getCropRotationId();
 
         // When
-        cropsService.deleteCropById(crop.getId());
+        cropsService.deleteCropById(crop.getCropId());
 
         // Then
         assertFalse(cropsRepository.existsById(cropId));

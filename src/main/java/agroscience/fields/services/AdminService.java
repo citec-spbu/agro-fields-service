@@ -5,12 +5,9 @@ import agroscience.fields.dao.repositories.CropsRepository;
 import agroscience.fields.exceptions.DuplicateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -19,7 +16,7 @@ public class AdminService {
     private final CropsRepository cropsRepository;
 
     private boolean validateName(String name) {
-        if (name == null || name.isBlank() || cropsRepository.existsByName(name)) {
+        if (name == null || name.isBlank() || cropsRepository.existsByCropName(name)) {
             throw new DuplicateException("Crop with name " + name + " already exists", "name");
         }
         return true;
@@ -27,16 +24,16 @@ public class AdminService {
 
     @Transactional
     public Crop createCrop(Crop crop) {
-        validateName(crop.getName());
+        validateName(crop.getCropName());
         return cropsRepository.save(crop);
     }
 
     @Transactional
     public Crop updateCrop(Long id, Crop newCrop) {
         var crop = cropsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field with id " + id + " not found"));
-        crop.setName(newCrop.getName());
-        if (!Objects.equals(newCrop.getName(), crop.getName())) {
-            validateName(newCrop.getName());
+        crop.setCropName(newCrop.getCropName());
+        if (!Objects.equals(newCrop.getCropName(), crop.getCropName())) {
+            validateName(newCrop.getCropName());
         }
         return cropsRepository.save(crop);
     }

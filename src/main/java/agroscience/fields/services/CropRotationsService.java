@@ -15,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +41,7 @@ public class CropRotationsService {
             throw new AuthException("You do not belong to an organization with id " + fieldOrgId);
 
         }
-        return CRRepository.findAllByFieldId(fieldId, request).toList();
+        return CRRepository.findAllByFieldFieldId(fieldId, request).toList();
     }
 
     public List<FandCRandC> getAll(Long orgId, PageRequest request) {
@@ -58,8 +56,8 @@ public class CropRotationsService {
         var field = fRepository.findById(fieldId)
                 .orElseThrow(() -> new EntityNotFoundException("Field with id " + fieldId + " not found"));
 
-        if (!Objects.equals(field.getOrganizationId(), orgId)) {
-            throw new AuthException("You do not belong to an organization with id " + field.getOrganizationId());
+        if (!Objects.equals(field.getFieldOrganizationId(), orgId)) {
+            throw new AuthException("You do not belong to an organization with id " + field.getFieldOrganizationId());
         }
 
         cropRotation.setCrop(crop);
@@ -76,7 +74,7 @@ public class CropRotationsService {
                 () -> new EntityNotFoundException("Crop rotation with id " + id + " not found")
         );
 
-        var cropRotationOrgId = fandCRandC.getField().getOrganizationId();
+        var cropRotationOrgId = fandCRandC.getField().getFieldOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with с id " + cropRotationOrgId);
@@ -93,7 +91,7 @@ public class CropRotationsService {
         var cropRotation = CRRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
-        var cropRotationOrgId = cropRotation.getField().getOrganizationId();
+        var cropRotationOrgId = cropRotation.getField().getFieldOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);
@@ -111,7 +109,7 @@ public class CropRotationsService {
         var cropRotation = CRRepository.findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Crop rotation with id " + id + " not found"));
 
-        var cropRotationOrgId = cropRotation.getField().getOrganizationId();
+        var cropRotationOrgId = cropRotation.getField().getFieldOrganizationId();
 
         if (!Objects.equals(cropRotationOrgId, orgId)) {
             throw new AuthException("You do not belong to an organization with id " + cropRotationOrgId);

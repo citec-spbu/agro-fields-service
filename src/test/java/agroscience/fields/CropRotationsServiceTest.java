@@ -17,10 +17,6 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,23 +74,23 @@ public class CropRotationsServiceTest extends AbstractTest {
     public void deleteCRTest(){
         // Given
         var geom = geom();
-        var field = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
-                .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
-                .organizationId(1L).description("").geom(geom).build();
-        var crop = cropsRepository.findCropById(1L);
+        var field = Field.builder().fieldColor("FFFFFF").fieldActivityEnd(LocalDate.now()).fieldActivityEnd(LocalDate.now())
+                .fieldName("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
+                .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
+        var crop = cropsRepository.findCropByCropId(1L);
         var CR = CropRotation.builder().crop(crop).
-                startDate(LocalDate.now()).endDate(LocalDate.now()).description("").field(field).build();
+                cropRotationStartDate(LocalDate.now()).cropRotationEndDate(LocalDate.now()).cropRotationDescription("").field(field).build();
         field.getCropRotations().add(CR);
         crop.getCropRotations().add(CR);
-        var soil = Soil.builder().sampleDate(LocalDate.now()).field(field).build();
+        var soil = Soil.builder().soilSampleDate(LocalDate.now()).field(field).build();
         field.getSoils().add(soil);
         field = fieldRepository.save(field);
         CR = field.getCropRotations().get(0);
-        var fieldId = field.getId();
-        var CRId = CR.getId();
-        var cropId = CR.getCrop().getId();
+        var fieldId = field.getFieldId();
+        var CRId = CR.getCropRotationId();
+        var cropId = CR.getCrop().getCropId();
         // When
-        CRService.deleteCR(CRId, field.getOrganizationId());
+        CRService.deleteCR(CRId, field.getFieldOrganizationId());
 
         // Then
         assertFalse(CRRepository.existsById(CRId));
@@ -107,28 +103,28 @@ public class CropRotationsServiceTest extends AbstractTest {
     public void updateCRTest(){
         // Given
         var geom = geom();
-        var field = Field.builder().color("FFFFFF").activityStart(LocalDate.now()).activityEnd(LocalDate.now())
-                .name("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).squareArea("100")
-                .organizationId(1L).description("").geom(geom).build();
-        var crop = cropsRepository.findCropById(1L);
+        var field = Field.builder().fieldColor("FFFFFF").fieldActivityStart(LocalDate.now()).fieldActivityEnd(LocalDate.now())
+                .fieldName("field").cropRotations(new ArrayList<>()).soils(new ArrayList<>()).fieldSquareArea("100")
+                .fieldOrganizationId(1L).fieldDescription("").fieldGeom(geom).build();
+        var crop = cropsRepository.findCropByCropId(1L);
         var CR = CropRotation.builder().crop(crop).
-                startDate(LocalDate.now()).endDate(LocalDate.now()).description("").field(field).build();
+                cropRotationStartDate(LocalDate.now()).cropRotationEndDate(LocalDate.now()).cropRotationDescription("").field(field).build();
         field.getCropRotations().add(CR);
         crop.getCropRotations().add(CR);
-        var soil = Soil.builder().sampleDate(LocalDate.now()).field(field).build();
+        var soil = Soil.builder().soilSampleDate(LocalDate.now()).field(field).build();
         field.getSoils().add(soil);
         field = fieldRepository.save(field);
-        var fieldId = field.getId();
-        var CRId = CR.getId();
-        var cropId = CR.getCrop().getId();
-        var newCR = CropRotation.builder().startDate(LocalDate.now()).endDate(LocalDate.now()).description("").build();
+        var fieldId = field.getFieldId();
+        var CRId = CR.getCropRotationId();
+        var cropId = CR.getCrop().getCropId();
+        var newCR = CropRotation.builder().cropRotationStartDate(LocalDate.now()).cropRotationEndDate(LocalDate.now()).cropRotationDescription("").build();
         //When
-        var CRWithField = CRService.updateCR(field.getOrganizationId(), CRId, newCR, 2L);
+        var CRWithField = CRService.updateCR(field.getFieldOrganizationId(), CRId, newCR, 2L);
 
         // Then
         assertEquals(CRRepository.findAll().size(), 1);
-        assertEquals(CRWithField.getField().getId(), fieldId);
-        assertEquals(CRWithField.getId(), CRId);
-        assertNotEquals(cropId, CRWithField.getCrop().getId());
+        assertEquals(CRWithField.getField().getFieldId(), fieldId);
+        assertEquals(CRWithField.getCropRotationId(), CRId);
+        assertNotEquals(cropId, CRWithField.getCrop().getCropId());
     }
 }
