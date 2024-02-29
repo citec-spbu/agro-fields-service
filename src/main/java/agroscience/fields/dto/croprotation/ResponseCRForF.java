@@ -1,13 +1,18 @@
 package agroscience.fields.dto.croprotation;
 
 import agroscience.fields.dto.crop.ResponseCrop;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class ResponseCRForF {
-    private Long id;
+    @JsonProperty("id")
+    private Long cropRotationId;
     private ResponseCrop crop;
-    private String description;
-    private String startDate;
-    private String endDate;
+    @JsonProperty("description")
+    private String cropRotationDescription;
+    @JsonProperty("startDate")
+    private String cropRotationStartDate;
+    @JsonProperty("endDate")
+    private String cropRotationEndDate;
 }

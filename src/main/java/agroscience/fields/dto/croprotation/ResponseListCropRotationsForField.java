@@ -6,6 +6,6 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class ResponseListCropRotationsForField {
-    private Integer fieldId;
+    private Long fieldId;
     List<ResponseCRForF> cropRotations;
 }

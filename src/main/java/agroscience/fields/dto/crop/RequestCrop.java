@@ -1,5 +1,6 @@
 package agroscience.fields.dto.crop;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -8,5 +9,6 @@ import lombok.Data;
 public class RequestCrop {
     @NotBlank
     @Size(max = 50)
-    private String name;
+    @JsonAlias("name")
+    private String cropName;
 }
