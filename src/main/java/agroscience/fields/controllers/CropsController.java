@@ -26,7 +26,7 @@ public class CropsController {
     private final AuthoriseService auth;
     @GetMapping("/crops")
     @Operation(description = "Get all crops by name with pagination")
-    public List<ResponseCrop> getCrops(@Valid RequestGetCrops request, HttpServletRequest header){
+    public List<ResponseCrop> getCrops(RequestGetCrops request, HttpServletRequest header){
         auth.doFilter(header, new Role.Builder().worker().organization().build());
         return cropsService.getCrop(request.getName(), request.getPage(), request.getSize())
                 .stream().map(cropMapper::cropToResponseCrop).toList();

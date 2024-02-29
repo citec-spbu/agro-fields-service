@@ -1,61 +1,76 @@
 package agroscience.fields.dto.soil;
 
 import agroscience.fields.exceptions.validation.constraints.LocalDateFormat;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.time.LocalDate;
 @Data
 public class RequestSoil {
     @NotNull
     private Long fieldId;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String ph;
+    @JsonAlias("ph")
+    private String soilPh;
 
     @Size(max = 10, message = "Maximum 10 characters")
     @Pattern(regexp = "^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(\\d{4})$", message = "Date entered incorrectly. Must be dd-mm-yyyy.")
     @LocalDateFormat
-    private String sampleDate;
+    @JsonAlias("sampleDate")
+    private String soilSampleDate;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String organicMatter;
+    @JsonAlias("organicMatter")
+    private String soilOrganicMatter;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String mobileP;
+    @JsonAlias("mobileP")
+    private String soilMobileP;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String mobileK;
+    @JsonAlias("mobileK")
+    private String soilMobileK;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String mobileS;
+    @JsonAlias("mobileS")
+    private String soilMobileS;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String nitrateN;
+    @JsonAlias("nitrateN")
+    private String soilNitrateN;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String ammoniumN;
+    @JsonAlias("ammoniumN")
+    private String soilAmmoniumN;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String hydrolyticAcidity;
+    @JsonAlias("hydrolyticAcidity")
+    private String soilHydrolyticAcidity;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String caExchange;
+    @JsonAlias("caExchange")
+    private String soilCaExchange;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String mgExchange;
+    @JsonAlias("mgExchange")
+    private String soilMgExchange;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String b;
+    @JsonAlias("b")
+    private String soilB;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String co;
+    @JsonAlias("co")
+    private String soilCo;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String mn;
+    @JsonAlias("mn")
+    private String soilMn;
 
     @Size(max = 10, message = "Maximum 10 characters")
-    private String zn;
+    @JsonAlias("zn")
+    private String soilZn;
 }

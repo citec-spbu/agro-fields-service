@@ -16,23 +16,23 @@ public class JbdcDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final String GET_ORG_ID_BY_FIELD_ID = """
-            SELECT f.organization_id as orgId 
-            FROM fields f
-            WHERE f.id = ?
+            SELECT f.field_organization_id as orgId 
+            FROM field f
+            WHERE f.field_id = ?
             """;
 
     private final String GET_ALL_COORDINATES = """
             SELECT 
-                id as fieldId, 
-                ST_X(ST_Centroid(geom)) as longitude, 
-                ST_Y(ST_Centroid(geom)) as latitude 
-            FROM fields
+                field_id, 
+                ST_X(ST_Centroid(field_geom)) as longitude, 
+                ST_Y(ST_Centroid(field_geom)) as latitude 
+            FROM field
             """;
     public List<CoordinatesWithFieldId> getAllCoordinates() {
 
         return jdbcTemplate.query(
                 GET_ALL_COORDINATES,
-                (rs, rowNum) -> new CoordinatesWithFieldId(rs.getLong("fieldId"),
+                (rs, rowNum) -> new CoordinatesWithFieldId(rs.getLong("field_id"),
                         rs.getDouble("longitude"),
                         rs.getDouble("latitude"))
         );

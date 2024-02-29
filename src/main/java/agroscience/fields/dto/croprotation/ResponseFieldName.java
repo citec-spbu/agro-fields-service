@@ -1,9 +1,13 @@
 package agroscience.fields.dto.croprotation;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class ResponseFieldName {
-    private Long id;
-    private String name;
+    @JsonProperty("id")
+    private Long fieldId;
+    @JsonAlias("name")
+    private String fieldName;
 }

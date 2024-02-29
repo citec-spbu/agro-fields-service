@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "soil")
@@ -14,58 +13,59 @@ import java.util.UUID;
 @Builder
 public class Soil {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "soil_id_seq")
-    @SequenceGenerator(name = "soil_id_seq", sequenceName = "soil_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "soil_soil_id_seq")
+    @SequenceGenerator(name = "soil_soil_id_seq", sequenceName = "soil_soil_id_seq", allocationSize = 1)
+    @Column(name = "soil_id")
+    private Long soilId;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "field_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "field_id", referencedColumnName = "field_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Field field;
 
-    @Column(name = "ph")
-    private String ph;
+    @Column(name = "soil_ph")
+    private String soilPh;
 
-    @Column(name = "sample_date", nullable = false, unique = true)
-    private LocalDate sampleDate;
+    @Column(name = "soil_sample_date", nullable = false)
+    private LocalDate soilSampleDate;
 
-    @Column(name = "organic_matter")
-    private String organicMatter;
+    @Column(name = "soil_organic_matter")
+    private String soilOrganicMatter;
 
-    @Column(name = "mobile_p")
-    private String mobileP;
+    @Column(name = "soil_mobile_p")
+    private String soilMobileP;
 
-    @Column(name = "mobile_k")
-    private String mobileK;
+    @Column(name = "soil_mobile_k")
+    private String soilMobileK;
 
-    @Column(name = "mobile_s")
-    private String mobileS;
+    @Column(name = "soil_mobile_s")
+    private String soilMobileS;
 
-    @Column(name = "nitrate_n")
-    private String nitrateN;
+    @Column(name = "soil_nitrate_n")
+    private String soilNitrateN;
 
-    @Column(name = "ammonium_n")
-    private String ammoniumN;
+    @Column(name = "soil_ammonium_n")
+    private String soilAmmoniumN;
 
-    @Column(name = "hydrolytic_acidity")
-    private String hydrolyticAcidity;
+    @Column(name = "soil_hydrolytic_acidity")
+    private String soilHydrolyticAcidity;
 
-    @Column(name = "ca_exchange")
-    private String caExchange;
+    @Column(name = "soil_ca_exchange")
+    private String soilCaExchange;
 
-    @Column(name = "mg_exchange")
-    private String mgExchange;
+    @Column(name = "soil_mg_exchange")
+    private String soilMgExchange;
 
-    @Column(name = "b")
-    private String b;
+    @Column(name = "soil_b")
+    private String soilB;
 
-    @Column(name = "co")
-    private String co;
+    @Column(name = "soil_co")
+    private String soilCo;
 
-    @Column(name = "mn")
-    private String mn;
+    @Column(name = "soil_mn")
+    private String soilMn;
 
-    @Column(name = "zn")
-    private String zn;
+    @Column(name = "soil_zn")
+    private String soilZn;
 }

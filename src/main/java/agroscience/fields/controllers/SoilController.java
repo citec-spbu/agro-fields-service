@@ -1,6 +1,7 @@
 package agroscience.fields.controllers;
 
 import agroscience.fields.dto.soil.RequestSoil;
+import agroscience.fields.dto.soil.RequestSoilWithouFieldId;
 import agroscience.fields.dto.soil.ResponseSoil;
 import agroscience.fields.mappers.SoilMapper;
 import agroscience.fields.security.AuthoriseService;
@@ -49,7 +50,7 @@ public class SoilController {
             @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
     })
-    public ResponseSoil updateSoil(@Valid@Min(1) Long soilId, @Valid @RequestBody RequestSoil request, HttpServletRequest header){
+    public ResponseSoil updateSoil(@Valid@Min(1) Long soilId, @Valid @RequestBody RequestSoilWithouFieldId request, HttpServletRequest header){
         return soilMapper.soilToResponseSoil(soilService.updateSoil(auth.doFilter(header, new Role.Builder().worker().organization().build()),
                 soilId, soilMapper.requestSoilToSoil(request)));
     }
