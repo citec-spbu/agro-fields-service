@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "crops")
+@Table(name = "crop")
 @Data
 @AllArgsConstructor
 @Builder
@@ -15,12 +15,13 @@ import java.util.List;
 public class Crop {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crops_id_seq")
-    @SequenceGenerator(name = "crops_id_seq", sequenceName = "crops_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crop_rotation_pkey")
+    @SequenceGenerator(name = "crop_rotation_pkey", sequenceName = "crop_rotation_pkey", allocationSize = 1)
+    @Column(name = "crop_id")
+    private Long cropId;
 
-    @Column(name = "name", length = 50, nullable = false, unique = true)
-    private String name;
+    @Column(name = "crop_name", length = 50, nullable = false, unique = true)
+    private String cropName;
 
     @OneToMany(mappedBy = "crop", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY, orphanRemoval = true)
