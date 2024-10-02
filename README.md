@@ -9,7 +9,7 @@ docker compose up
 agronetwork
 
 
-сваггер http://localhost:8002/swagger-ui/index.html
+сваггер http://localhost:8002/docs
 
 # Схема БД
 ![img.png](docs/dbSchema.png)
@@ -31,5 +31,5 @@ dd-MM-yyyy
 
 # Запуск проекта для дебага и разработки
 В директории local выполнить docker compose up , чтобы поднять локальную базу  
-Указать профиль local при запуске. Сваггер http://localhost:8080/swagger-ui/index.html
+Указать профиль local при запуске. Сваггер http://localhost:8080/docs
 ![img.png](docs/local-profile.png)

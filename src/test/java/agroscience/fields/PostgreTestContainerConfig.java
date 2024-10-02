@@ -39,11 +39,9 @@ public class PostgreTestContainerConfig {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             var postgreSQLContainer = getPostgreSQLContainer();
             TestPropertyValues.of(
-                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                    "spring.datasource.password=" + postgreSQLContainer.getPassword(),
-                    "spring.liquibase.change_log=classpath:db/changelog/db.changelog-master.yaml",
-                    "spring.datasource.driverClassName=org.hibernate.dialect.PostgreSQLDialect"
+                    "DB_URL: " + postgreSQLContainer.getJdbcUrl(),
+                    "POSTGRESQL_USERNAME: " + postgreSQLContainer.getUsername(),
+                    "POSTGRESQL_PASSWORD: " + postgreSQLContainer.getPassword()
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
