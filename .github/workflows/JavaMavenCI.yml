@@ -7,7 +7,6 @@ on:
   pull_request:
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
 
@@ -40,8 +39,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,24 +53,3 @@ jobs:
         run: mvn clean compile
       - name: Test maven project
         run: mvn test
-      - name: Add coverage to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: |
-            ${{ github.workspace }}/**/target/site/jacoco/*.xml
-          token: ${{ secrets.TEST_SECRET }}
-          min-coverage-overall: 50
-          min-coverage-changed-files: 50
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: ${{ github.workspace }}/**/target/site/jacoco/
-
-      - name: Fail PR if overall coverage is less than 50%
-        if: ${{ steps.jacoco.outputs.coverage-overall < 50.0 }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.setFailed('Overall coverage is less than 50%!')

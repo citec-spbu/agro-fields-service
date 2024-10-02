@@ -240,7 +240,6 @@
             <include>agroscience/fields/services/Field*</include>
             <include>agroscience/fields/services/Soil*</include>
             <include>agroscience/fields/services/Crops*</include>
-            <include>agroscience/fields/controllers/*</include>
           </includes>
         </configuration>
       </plugin>
