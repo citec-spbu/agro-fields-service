@@ -18,7 +18,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Checkstyle with maven
         run: mvn checkstyle:check
 
@@ -34,7 +40,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+      - name: Restore Maven cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Compile with maven
         run: mvn clean compile
 
@@ -50,6 +62,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+      - name: Restore Maven cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Run tests with maven
         run: mvn test
