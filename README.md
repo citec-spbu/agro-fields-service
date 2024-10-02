@@ -28,3 +28,8 @@ agronetwork
 # Разное
 Даты в приложении принимаются в формате  
 dd-MM-yyyy
+
+# Запуск проекта для дебага и разработки
+В директории local выполнить docker compose up , чтобы поднять локальную базу  
+Указать профиль local при запуске. Сваггер http://localhost:8080/swagger-ui/index.html
+![img.png](docs/local-profile.png)
