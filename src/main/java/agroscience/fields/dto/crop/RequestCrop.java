@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 public class RequestCrop {
-    @NotBlank
-    @Size(max = 50)
-    @JsonAlias("name")
-    private String cropName;
+  @NotBlank
+  @Size(max = 50)
+  @JsonAlias("name")
+  private String cropName;
 }

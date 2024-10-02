@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class DuplicateException extends RuntimeException{
-    private String fieldName;
-    public DuplicateException(String message, String fieldName) {
-        super(message);
-        this.fieldName = fieldName;
-    }
+public class DuplicateException extends RuntimeException {
+  private String fieldName;
+
+  public DuplicateException(String message, String fieldName) {
+    super(message);
+    this.fieldName = fieldName;
+  }
 
 }
