@@ -28,7 +28,7 @@ public class CropsController {
   public List<ResponseCrop> getCrops(RequestGetCrops request, HttpServletRequest header) {
     auth.doFilter(header, new Role.Builder().worker().organization().build());
     return cropsService.getCrop(request.getName(), request.getPage(), request.getSize())
-            .stream().map(cropMapper::cropToResponseCrop).toList();
+            .stream().map(cropMapper::map).toList();
   }
 
 }

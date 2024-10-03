@@ -56,7 +56,7 @@ public class SoilService {
     if (!Objects.equals(orgId, orgIdBySoilId)) {
       throw new AuthException("You do not belong to an organization with id " + orgId);
     }
-    soilMapper.newSoilToSoil(soil, newSoil);
+    soilMapper.map(soil, newSoil);
     return soilRepository.save(soil);
   }
 

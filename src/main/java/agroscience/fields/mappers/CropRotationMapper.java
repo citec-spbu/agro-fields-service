@@ -21,11 +21,10 @@ public interface CropRotationMapper {
   @Mapping(target = "cropRotationStartDate", source = "cropRotationStartDate", qualifiedByName = "localDateToString")
   @Mapping(target = "cropRotationEndDate", source = "cropRotationEndDate", qualifiedByName = "localDateToString")
   @Mapping(target = "cropName", source = "crop", qualifiedByName = "cropName")
-  List<ResponseCRForF> cropRotationToCropRotationResponse(List<CropRotation> cropRotations);
+  List<ResponseCRForF> map(List<CropRotation> cropRotations);
 
   @Mapping(target = "cropRotations", source = "cropRotationResponses")
-  ResponseListCropRotationsForField cropRotationsToList(Long fieldId,
-                                                        List<ResponseCRForF> cropRotationResponses);
+  ResponseListCropRotationsForField map(Long fieldId, List<ResponseCRForF> cropRotationResponses);
 
   @Mapping(target = "cropRotationStartDate",
           source = "dto.cropRotation.cropRotationStartDate", qualifiedByName = "localDateToString")
@@ -35,13 +34,13 @@ public interface CropRotationMapper {
   @Mapping(target = "cropRotationId", source = "dto.cropRotation.cropRotationId")
   @Mapping(target = "cropRotationDescription", source = "dto.cropRotation.cropRotationDescription")
   @Mapping(target = "field", source = "dto.field")
-  ResponseCRWithField responseCRWithField(FandCRandC dto);
+  ResponseCRWithField map(FandCRandC dto);
 
   @Mapping(target = "cropRotationStartDate", source = "cropRotationStartDate", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "cropRotationEndDate", source = "cropRotationEndDate", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "field", ignore = true)
   @Mapping(target = "crop", ignore = true)
-  CropRotation cropRotatopnRequestToCropRotation(RequestCropRotation request);
+  CropRotation map(RequestCropRotation request);
 
   @Named("localDateToString")
   default String localDateToString(LocalDate date) {

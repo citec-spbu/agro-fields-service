@@ -44,8 +44,8 @@ public class SoilController {
   })
   public ResponseSoil createSoil(@Valid @RequestBody RequestSoil request, HttpServletRequest header) {
     var orgId = auth.doFilter(header, new Role.Builder().organization().worker().build());
-    var soil = soilMapper.requestSoilToSoil(request);
-    return soilMapper.soilToResponseSoil(soilService.createSoil(orgId, soil, request.getFieldId()));
+    var soil = soilMapper.map(request);
+    return soilMapper.map(soilService.createSoil(orgId, soil, request.getFieldId()));
   }
 
   @PutMapping
@@ -64,7 +64,7 @@ public class SoilController {
           HttpServletRequest header
   ) {
     var orgId = auth.doFilter(header, new Role.Builder().worker().organization().build());
-    return soilMapper.soilToResponseSoil(soilService.updateSoil(orgId, soilId, soilMapper.requestSoilToSoil(request)));
+    return soilMapper.map(soilService.updateSoil(orgId, soilId, soilMapper.map(request)));
   }
 
   @DeleteMapping

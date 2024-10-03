@@ -28,38 +28,7 @@ public interface FieldMapper {
   @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
-  Field requestFieldToField(RequestField request, Long fieldOrganizationId);
-
-  @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
-  @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
-  @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
-  void requestFieldToField(@MappingTarget Field field, RequestField request, Long fieldOrganizationId);
-
-  @Mapping(target = "fieldActivityStart",
-          source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
-  @Mapping(target = "fieldActivityEnd", source = "field.fieldActivityEnd", qualifiedByName = "localDateToString")
-  @Mapping(target = "fieldGeom", source = "dto.field.fieldGeom", qualifiedByName = "geomToResponseGeom")
-  @Mapping(target = "fieldId", source = "dto.field.fieldId")
-  @Mapping(target = "fieldOrganizationId", source = "dto.field.fieldOrganizationId")
-  @Mapping(target = "fieldName", source = "dto.field.fieldName")
-  @Mapping(target = "fieldSquareArea", source = "dto.field.fieldSquareArea")
-  @Mapping(target = "fieldDescription", source = "dto.field.fieldDescription")
-  @Mapping(target = "fieldColor", source = "dto.field.fieldColor")
-  @Mapping(target = "crop", source = "dto.cropRotation.crop")
-  ResponseFieldPreview fieldToResponseFPreview(FieldAndCurrentCrop dto);
-
-  @Mapping(target = "fieldActivityStart",
-          source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
-  @Mapping(target = "fieldActivityEnd", source = "dto.field.fieldActivityEnd", qualifiedByName = "localDateToString")
-  @Mapping(target = "fieldGeom", source = "dto.field.fieldGeom", qualifiedByName = "geomToResponseGeom")
-  @Mapping(target = "fieldId", source = "dto.field.fieldId")
-  @Mapping(target = "fieldOrganizationId", source = "dto.field.fieldOrganizationId")
-  @Mapping(target = "fieldName", source = "dto.field.fieldName")
-  @Mapping(target = "fieldSquareArea", source = "dto.field.fieldSquareArea")
-  @Mapping(target = "fieldDescription", source = "dto.field.fieldDescription")
-  @Mapping(target = "fieldColor", source = "dto.field.fieldColor")
-  @Mapping(target = "cropRotation", source = "dto.cropRotation")
-  ResponseFieldWithCR fieldToResponseField(FieldAndCurrentCrop dto);
+  Field map(RequestField request, Long fieldOrganizationId);
 
   @Mapping(target = "fieldActivityStart",
           source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
@@ -74,7 +43,38 @@ public interface FieldMapper {
   @Mapping(target = "cropRotation", source = "dto.cropRotation")
   @Mapping(target = "soil", source = "dto.soil")
   @Mapping(target = "meteoList", source = "meteoList")
-  ResponseFullField fieldToResponseFullField(FieldCRsSoil dto, List<ResponseMeteo> meteoList);
+  ResponseFullField map(FieldCRsSoil dto, List<ResponseMeteo> meteoList);
+
+  @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
+  @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
+  @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
+  void mapToFieldReview(@MappingTarget Field field, RequestField request, Long fieldOrganizationId);
+
+  @Mapping(target = "fieldActivityStart",
+          source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
+  @Mapping(target = "fieldActivityEnd", source = "field.fieldActivityEnd", qualifiedByName = "localDateToString")
+  @Mapping(target = "fieldGeom", source = "dto.field.fieldGeom", qualifiedByName = "geomToResponseGeom")
+  @Mapping(target = "fieldId", source = "dto.field.fieldId")
+  @Mapping(target = "fieldOrganizationId", source = "dto.field.fieldOrganizationId")
+  @Mapping(target = "fieldName", source = "dto.field.fieldName")
+  @Mapping(target = "fieldSquareArea", source = "dto.field.fieldSquareArea")
+  @Mapping(target = "fieldDescription", source = "dto.field.fieldDescription")
+  @Mapping(target = "fieldColor", source = "dto.field.fieldColor")
+  @Mapping(target = "crop", source = "dto.cropRotation.crop")
+  ResponseFieldPreview mapToFieldReview(FieldAndCurrentCrop dto);
+
+  @Mapping(target = "fieldActivityStart",
+          source = "dto.field.fieldActivityStart", qualifiedByName = "localDateToString")
+  @Mapping(target = "fieldActivityEnd", source = "dto.field.fieldActivityEnd", qualifiedByName = "localDateToString")
+  @Mapping(target = "fieldGeom", source = "dto.field.fieldGeom", qualifiedByName = "geomToResponseGeom")
+  @Mapping(target = "fieldId", source = "dto.field.fieldId")
+  @Mapping(target = "fieldOrganizationId", source = "dto.field.fieldOrganizationId")
+  @Mapping(target = "fieldName", source = "dto.field.fieldName")
+  @Mapping(target = "fieldSquareArea", source = "dto.field.fieldSquareArea")
+  @Mapping(target = "fieldDescription", source = "dto.field.fieldDescription")
+  @Mapping(target = "fieldColor", source = "dto.field.fieldColor")
+  @Mapping(target = "cropRotation", source = "dto.cropRotation")
+  ResponseFieldWithCR mapToFieldWithCR(FieldAndCurrentCrop dto);
 
   @Named("geomToResponseGeom")
   default GeomDTO geomToResponseGeom(Geometry geom) {

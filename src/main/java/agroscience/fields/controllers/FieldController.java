@@ -49,7 +49,7 @@ public class FieldController {
     @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
   })
   public ResponseFieldPreview createField(@Valid @RequestBody RequestField fieldRequest, HttpServletRequest header) {
-    return fieldMapper.fieldToResponseFPreview(fieldService.createField(fieldMapper.requestFieldToField(fieldRequest,
+    return fieldMapper.mapToFieldReview(fieldService.createField(fieldMapper.map(fieldRequest,
             auth.doFilter(header, new Role.Builder().worker().organization().build()))));
   }
 
@@ -76,7 +76,7 @@ public class FieldController {
   })
   public List<ResponseFieldWithCR> getFields(@Valid Page page, HttpServletRequest header) {
     return fieldService.getFields(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-            PageRequest.of(page.getPage(), page.getSize())).stream().map(fieldMapper::fieldToResponseField).toList();
+            PageRequest.of(page.getPage(), page.getSize())).stream().map(fieldMapper::mapToFieldWithCR).toList();
   }
 
   @GetMapping("preview")
@@ -88,7 +88,7 @@ public class FieldController {
     @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())})
   })
   public ResponseFieldPreview getFieldPreview(@Valid @Min(1) Long fieldId, HttpServletRequest header) {
-    return fieldMapper.fieldToResponseFPreview(fieldService.getFieldWithCurrentCrop(fieldId, auth.doFilter(header,
+    return fieldMapper.mapToFieldReview(fieldService.getFieldWithCurrentCrop(fieldId, auth.doFilter(header,
             new Role.Builder().worker().organization().build())));
   }
 
@@ -103,7 +103,7 @@ public class FieldController {
   public ResponseFieldPreview updateField(@Valid @Min(1) Long fieldId,
                                           @Valid @RequestBody RequestField request,
                                           HttpServletRequest header) {
-    return fieldMapper.fieldToResponseFPreview(fieldService.updateField(fieldId, request,
+    return fieldMapper.mapToFieldReview(fieldService.updateField(fieldId, request,
                     auth.doFilter(header, new Role.Builder().organization().worker().build())
             )
     );
@@ -131,8 +131,12 @@ public class FieldController {
     @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())})
   })
   public List<ResponseFieldPreview> getFieldsPreview(@Valid Page page, HttpServletRequest header) {
-    return fieldService.getFieldsForPreview(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-            PageRequest.of(page.getPage(), page.getSize())).stream().map(fieldMapper::fieldToResponseFPreview).toList();
+    return fieldService.getFieldsForPreview(
+                    auth.doFilter(header, new Role.Builder().worker().organization().build()),
+                    PageRequest.of(page.getPage(), page.getSize())
+            )
+            .stream().map(fieldMapper::mapToFieldReview)
+            .toList();
   }
 
   @GetMapping("/meteo/all-coordinates")

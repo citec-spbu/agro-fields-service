@@ -47,7 +47,7 @@ public class CropRotationsController {
   })
   public ResponseListCropRotationsForField getAllCropRotationsByFieldId(@Valid @Min(1) Long fieldId,
                                                                         @Valid Page p, HttpServletRequest header) {
-    return crMapper.cropRotationsToList(fieldId, crMapper.cropRotationToCropRotationResponse(crService
+    return crMapper.map(fieldId, crMapper.map(crService
             .getAllByFieldId(auth.doFilter(header, new Role.Builder().worker().organization().build()),
                     fieldId, PageRequest.of(p.getPage(), p.getSize()))));
   }
@@ -62,7 +62,7 @@ public class CropRotationsController {
   })
   public List<ResponseCRWithField> getAllCropRotations(@Valid Page p, HttpServletRequest header) {
     return crService.getAll(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-            PageRequest.of(p.getPage(), p.getSize())).stream().map(crMapper::responseCRWithField).toList();
+            PageRequest.of(p.getPage(), p.getSize())).stream().map(crMapper::map).toList();
   }
 
   @GetMapping()
@@ -88,7 +88,7 @@ public class CropRotationsController {
   })
   public ResponseCRWithField createCR(@Valid @RequestBody RequestCropRotation request, HttpServletRequest header) {
     return crService.createCR(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-            crMapper.cropRotatopnRequestToCropRotation(request), request.getCropId(), request.getFieldId());
+            crMapper.map(request), request.getCropId(), request.getFieldId());
   }
 
   @PutMapping()
@@ -107,7 +107,7 @@ public class CropRotationsController {
           HttpServletRequest header
   ) {
     return crService.updateCR(auth.doFilter(header, new Role.Builder().worker().organization().build()),
-            cropRotationId, crMapper.cropRotatopnRequestToCropRotation(request), request.getCropId());
+            cropRotationId, crMapper.map(request), request.getCropId());
   }
 
   @DeleteMapping()

@@ -64,7 +64,7 @@ public class CropRotationsService {
     cropRotation.setField(field);
     crRepository.save(cropRotation);
 
-    return crMapper.responseCRWithField(new FandCRandCImpl(field, cropRotation, crop));
+    return crMapper.map(new FandCRandCImpl(field, cropRotation, crop));
   }
 
   public ResponseCRWithField getCR(Long id, Long orgId) {
@@ -80,7 +80,7 @@ public class CropRotationsService {
       throw new AuthException("You do not belong to an organization with с id " + cropRotationOrgId);
     }
 
-    return crMapper.responseCRWithField(fandCRandC);
+    return crMapper.map(fandCRandC);
   }
 
   @Transactional
@@ -101,7 +101,7 @@ public class CropRotationsService {
             .findById(cropId).orElseThrow(() -> new EntityNotFoundException("Crop with id " + id + " not found"));
     crMapper.newCRToCR(cropRotation, newCropRotation);
     cropRotation.setCrop(newCrop);
-    return crMapper.responseCRWithField(
+    return crMapper.map(
             new FandCRandCImpl(cropRotation.getField(),
                     crRepository.save(cropRotation),
                     newCrop)

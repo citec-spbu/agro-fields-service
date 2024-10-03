@@ -73,7 +73,7 @@ public class FieldService {
       meteoList = null;
     }
 
-    return fieldMapper.fieldToResponseFullField(fcrsc, meteoList);
+    return fieldMapper.map(fcrsc, meteoList);
   }
 
   public FieldAndCurrentCrop getFieldWithCurrentCrop(Long id, Long orgId) {
@@ -110,7 +110,7 @@ public class FieldService {
 
     var field = fieldWithCrop.getField();
     var nameBefore = field.getFieldName();
-    fieldMapper.requestFieldToField(field, request, orgId);
+    fieldMapper.mapToFieldReview(field, request, orgId);
     try {
       fieldRepository.save(field);
     } catch (DataIntegrityViolationException ex) {

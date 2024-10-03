@@ -3,7 +3,6 @@ package agroscience.fields.controllers;
 import agroscience.fields.dto.crop.RequestCrop;
 import agroscience.fields.dto.crop.ResponseCrop;
 import agroscience.fields.mappers.CropMapper;
-import agroscience.fields.security.AuthoriseService;
 import agroscience.fields.services.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,7 +37,7 @@ public class AdminController {
     @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
   })
   public ResponseCrop createCrop(@Valid @RequestBody RequestCrop request) {
-    return cropMapper.cropToResponseCrop(cropsService.createCrop(cropMapper.requestCropToCrop(request)));
+    return cropMapper.map(cropsService.createCrop(cropMapper.map(request)));
   }
 
   @PutMapping
@@ -50,7 +49,7 @@ public class AdminController {
     @ApiResponse(responseCode = "400", description = "Ошибка валидации", content = {@Content(schema = @Schema())})
   })
   public ResponseCrop updateCrop(@Valid @Min(1) Long cropId, @Valid @RequestBody RequestCrop request) {
-    return cropMapper.cropToResponseCrop(cropsService.updateCrop(cropId, cropMapper.requestCropToCrop(request)));
+    return cropMapper.map(cropsService.updateCrop(cropId, cropMapper.map(request)));
   }
 
   @DeleteMapping
@@ -73,7 +72,7 @@ public class AdminController {
     @ApiResponse(responseCode = "500", description = "Неизвестная ошибка", content = {@Content(schema = @Schema())})
   })
   public ResponseCrop getCrop(@Valid @Min(1) Long cropId) {
-    return cropMapper.cropToResponseCrop(cropsService.getCrop(cropId));
+    return cropMapper.map(cropsService.getCrop(cropId));
   }
 
 }
