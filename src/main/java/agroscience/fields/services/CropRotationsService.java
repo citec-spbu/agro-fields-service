@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class CropRotationsService {
+
   private final CropRotationRepository crRepository;
   private final CropsRepository cropsRepository;
   private final CropRotationMapper crMapper;
@@ -101,9 +102,9 @@ public class CropRotationsService {
     crMapper.newCRToCR(cropRotation, newCropRotation);
     cropRotation.setCrop(newCrop);
     return crMapper.responseCRWithField(
-        new FandCRandCImpl(cropRotation.getField(),
-        crRepository.save(cropRotation),
-        newCrop)
+            new FandCRandCImpl(cropRotation.getField(),
+                    crRepository.save(cropRotation),
+                    newCrop)
     );
   }
 
@@ -127,4 +128,5 @@ public class CropRotationsService {
 
     crRepository.delete(cropRotation);
   }
+
 }

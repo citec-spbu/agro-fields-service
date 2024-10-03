@@ -9,5 +9,7 @@ import org.springframework.data.util.Pair;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class DateException extends IllegalArgumentException {
+
   private final List<Pair<String, String>> fieldErrors = new ArrayList<>();
+
 }

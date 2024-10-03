@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
+
   private final CropsRepository cropsRepository;
 
   private boolean validateName(String name) {
@@ -55,4 +56,5 @@ public class AdminService {
     return cropsRepository.findById(cropId)
             .orElseThrow(() -> new EntityNotFoundException("Field with id " + cropId + " not found"));
   }
+
 }

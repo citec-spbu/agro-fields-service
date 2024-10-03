@@ -13,6 +13,7 @@ public enum Role {
   private final String vale;
 
   public static class Builder {
+
     List<Role> roles;
 
     public Builder() {
@@ -37,5 +38,6 @@ public enum Role {
     public List<Role> build() {
       return roles;
     }
+
   }
 }

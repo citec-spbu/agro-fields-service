@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class HandleErrorService {
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ExceptionBody handleValidationException(MethodArgumentNotValidException ex) {
@@ -77,4 +78,5 @@ public class HandleErrorService {
     exceptionBody.setErrors(errorMap);
     return exceptionBody;
   }
+
 }

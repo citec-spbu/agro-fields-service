@@ -10,13 +10,11 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class JbdcDao {
 
-  private final JdbcTemplate jdbcTemplate;
   private static final String GET_ORG_ID_BY_FIELD_ID = """
           SELECT f.field_organization_id as orgId 
           FROM field f
           WHERE f.field_id = ?
           """;
-
   private static final String GET_ALL_COORDINATES = """
           SELECT 
               field_id, 
@@ -24,6 +22,7 @@ public class JbdcDao {
               ST_Y(ST_Centroid(field_geom)) as latitude 
           FROM field
           """;
+  private final JdbcTemplate jdbcTemplate;
 
   public List<CoordinatesWithFieldId> getAllCoordinates() {
 
@@ -42,4 +41,5 @@ public class JbdcDao {
             fieldId
     );
   }
+
 }

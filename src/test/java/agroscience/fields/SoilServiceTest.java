@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public class SoilServiceTest extends AbstractTest {
+
   @Autowired
   private FieldRepository fieldRepository;
   @Autowired

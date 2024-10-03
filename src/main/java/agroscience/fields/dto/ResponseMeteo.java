@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 public class ResponseMeteo {
+
   private LocalDate day;
   private Long fieldId;
   private Double temperature;
   private Double humidity;
   private Double pressure;
+
 }

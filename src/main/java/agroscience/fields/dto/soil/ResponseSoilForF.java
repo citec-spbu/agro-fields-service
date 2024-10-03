@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ResponseSoilForF {
+
   @JsonProperty("id")
   private Long soilId;
   @JsonProperty("ph")
@@ -37,4 +38,5 @@ public class ResponseSoilForF {
   private String soilMn;
   @JsonProperty("zn")
   private String soilZn;
+
 }

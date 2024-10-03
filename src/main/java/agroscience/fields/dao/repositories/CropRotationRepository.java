@@ -26,24 +26,25 @@ public interface CropRotationRepository extends JpaRepository<CropRotation, Long
 
   @Query(
           """
-          SELECT f as field, cr as cropRotation, c as crop
-          FROM CropRotation cr
-          LEFT JOIN cr.field f
-          LEFT JOIN cr.crop c
-          WHERE cr.cropRotationId = :id
-          """
+                  SELECT f as field, cr as cropRotation, c as crop
+                  FROM CropRotation cr
+                  LEFT JOIN cr.field f
+                  LEFT JOIN cr.crop c
+                  WHERE cr.cropRotationId = :id
+                  """
   )
   FandCRandC findCropRotationById(Long id);
 
   @Query(
           """
-          SELECT f as field, cr as cropRotation, c as crop
-          FROM CropRotation cr
-          LEFT JOIN cr.field f
-          LEFT JOIN cr.crop c
-          WHERE f.fieldOrganizationId = :orgId
-          ORDER BY cr.cropRotationStartDate DESC
-          """
+                  SELECT f as field, cr as cropRotation, c as crop
+                  FROM CropRotation cr
+                  LEFT JOIN cr.field f
+                  LEFT JOIN cr.crop c
+                  WHERE f.fieldOrganizationId = :orgId
+                  ORDER BY cr.cropRotationStartDate DESC
+                  """
   )
   Slice<FandCRandC> findAllByOrgId(Long orgId, Pageable pageable);
+
 }

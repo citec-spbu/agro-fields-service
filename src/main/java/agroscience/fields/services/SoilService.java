@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class SoilService {
+
   private final SoilRepository soilRepository;
   private final FieldRepository fieldRepository;
   private final SoilMapper soilMapper;
@@ -58,4 +59,5 @@ public class SoilService {
     soilMapper.newSoilToSoil(soil, newSoil);
     return soilRepository.save(soil);
   }
+
 }

@@ -10,9 +10,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GeomDTO {
+
   @NotBlank(message = "Must be filled")
   private String type;
   @Size(min = 3)
   @Valid
   private List<CoordinatesDTO> coordinates;
+
 }

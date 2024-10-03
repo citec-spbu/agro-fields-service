@@ -61,4 +61,5 @@ public class RequestField implements TimeDTO {
   public String end() {
     return fieldActivityEnd;
   }
+
 }

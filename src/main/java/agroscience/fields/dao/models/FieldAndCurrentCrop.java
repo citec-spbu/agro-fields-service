@@ -5,7 +5,9 @@ import agroscience.fields.dao.entities.Field;
 
 
 public interface FieldAndCurrentCrop {
+
   Field getField();
 
   CropRotation getCropRotation();
+
 }

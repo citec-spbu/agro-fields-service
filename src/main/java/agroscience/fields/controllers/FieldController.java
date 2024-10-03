@@ -144,4 +144,5 @@ public class FieldController {
   public List<CoordinatesWithFieldId> getAllCoordinates() {
     return fieldService.getAllCoordinates();
   }
+
 }

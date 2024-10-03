@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ResponseCRWithField {
+
   @JsonProperty("id")
   private Long cropRotationId;
   private ResponseCrop crop;
@@ -16,4 +17,5 @@ public class ResponseCRWithField {
   @JsonProperty("endDate")
   private String cropRotationEndDate;
   private ResponseFieldName field;
+
 }

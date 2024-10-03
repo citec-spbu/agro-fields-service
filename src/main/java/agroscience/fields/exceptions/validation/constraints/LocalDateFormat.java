@@ -13,9 +13,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {LocalDateFormatValidator.class, LocalDateValidatorForFieldType.class})
 public @interface LocalDateFormat {
+
   String message() default "Дата введена неверно";
 
   Class<?>[] groups() default {};
 
   Class<? extends Payload>[] payload() default {};
+
 }

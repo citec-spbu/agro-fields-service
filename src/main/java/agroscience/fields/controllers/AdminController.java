@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/admin")
 public class AdminController {
+
   private final AdminService cropsService;
   private final CropMapper cropMapper;
-  private final AuthoriseService auth;
 
   @PostMapping
   @Operation(description = "Создание культуры")

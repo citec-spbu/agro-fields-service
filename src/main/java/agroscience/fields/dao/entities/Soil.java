@@ -26,6 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Soil {
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "soil_soil_id_seq")
   @SequenceGenerator(name = "soil_soil_id_seq", sequenceName = "soil_soil_id_seq", allocationSize = 1)
@@ -82,4 +83,5 @@ public class Soil {
 
   @Column(name = "soil_zn")
   private String soilZn;
+
 }

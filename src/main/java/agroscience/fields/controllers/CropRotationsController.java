@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/fields/crop-rotations")
 public class CropRotationsController {
+
   private final CropRotationsService crService;
   private final CropRotationMapper crMapper;
   private final AuthoriseService auth;
@@ -120,6 +121,5 @@ public class CropRotationsController {
     crService.deleteCR(id, auth.doFilter(header, new Role.Builder().worker().organization().build()));
     return ResponseEntity.noContent().build();
   }
-
 
 }

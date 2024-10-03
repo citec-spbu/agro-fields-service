@@ -74,4 +74,5 @@ public class Field {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<Soil> soils = new ArrayList<>();
+
 }
