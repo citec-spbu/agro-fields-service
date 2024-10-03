@@ -17,18 +17,18 @@ import org.mapstruct.Named;
 public interface SoilMapper {
 
   @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "stringToLocalDate2")
-  Soil requestSoilToSoil(RequestSoil requestSoil);
+  Soil map(RequestSoil requestSoil);
 
   @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "stringToLocalDate2")
-  Soil requestSoilToSoil(RequestSoilWithouFieldId request);
+  Soil map(RequestSoilWithouFieldId request);
 
   @Mapping(target = "soilSampleDate", source = "soilSampleDate", qualifiedByName = "localDateToString2")
   @Mapping(target = "fieldId", source = "field", qualifiedByName = "fieldId")
-  ResponseSoil soilToResponseSoil(Soil soil);
+  ResponseSoil map(Soil soil);
 
   @Mapping(target = "soilId", ignore = true)
   @Mapping(target = "field", ignore = true)
-  void newSoilToSoil(@MappingTarget Soil soil, Soil newSoil);
+  void map(@MappingTarget Soil soil, Soil newSoil);
 
   @Named("localDateToString2")
   default String localDateToString2(LocalDate date) {

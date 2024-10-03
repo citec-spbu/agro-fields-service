@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CropMapper {
 
-  Crop requestCropToCrop(RequestCrop requestCrop);
+  Crop map(RequestCrop requestCrop);
 
-  ResponseCrop cropToResponseCrop(Crop crop);
+  ResponseCrop map(Crop crop);
 
 }
