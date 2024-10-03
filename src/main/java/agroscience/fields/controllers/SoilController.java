@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/fields/soil")
 public class SoilController {
+
   private final SoilService soilService;
   private final SoilMapper soilMapper;
   private final AuthoriseService auth;
@@ -77,4 +78,5 @@ public class SoilController {
     soilService.deleteSoilById(soilId, auth.doFilter(request, new Role.Builder().worker().organization().build()));
     return ResponseEntity.noContent().build();
   }
+
 }

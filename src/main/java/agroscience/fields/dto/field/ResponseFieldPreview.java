@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class ResponseFieldPreview {
+
   @JsonProperty("id")
   private Long fieldId;
   @JsonProperty("organizationId")
@@ -27,4 +28,5 @@ public class ResponseFieldPreview {
   @JsonProperty("activityEnd")
   private String fieldActivityEnd;
   private ResponseCrop crop;
+
 }

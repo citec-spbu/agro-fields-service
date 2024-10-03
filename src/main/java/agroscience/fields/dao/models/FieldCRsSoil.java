@@ -6,6 +6,7 @@ import agroscience.fields.dao.entities.Field;
 import agroscience.fields.dao.entities.Soil;
 
 public interface FieldCRsSoil {
+
   Field getField();
 
   CropRotation getCropRotation();
@@ -13,4 +14,5 @@ public interface FieldCRsSoil {
   Soil getSoil();
 
   Crop getCrop();
+
 }

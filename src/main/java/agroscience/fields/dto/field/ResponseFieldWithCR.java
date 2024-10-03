@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class ResponseFieldWithCR {
+
   @JsonProperty("id")
   private Long fieldId;
   @JsonProperty("organizationId")
@@ -27,4 +28,5 @@ public class ResponseFieldWithCR {
   @JsonProperty("activityEnd")
   private String fieldActivityEnd;
   private ResponseCRForF cropRotation;
+
 }

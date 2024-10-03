@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CropsService {
+
   private final CropsRepository cropsRepository;
 
   public List<Crop> getCrop(String name, int page, int size) {
@@ -18,4 +19,5 @@ public class CropsService {
             name, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "cropName"))
     );
   }
+
 }

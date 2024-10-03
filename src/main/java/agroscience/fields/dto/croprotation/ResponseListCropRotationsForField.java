@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class ResponseListCropRotationsForField {
+
   List<ResponseCRForF> cropRotations;
   private Long fieldId;
+
 }

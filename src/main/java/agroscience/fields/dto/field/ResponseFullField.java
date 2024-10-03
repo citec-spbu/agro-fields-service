@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class ResponseFullField {
+
   @JsonProperty("id")
   private Long fieldId;
   @JsonProperty("organizationId")
@@ -32,4 +33,5 @@ public class ResponseFullField {
   private ResponseCRForF cropRotation;
   private ResponseSoilForF soil;
   private List<ResponseMeteo> meteoList;
+
 }

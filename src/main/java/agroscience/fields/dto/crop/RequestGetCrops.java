@@ -9,7 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RequestGetCrops extends Page {
+
   @Size(max = 50)
   @JsonProperty("name")
   private String name;
+
 }

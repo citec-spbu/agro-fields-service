@@ -24,6 +24,7 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring",
         uses = {FieldMapper.class, CropRotationMapper.class, CropMapper.class, SoilMapper.class})
 public interface FieldMapper {
+
   @Mapping(target = "fieldActivityStart", source = "request.fieldActivityStart", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "fieldActivityEnd", source = "request.fieldActivityEnd", qualifiedByName = "stringToLocalDate")
   @Mapping(target = "fieldGeom", source = "request.fieldGeom", qualifiedByName = "geom")
@@ -105,4 +106,5 @@ public interface FieldMapper {
       throw new WrongCoordinatesException("Points of polygon do not form a closed linestring");
     }
   }
+
 }

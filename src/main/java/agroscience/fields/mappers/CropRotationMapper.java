@@ -57,4 +57,5 @@ public interface CropRotationMapper {
   @Mapping(target = "field", ignore = true)
   @Mapping(target = "crop", ignore = true)
   void newCRToCR(@MappingTarget CropRotation cropRotation, CropRotation newCropRotation);
+
 }

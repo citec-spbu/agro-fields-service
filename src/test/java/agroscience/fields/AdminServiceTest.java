@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public class AdminServiceTest extends AbstractTest {
+
   @Autowired
   private FieldRepository fieldRepository;
   @Autowired
@@ -98,4 +99,5 @@ public class AdminServiceTest extends AbstractTest {
     assertFalse(CRRepository.existsById(CRId));
 
   }
+
 }

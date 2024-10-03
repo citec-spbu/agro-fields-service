@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class RequestSoil {
+
   @NotNull
   private Long fieldId;
 
@@ -74,4 +75,5 @@ public class RequestSoil {
   @Size(max = 10, message = "Maximum 10 characters")
   @JsonAlias("zn")
   private String soilZn;
+
 }

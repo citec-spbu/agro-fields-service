@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class FieldService {
+
   private final FieldRepository fieldRepository;
   private final FieldMapper fieldMapper;
   private final JbdcDao jbdcFieldDao;
@@ -58,7 +59,8 @@ public class FieldService {
           "http://" + meteoProperties.getHost() + ":" + meteoProperties.getPort() + "/api/v1/meteo/" + id,
           HttpMethod.GET,
           null,
-          new ParameterizedTypeReference<>() {}
+          new ParameterizedTypeReference<>() {
+          }
       );
 
       if (response.getStatusCode().is2xxSuccessful()) {
@@ -140,4 +142,5 @@ public class FieldService {
   public List<CoordinatesWithFieldId> getAllCoordinates() {
     return jbdcFieldDao.getAllCoordinates();
   }
+
 }

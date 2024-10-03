@@ -43,4 +43,5 @@ public class RequestCropRotation implements TimeDTO {
   public String end() {
     return cropRotationEndDate;
   }
+
 }

@@ -12,6 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @Slf4j
 public class PostgreTestContainerConfig {
+
   private static volatile PostgreSQLContainer<?> postgreSQLContainer = null;
 
   private static PostgreSQLContainer<?> getPostgreSQLContainer() {
@@ -32,6 +33,7 @@ public class PostgreTestContainerConfig {
 
   @Component("PostgresInitializer")
   public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
     @Override
     public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
       var postgreSQLContainer = getPostgreSQLContainer();
@@ -41,5 +43,7 @@ public class PostgreTestContainerConfig {
               "POSTGRESQL_PASSWORD: " + postgreSQLContainer.getPassword()
       ).applyTo(configurableApplicationContext.getEnvironment());
     }
+
   }
+
 }

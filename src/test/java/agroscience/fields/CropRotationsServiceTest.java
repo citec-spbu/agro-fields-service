@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public class CropRotationsServiceTest extends AbstractTest {
+
   @Autowired
   private FieldRepository fieldRepository;
   @Autowired
@@ -128,4 +129,5 @@ public class CropRotationsServiceTest extends AbstractTest {
     assertEquals(CRWithField.getCropRotationId(), CRId);
     assertNotEquals(cropId, CRWithField.getCrop().getCropId());
   }
+
 }

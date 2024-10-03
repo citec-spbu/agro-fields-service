@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordinatesDTO {
+
   @NotNull(message = "Must be filled")
   private Double longitude;
   @NotNull(message = "Must be filled")
   private Double latitude;
+
 }

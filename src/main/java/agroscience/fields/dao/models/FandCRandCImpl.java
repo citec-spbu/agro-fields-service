@@ -9,7 +9,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FandCRandCImpl implements FandCRandC {
+
   private final Field field;
   private final CropRotation cropRotation;
   private final Crop crop;
+
 }

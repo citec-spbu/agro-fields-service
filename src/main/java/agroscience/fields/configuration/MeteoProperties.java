@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Data
 @ConfigurationProperties(prefix = "meteo")
 public class MeteoProperties {
+
   private String host;
   private String port;
+
 }

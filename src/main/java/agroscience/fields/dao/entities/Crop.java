@@ -41,4 +41,5 @@ public class Crop {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<CropRotation> cropRotations = new ArrayList<>();
+
 }

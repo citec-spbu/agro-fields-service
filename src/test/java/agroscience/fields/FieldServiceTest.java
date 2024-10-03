@@ -41,6 +41,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 public class FieldServiceTest extends AbstractTest {
+
   @Autowired
   private FieldService fieldService;
   @Autowired

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthoriseService {
+
   private final JwtFilter filter;
 
   /**
@@ -42,4 +43,5 @@ public class AuthoriseService {
     }
     return orgId;
   }
+
 }
