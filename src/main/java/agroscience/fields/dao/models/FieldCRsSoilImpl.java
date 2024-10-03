@@ -11,8 +11,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FieldCRsSoilImpl implements FieldCRsSoil {
-    private final Field field;
-    private final CropRotation cropRotation;
-    private final Soil soil;
-    private final Crop crop;
+
+  private final Field field;
+  private final CropRotation cropRotation;
+  private final Soil soil;
+  private final Crop crop;
+
 }

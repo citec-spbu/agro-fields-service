@@ -6,12 +6,14 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CoordinatesWithFieldId extends CoordinatesDTO{
-    @JsonProperty("id")
-    private final Long fieldId;
+public class CoordinatesWithFieldId extends CoordinatesDTO {
 
-    public CoordinatesWithFieldId(Long fieldId, Double longitude, Double latitude) {
-        super(longitude, latitude);
-        this.fieldId = fieldId;
-    }
+  @JsonProperty("id")
+  private final Long fieldId;
+
+  public CoordinatesWithFieldId(Long fieldId, Double longitude, Double latitude) {
+    super(longitude, latitude);
+    this.fieldId = fieldId;
+  }
+
 }

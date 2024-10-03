@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 public class ResponseFieldName {
-    @JsonProperty("id")
-    private Long fieldId;
-    @JsonAlias("name")
-    private String fieldName;
+
+  @JsonProperty("id")
+  private Long fieldId;
+  @JsonAlias("name")
+  private String fieldName;
+
 }

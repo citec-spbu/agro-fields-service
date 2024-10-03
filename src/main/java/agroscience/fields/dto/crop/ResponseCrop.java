@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ResponseCrop {
-    @JsonProperty("id")
-    private Long cropId;
-    @JsonProperty("name")
-    private String cropName;
+
+  @JsonProperty("id")
+  private Long cropId;
+  @JsonProperty("name")
+  private String cropName;
+
 }

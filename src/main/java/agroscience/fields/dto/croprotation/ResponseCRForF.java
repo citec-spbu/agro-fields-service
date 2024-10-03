@@ -6,13 +6,15 @@ import lombok.Data;
 
 @Data
 public class ResponseCRForF {
-    @JsonProperty("id")
-    private Long cropRotationId;
-    private ResponseCrop crop;
-    @JsonProperty("description")
-    private String cropRotationDescription;
-    @JsonProperty("startDate")
-    private String cropRotationStartDate;
-    @JsonProperty("endDate")
-    private String cropRotationEndDate;
+
+  @JsonProperty("id")
+  private Long cropRotationId;
+  private ResponseCrop crop;
+  @JsonProperty("description")
+  private String cropRotationDescription;
+  @JsonProperty("startDate")
+  private String cropRotationStartDate;
+  @JsonProperty("endDate")
+  private String cropRotationEndDate;
+
 }
