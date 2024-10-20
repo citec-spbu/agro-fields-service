@@ -45,7 +45,8 @@ public class SoilController {
   public ResponseSoil createSoil(@Valid @RequestBody RequestSoil request, HttpServletRequest header) {
     var orgId = auth.doFilter(header, new Role.Builder().organization().worker().build());
     var soil = soilMapper.map(request);
-    return soilMapper.map(soilService.createSoil(orgId, soil, request.getFieldId()));
+    return soilMapper.map(soilService.createSoil(orgId,
+            soil, request.getFieldId()));
   }
 
   @PutMapping
