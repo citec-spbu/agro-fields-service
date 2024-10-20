@@ -1,6 +1,6 @@
 package agroscience.fields.v2.dto.seasons;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Data;
 
@@ -8,8 +8,8 @@ import lombok.Data;
 public class RequestSeasons {
 
   private UUID seasonId;
-  private Date startDate;
-  private Date endDate;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private String description;
   private UUID organizationId;
 

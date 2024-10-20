@@ -1,7 +1,9 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.services.FieldService;
 import agroscience.fields.v2.dto.fields.RequestFieldv2;
 import agroscience.fields.v2.mappers.FieldMapperV2;
+import agroscience.fields.v2.services.FieldsContoursService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +21,14 @@ public class FieldsContoursController {
 
   private final ModelMapper modelMapper;
   private final FieldMapperV2 fieldMapperV2;
+  private final FieldsContoursService fieldService;
 
   @PostMapping
-  public void save(@Valid @RequestBody RequestFieldv2 field) {
+  public String save(@Valid @RequestBody RequestFieldv2 field) {
     //log.info("recive {}",modelMapper.map(field, Fields.class));
     var a = fieldMapperV2.map(field);
-    return;
+    return fieldService.save(a).toString();
+
   }
 
 }
