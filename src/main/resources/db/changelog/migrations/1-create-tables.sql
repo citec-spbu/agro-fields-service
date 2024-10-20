@@ -2,61 +2,164 @@
 
 -- changeset asavershin:createTables
 
-CREATE TABLE if not exists fields
+CREATE TABLE if not exists crop
 (
-    field_id bigserial PRIMARY KEY,
-    field_name VARCHAR (100) NOT NULL,
-    field_description VARCHAR (256),
-    FOREIGN KEY (season_id) REFERENCES seasons (season_id)
+    crop_id
+    bigserial
+    PRIMARY
+    KEY,
+    crop_name
+    VARCHAR
+(
+    50
+) NOT NULL UNIQUE
     );
 
-CREATE TABLE if not exists crop_rotations
+CREATE TABLE if not exists field
 (
-    crop_rotation_id BIGSERIAL PRIMARY KEY,
-    FOREIGN KEY (contour_id) REFERENCES contours (contour_id),
-    crop_rotation_start_date DATE NOT NULL,
-    crop_rotation_end_date DATE NOT NULL,
-    crop_rotation_culture VARCHAR (20),
-    crop_rotation_cultivar VARCHAR (20),
-    crop_rotation_description VARCHAR (256)
+    field_id
+    bigserial
+    PRIMARY
+    KEY,
+    field_name
+    VARCHAR
+(
+    100
+) NOT NULL,
+    field_square_area VARCHAR
+(
+    40
+) NOT NULL,
+    field_geom GEOMETRY NOT NULL,
+    field_description VARCHAR
+(
+    256
+),
+    field_color VARCHAR
+(
+    6
+) NOT NULL,
+    field_activity_start DATE,
+    field_activity_end DATE,
+    field_organization_id INTEGER NOT NULL
     );
 
-CREATE TABLE if not exists soil_compositions
+CREATE TABLE if not exists crop_rotation
 (
-    soil_composition_id bigserial PRIMARY KEY,
-    FOREIGN KEY (contour_id) REFERENCES contours (contour_id),
-    soil_composition_ph VARCHAR (10),
-    soil_composition_sample_date DATE NOT NULL,
-    soil_composition_organic_matter VARCHAR (10),
-    soil_composition_mobile_p VARCHAR (10),
-    soil_composition_mobile_k VARCHAR (10),
-    soil_composition_mobile_s VARCHAR (10),
-    soil_composition_nitrate_n VARCHAR (10),
-    soil_composition_ammonium_n VARCHAR (10),
-    soil_composition_hydrolytic_acidity VARCHAR (10),
-    soil_composition_ca_exchange VARCHAR (10),
-    soil_composition_mg_exchange VARCHAR (10),
-    soil_composition_b VARCHAR (10),
-    soil_composition_co VARCHAR (10),
-    soil_composition_mn VARCHAR (10),
-    soil_composition_zn VARCHAR (10),
+    crop_rotation_id
+    BIGSERIAL
+    PRIMARY
+    KEY,
+    field_id
+    bigint
+    NOT
+    NULL,
+    crop_id
+    bigint
+    NOT
+    NULL,
+    crop_rotation_start_date
+    DATE
+    NOT
+    NULL,
+    crop_rotation_end_date
+    DATE
+    NOT
+    NULL,
+    crop_rotation_description
+    VARCHAR
+(
+    256
+),
+    FOREIGN KEY
+(
+    field_id
+) REFERENCES field
+(
+    field_id
+),
+    FOREIGN KEY
+(
+    crop_id
+) REFERENCES crop
+(
+    crop_id
+)
     );
 
-CREATE TABLE IF NOT EXISTS contours
+CREATE TABLE if not exists soil
 (
-    contour_id bigserial PRIMARY KEY,
-    contour_square_area VARCHAR (40) NOT NULL,
-    contour_geom GEOMETRY NOT NULL,
-    contour_description VARCHAR (256),
-    countour_color VARCHAR (6) NOT NULL,
-    FOREIGN KEY (field_id) REFERENCES fields (field_id)
-    );
-
-CREATE TABLE IF NOT EXISTS seasons
+    soil_id
+    bigserial
+    PRIMARY
+    KEY,
+    field_id
+    bigint
+    NOT
+    NULL,
+    soil_ph
+    VARCHAR
 (
-    season_id bigserial PRIMARY KEY,
-    season_start_date DATE NOT NULL,
-    season_end_date DATE NOT NULL,
-    season_description VARCHAR (256),
-    organization_id bigserial
+    10
+),
+    soil_sample_date DATE NOT NULL,
+    soil_organic_matter VARCHAR
+(
+    10
+),
+    soil_mobile_p VARCHAR
+(
+    10
+),
+    soil_mobile_k VARCHAR
+(
+    10
+),
+    soil_mobile_s VARCHAR
+(
+    10
+),
+    soil_nitrate_n VARCHAR
+(
+    10
+),
+    soil_ammonium_n VARCHAR
+(
+    10
+),
+    soil_hydrolytic_acidity VARCHAR
+(
+    10
+),
+    soil_ca_exchange VARCHAR
+(
+    10
+),
+    soil_mg_exchange VARCHAR
+(
+    10
+),
+    soil_b VARCHAR
+(
+    10
+),
+    soil_co VARCHAR
+(
+    10
+),
+    soil_mn VARCHAR
+(
+    10
+),
+    soil_zn VARCHAR
+(
+    10
+),
+    FOREIGN KEY
+(
+    field_id
+) REFERENCES field
+(
+    field_id
+)
     );
