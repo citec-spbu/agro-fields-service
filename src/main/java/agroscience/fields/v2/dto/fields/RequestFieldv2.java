@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RequestField {
+public class RequestFieldv2 {
   private String name;
   private String seasonId;
   private List<RequestContour> contours;

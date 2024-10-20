@@ -1,7 +1,10 @@
 package agroscience.fields.v2.services;
 
+import agroscience.fields.v2.entities.Contours;
 import agroscience.fields.v2.entities.Fields;
 import agroscience.fields.v2.entities.Seasons;
+import agroscience.fields.v2.repositories.ContoursRepository;
+import agroscience.fields.v2.repositories.FieldsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +20,5 @@ public class FieldsContoursService {
   public void save(Fields field, Contours contour) {
     fieldsRepository.save(field);
     contoursRepository.save(contour);
-  }
-
-  public List<Seasons> getAll(UUID organization_id) {
-    return seasonsRepository.getAllByOrganizationId(organization_id);
   }
 }

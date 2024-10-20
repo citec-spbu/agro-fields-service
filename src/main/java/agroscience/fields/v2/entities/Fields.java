@@ -1,21 +1,9 @@
 package agroscience.fields.v2.entities;
 
-import agroscience.fields.dao.entities.Field;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -35,12 +23,15 @@ public class Fields {
   @Column(name = "field_description")
   private String fieldDescription;
 
-  @Column(name = "season_id")
-  private UUID seasonId;
-
   @JoinColumn(name = "season_id", referencedColumnName = "season_id", nullable = false)
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Seasons season;
+
+  @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+          fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private List<Contours>  contours;
 }

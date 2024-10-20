@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,10 +32,10 @@ public class Seasons {
     private UUID seasonId;
 
     @Column(name = "season_start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "season_end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "season_description")
     private String description;
