@@ -1,35 +1,36 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.dto.soil.RequestSoil;
-import agroscience.fields.security.AuthoriseService;
-import agroscience.fields.security.Role;
 import agroscience.fields.v2.dto.seasons.RequestSeasons;
-import agroscience.fields.v2.entities.Seasons;
+import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.services.SeasonsService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v2/fields/seasons")
 public class SeasonsController {
-    private final SeasonsService seasonsService;
-    private final ModelMapper modelMapper;
 
-    @PostMapping
-    public void save(@Valid @RequestBody RequestSeasons request) {
-        var season = modelMapper.map(request, Seasons.class);
-        seasonsService.save(season);
-    }
+  private final SeasonsService seasonsService;
+  private final ModelMapper modelMapper;
 
-    @GetMapping
-    public List<Seasons> getAll(String orgId) {
-        return seasonsService.getAll(UUID.fromString(orgId));
-    }
+  @PostMapping
+  public void save(@Valid @RequestBody RequestSeasons request) {
+    var season = modelMapper.map(request, Season.class);
+    seasonsService.save(season);
+  }
+
+  @GetMapping
+  public List<Season> getAll(String orgId) {
+    return seasonsService.getAll(UUID.fromString(orgId));
+  }
+
 }
