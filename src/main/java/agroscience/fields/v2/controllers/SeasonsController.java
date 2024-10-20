@@ -29,7 +29,7 @@ public class SeasonsController {
     }
 
     @GetMapping
-    public List<Seasons> getAll(UUID orgId) {
-        return seasonsService.getAll(orgId);
+    public List<Seasons> getAll(String orgId) {
+        return seasonsService.getAll(UUID.fromString(orgId));
     }
 }

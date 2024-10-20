@@ -1,9 +1,9 @@
 package agroscience.fields.v2.dto.seasons;
 
-import lombok.Data;
-
 import java.util.Date;
 import java.util.UUID;
+
+import lombok.Data;
 
 @Data
 public class RequestSeasons {
