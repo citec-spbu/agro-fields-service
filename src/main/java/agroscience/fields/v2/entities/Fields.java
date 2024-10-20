@@ -23,11 +23,8 @@ public class Fields {
   @Column(name = "field_description")
   private String fieldDescription;
 
-  @JoinColumn(name = "season_id", referencedColumnName = "season_id", nullable = false)
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  private Seasons season;
+  @Column(name = "season_id")
+  private UUID seasonId;
 
   @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
           fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет
