@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class RequestContour {
 
-  private String fieldColor;
-  private String fieldSquareArea;
+  private String contourColor;
+  private String contourSquareArea;
   private List<CoordinatesDTO> coordinates;
 
 }

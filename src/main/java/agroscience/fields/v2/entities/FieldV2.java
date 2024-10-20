@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "seasons")
+@Table(name = "fields")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

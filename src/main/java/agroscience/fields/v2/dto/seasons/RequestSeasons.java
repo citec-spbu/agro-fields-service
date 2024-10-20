@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class RequestSeasons {
 
-  private UUID seasonId;
   private LocalDate startDate;
   private LocalDate endDate;
   private String description;

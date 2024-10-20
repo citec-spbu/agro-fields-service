@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS contours
     contour_square_area VARCHAR (40) NOT NULL,
     contour_geom GEOMETRY NOT NULL,
     contour_description VARCHAR (256),
-    countour_color VARCHAR (6) NOT NULL,
-    field_id uuid,
+    contour_color VARCHAR (6) NOT NULL,
+    field_id uuid not null,
     FOREIGN KEY (field_id) REFERENCES fields (field_id)
     );
 

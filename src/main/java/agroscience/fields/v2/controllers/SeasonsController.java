@@ -23,9 +23,9 @@ public class SeasonsController {
   private final ModelMapper modelMapper;
 
   @PostMapping
-  public void save(@Valid @RequestBody RequestSeasons request) {
+  public String save(@Valid @RequestBody RequestSeasons request) {
     var season = modelMapper.map(request, Season.class);
-    seasonsService.save(season);
+    return seasonsService.save(season).toString();
   }
 
   @GetMapping
