@@ -10,6 +10,5 @@ public class RequestSeasons {
   private LocalDate startDate;
   private LocalDate endDate;
   private String description;
-  private UUID organizationId;
 
 }

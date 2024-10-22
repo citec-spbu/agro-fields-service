@@ -2,12 +2,14 @@ package agroscience.fields.v2.controllers;
 
 import agroscience.fields.v2.dto.seasons.RequestSeasons;
 import agroscience.fields.v2.entities.Season;
+import agroscience.fields.v2.security.TokenUserContext;
 import agroscience.fields.v2.services.SeasonsService;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,14 +25,20 @@ public class SeasonsController {
   private final ModelMapper modelMapper;
 
   @PostMapping
-  public String save(@Valid @RequestBody RequestSeasons request) {
+  @PreAuthorize("hasRole('organization') or hasRole('worker')")
+  public String save(
+          final @AuthenticationPrincipal TokenUserContext token,
+          @Valid @RequestBody RequestSeasons request
+  ) {
     var season = modelMapper.map(request, Season.class);
+    season.setOrganizationId(token.orgId());
     return seasonsService.save(season).toString();
   }
 
   @GetMapping
-  public List<Season> getAll(String orgId) {
-    return seasonsService.getAll(UUID.fromString(orgId));
+  @PreAuthorize("hasRole('organization') or hasRole('worker')")
+  public List<Season> getAll(final @AuthenticationPrincipal TokenUserContext token) {
+    return seasonsService.getAll(token.orgId());
   }
 
 }
