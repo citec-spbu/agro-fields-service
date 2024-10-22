@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/fields")
 @RequiredArgsConstructor
 @SecurityRequirements
+@Deprecated
 public class FieldController {
 
   private final FieldService fieldService;

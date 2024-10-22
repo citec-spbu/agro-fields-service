@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/fields/crop-rotations")
 @SecurityRequirements
+@Deprecated
 public class CropRotationsController {
 
   private final CropRotationsService crService;

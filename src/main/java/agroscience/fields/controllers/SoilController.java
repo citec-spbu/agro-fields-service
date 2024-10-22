@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/fields/soil")
 @SecurityRequirements
+@Deprecated
 public class SoilController {
 
   private final SoilService soilService;

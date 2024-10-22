@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/admin")
 @SecurityRequirements
+@Deprecated
 public class AdminController {
 
   private final AdminService cropsService;
