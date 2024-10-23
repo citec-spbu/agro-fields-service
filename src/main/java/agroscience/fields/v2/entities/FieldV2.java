@@ -26,10 +26,10 @@ public class FieldV2 {
   private UUID fieldId;
 
   @Column(name = "field_name")
-  private String fieldName;
+  private String name;
 
   @Column(name = "field_description")
-  private String fieldDescription;
+  private String description;
 
   @Column(name = "season_id")
   private UUID seasonId;
@@ -38,5 +38,5 @@ public class FieldV2 {
           fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  private List<Contour>  contours;
+  private List<Contour> contours;
 }

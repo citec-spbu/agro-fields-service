@@ -6,7 +6,6 @@ import agroscience.fields.v2.services.FieldsContoursService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,17 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FieldsContoursController {
 
-  private final ModelMapper modelMapper;
   private final FieldMapperV2 fieldMapperV2;
   private final FieldsContoursService fieldService;
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
   public String save(@Valid @RequestBody RequestFieldv2 field) {
-    //log.info("recive {}",modelMapper.map(field, Fields.class));
     var a = fieldMapperV2.map(field);
     return fieldService.save(a).toString();
-
   }
 
 }
