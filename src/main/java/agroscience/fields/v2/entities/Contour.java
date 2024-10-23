@@ -23,16 +23,16 @@ public class Contour {
   @Column(name = "contour_id")
   private UUID contourId;
 
-  @Column(name = "contour_square_area", length = 40, nullable = false)
+  @Column(name = "square_area", length = 40, nullable = false)
   private String squareArea;
 
-  @Column(name = "contour_geom", nullable = false, columnDefinition = "geometry(Geometry,0)")
-  private Geometry contourGeom; // Тип Geometry для хранения геометрических данных
+  @Column(name = "geom", nullable = false, columnDefinition = "geometry(Geometry,0)")
+  private Geometry geom; // Тип Geometry для хранения геометрических данных
 
-  @Column(name = "contour_description", length = 256)
+  @Column(name = "description", length = 256)
   private String description;
 
-  @Column(name = "contour_color", length = 6, nullable = false)
+  @Column(name = "color", length = 6, nullable = false)
   private String color;
 
   @ManyToOne

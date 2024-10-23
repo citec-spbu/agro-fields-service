@@ -25,48 +25,48 @@ public class SoilComposition {
   @Column(name = "contour_id")
   private UUID contourId;
 
-  @Column(name = "soil_composition_ph")
+  @Column(name = "ph")
   private String ph;
 
-  @Column(name = "soil_composition_sample_date")
+  @Column(name = "sample_date")
   private LocalDate sampleDate;
 
-  @Column(name = "soil_composition_organic_matter")
+  @Column(name = "organic_matter")
   private String organicMatter;
 
-  @Column(name = "soil_composition_mobile_p")
+  @Column(name = "mobile_p")
   private String mobileP;
 
-  @Column(name = "soil_composition_mobile_k")
+  @Column(name = "mobile_k")
   private String mobileK;
 
-  @Column(name = "soil_composition_mobile_s")
+  @Column(name = "mobile_s")
   private String mobileS;
 
-  @Column(name = "soil_composition_nitrate_n")
+  @Column(name = "nitrate_n")
   private String nitrateN;
 
-  @Column(name = "soil_composition_ammonium_n")
+  @Column(name = "ammonium_n")
   private String ammoniumN;
 
-  @Column(name = "soil_composition_hydrolytic_acidity")
+  @Column(name = "hydrolytic_acidity")
   private String hydrolyticAcidity;
 
-  @Column(name = "soil_composition_ca_exchange")
+  @Column(name = "ca_exchange")
   private String caExchange;
 
-  @Column(name = "soil_composition_mg_exchange")
+  @Column(name = "mg_exchange")
   private String mgExchange;
 
-  @Column(name = "soil_composition_b")
+  @Column(name = "b")
   private String b;
 
-  @Column(name = "soil_composition_co")
+  @Column(name = "co")
   private String co;
 
-  @Column(name = "soil_composition_mn")
+  @Column(name = "mn")
   private String mn;
 
-  @Column(name = "soil_composition_zn")
+  @Column(name = "zn")
   private String zn;
 }

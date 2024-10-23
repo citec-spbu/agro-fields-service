@@ -25,10 +25,10 @@ public class FieldV2 {
   @Column(name = "field_id")
   private UUID fieldId;
 
-  @Column(name = "field_name")
+  @Column(name = "name")
   private String name;
 
-  @Column(name = "field_description")
+  @Column(name = "description")
   private String description;
 
   @Column(name = "season_id")

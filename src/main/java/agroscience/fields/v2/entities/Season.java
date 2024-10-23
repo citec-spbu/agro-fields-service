@@ -21,13 +21,13 @@ public class Season {
   @Column(name = "season_id")
   private UUID seasonId;
 
-  @Column(name = "season_start_date")
+  @Column(name = "start_date")
   private LocalDate startDate;
 
-  @Column(name = "season_end_date")
+  @Column(name = "end_date")
   private LocalDate endDate;
 
-  @Column(name = "season_description")
+  @Column(name = "description")
   private String description;
 
   @Column(name = "organization_id")

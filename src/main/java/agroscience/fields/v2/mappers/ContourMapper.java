@@ -15,7 +15,7 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface ContourMapper {
 
-  @Mapping(target = "contourGeom", source = "request.coordinates", qualifiedByName = "mapGeom")
+  @Mapping(target = "geom", source = "request.coordinates", qualifiedByName = "mapGeom")
   Contour map(RequestContour request);
 
   @Named("mapGeom")
