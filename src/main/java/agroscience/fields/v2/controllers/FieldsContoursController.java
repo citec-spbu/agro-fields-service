@@ -23,6 +23,7 @@ public class FieldsContoursController {
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
+  // TODO Return json, not string. Use dto
   public String save(@Valid @RequestBody RequestFieldv2 field) {
     var a = fieldMapperV2.map(field);
     return fieldService.save(a).toString();

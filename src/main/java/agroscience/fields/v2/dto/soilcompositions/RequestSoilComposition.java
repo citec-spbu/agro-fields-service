@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @SuppressWarnings("MemberName")
-public class RequestSoilComposition {
+public class RequestSoilComposition { // TODO Add contour_id
 
   private String ph;
   private LocalDate sampleDate;

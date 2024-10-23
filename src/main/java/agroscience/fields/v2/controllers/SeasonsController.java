@@ -26,6 +26,7 @@ public class SeasonsController {
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
+  // TODO Return json, not string. Use dto
   public String save(
           final @AuthenticationPrincipal TokenUserContext token,
           @Valid @RequestBody RequestSeasons request

@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v2/fields/soilCompositions")
+@RequestMapping(path = "api/v2/fields/soilCompositions") // TODO Replace with api/v2/fields/soil-compositions
 public class SoilCompositionsController {
 
   private final SoilCompositionMapper soilCompositionMapper;
   private final SoilCompositionsService soilCompositionsService;
 
   @PostMapping
+  // TODO Use @PreAuthorize("hasRole('organization') or hasRole('worker')")
+  // TODO Return json, not string. Use dto
   public String save(@Valid @RequestBody RequestSoilComposition requestSoilComposition) {
-    var a = soilCompositionMapper.map(requestSoilComposition);
+    var a = soilCompositionMapper.map(requestSoilComposition); //TODO Use model mapper
     return soilCompositionsService.save(a).toString();
   }
 
