@@ -17,56 +17,55 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SoilComposition {
 
-  @Id
-  @Column(name = "id")
-  private UUID soilCompositionId;
+    @Id
+    @Column(name = "id")
+    private UUID soilCompositionId;
 
-  @Column(name = "contour_id")
-  private UUID contourId;
+    @Column(name = "contour_id")
+    private UUID contourId;
 
-  @Column(name = "ph")
-  private String soilCompositionPh;
+    @Column(name = "ph")
+    private String ph;
 
-  @Column(name = "sample_date")
-  private LocalDate soilCompositionSampleDate;
+    @Column(name = "sample_date")
+    private LocalDate sampleDate;
 
-  @Column(name = "organic_matter")
-  private String soilCompositionOrganicMatter;
+    @Column(name = "organic_matter")
+    private String organicMatter;
 
-  @Column(name = "mobile_p")
-  private String soilCompositionMobileP;
+    @Column(name = "mobile_p")
+    private String mobileP;
 
-  @Column(name = "mobile_k")
-  private String soilCompositionMobileK;
+    @Column(name = "mobile_k")
+    private String mobileK;
 
-  @Column(name = "mobile_s")
-  private String soilCompositionMobileS;
+    @Column(name = "mobile_s")
+    private String mobileS;
 
-  @Column(name = "nitrate_n")
-  private String soilCompositionNitrateN;
+    @Column(name = "nitrate_n")
+    private String nitrateN;
 
-  @Column(name = "ammonium_n")
-  private String soilCompositionAmmoniumN;
+    @Column(name = "ammonium_n")
+    private String ammoniumN;
 
-  @Column(name = "hydrolytic_acidity")
-  private String soilCompositionHydrolyticAcidity;
+    @Column(name = "hydrolytic_acidity")
+    private String hydrolyticAcidity;
 
-  @Column(name = "ca_exchange")
-  private String soilCompositionCaExchange;
+    @Column(name = "ca_exchange")
+    private String caExchange;
 
-  @Column(name = "mg_exchange")
-  private String soilCompositionMgExchange;
+    @Column(name = "mg_exchange")
+    private String mgExchange;
 
-  @Column(name = "b")
-  private String soilCompositionB;
+    @Column(name = "b")
+    private String b;
 
-  @Column(name = "co")
-  private String soilCompositionCo;
+    @Column(name = "co")
+    private String co;
 
-  @Column(name = "mn")
-  private String soilCompositionMn;
+    @Column(name = "mn")
+    private String mn;
 
-  @Column(name = "zn")
-  private String soilCompositionZn;
-
+    @Column(name = "zn")
+    private String zn;
 }

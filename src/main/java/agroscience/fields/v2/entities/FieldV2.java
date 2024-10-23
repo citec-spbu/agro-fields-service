@@ -38,5 +38,5 @@ public class FieldV2 {
           fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  private List<Contour> contours;
+  private List<Contour>  contours;
 }
