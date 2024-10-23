@@ -9,6 +9,6 @@ public class RequestContour {
 
   private String contourColor;
   private String contourSquareArea;
-  private List<CoordinatesDTO> coordinates;
+  private List<CoordinatesDTO> contourCoordinates;
 
 }
