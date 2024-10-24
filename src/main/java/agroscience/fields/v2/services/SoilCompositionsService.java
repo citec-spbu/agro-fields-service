@@ -2,7 +2,10 @@ package agroscience.fields.v2.services;
 
 import agroscience.fields.v2.entities.SoilComposition;
 import agroscience.fields.v2.repositories.SoilCompositionsRepository;
+
 import java.util.UUID;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +21,9 @@ public class SoilCompositionsService {
     soilComposition.setSoilCompositionId(soilCompositionId);
     return soilCompositionsRepository.save(soilComposition);
   }
-
-  public SoilComposition getSoilComposition(UUID soilCompositionId){
-    return soilCompositionsRepository.getReferenceById(soilCompositionId);
+  public SoilComposition findById(UUID soilCompositionId) {
+    return soilCompositionsRepository.findById(soilCompositionId)
+            .orElseThrow(() -> new EntityNotFoundException("SoilComposition not found"));
   }
 
 }
