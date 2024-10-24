@@ -19,4 +19,8 @@ public class SoilCompositionsService {
     return soilCompositionsRepository.save(soilComposition);
   }
 
+  public SoilComposition getSoilComposition(UUID soilCompositionId){
+    return soilCompositionsRepository.getReferenceById(soilCompositionId);
+  }
+
 }
