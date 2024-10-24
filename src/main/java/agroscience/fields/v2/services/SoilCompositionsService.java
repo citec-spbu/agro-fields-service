@@ -13,11 +13,10 @@ public class SoilCompositionsService {
 
   private final SoilCompositionsRepository soilCompositionsRepository;
 
-  public UUID save(SoilComposition soilComposition) {
+  public SoilComposition save(SoilComposition soilComposition) {
     var soilCompositionId = UUID.randomUUID();
     soilComposition.setSoilCompositionId(soilCompositionId);
-    soilCompositionsRepository.save(soilComposition);
-    return soilCompositionId;
+    return soilCompositionsRepository.save(soilComposition);
   }
 
 }
