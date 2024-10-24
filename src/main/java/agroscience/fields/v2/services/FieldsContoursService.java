@@ -14,15 +14,14 @@ public class FieldsContoursService {
   private final FieldsRepository fieldsRepository;
   private final ContoursRepository contoursRepository;
 
-  public UUID save(FieldV2 field) {
+  public FieldV2 save(FieldV2 field) {
     var fieldId = UUID.randomUUID();
     field.setFieldId(fieldId);
     field.getContours().forEach(c -> {
       c.setContourId(UUID.randomUUID());
       c.setField(field);
     });
-    fieldsRepository.save(field); // try ... catch
-    return fieldId;
+    return fieldsRepository.save(field); // try ... catch
   }
 
 }

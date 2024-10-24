@@ -1,6 +1,7 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.dto.seasons.RequestSeasons;
+import agroscience.fields.v2.dto.seasons.RequestSeason;
+import agroscience.fields.v2.dto.seasons.ResponseSeason;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.security.TokenUserContext;
 import agroscience.fields.v2.services.SeasonsService;
@@ -26,14 +27,14 @@ public class SeasonsController {
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  // TODO Return json, not string. Use dto
-  public String save(
+  public ResponseSeason save(
           final @AuthenticationPrincipal TokenUserContext token,
-          @Valid @RequestBody RequestSeasons request
+          @Valid @RequestBody RequestSeason request
   ) {
     var season = modelMapper.map(request, Season.class);
     season.setOrganizationId(token.orgId());
-    return seasonsService.save(season).toString();
+    var seasonEntity = seasonsService.save(season);
+    return modelMapper.map(seasonEntity, ResponseSeason.class);
   }
 
   @GetMapping

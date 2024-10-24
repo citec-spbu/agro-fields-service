@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class RequestSeasons {
+public class RequestSeason {
 
   private LocalDate startDate;
   private LocalDate endDate;

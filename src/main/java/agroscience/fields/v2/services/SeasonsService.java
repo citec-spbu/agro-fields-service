@@ -13,11 +13,10 @@ public class SeasonsService {
 
   private final SeasonsRepository seasonsRepository;
 
-  public UUID save(Season season) {
+  public Season save(Season season) {
     var seasonId = UUID.randomUUID();
     season.setSeasonId(seasonId);
-    seasonsRepository.save(season);
-    return seasonId;
+    return seasonsRepository.save(season);
   }
 
   public List<Season> getAll(UUID organizationId) {

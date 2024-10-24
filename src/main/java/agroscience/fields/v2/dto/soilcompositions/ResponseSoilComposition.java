@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseSoilComposition {
 
-    private String soilCompositionId;
+  private String soilCompositionId;
 
 }
