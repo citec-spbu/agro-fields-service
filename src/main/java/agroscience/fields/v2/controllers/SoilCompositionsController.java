@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v2/fields/soilCompositions") // TODO Replace with api/v2/fields/soil-compositions
+@RequestMapping(path = "api/v2/fields/soil-compositions")
 public class SoilCompositionsController {
 
   private final ModelMapper modelMapper;
