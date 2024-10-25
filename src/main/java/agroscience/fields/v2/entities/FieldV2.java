@@ -21,6 +21,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FieldV2 {
+
   @Id
   @Column(name = "field_id")
   private UUID fieldId;
@@ -39,4 +40,5 @@ public class FieldV2 {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<Contour> contours;
+
 }

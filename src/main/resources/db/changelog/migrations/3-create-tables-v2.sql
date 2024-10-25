@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS seasons
   start_date      DATE NOT NULL,
   end_date        DATE NOT NULL,
   description     VARCHAR(256),
-  organization_id uuid
+  organization_id uuid NOT NULL
 );
 
 CREATE TABLE if not exists fields
@@ -16,7 +16,7 @@ CREATE TABLE if not exists fields
   field_id    uuid PRIMARY KEY,
   name        VARCHAR(100) NOT NULL,
   description VARCHAR(256),
-  season_id   uuid,
+  season_id   uuid         NOT NULL,
   FOREIGN KEY (season_id) REFERENCES seasons (season_id)
 );
 
@@ -27,14 +27,14 @@ CREATE TABLE IF NOT EXISTS contours
   geom        GEOMETRY    NOT NULL,
   description VARCHAR(256),
   color       VARCHAR(6)  NOT NULL,
-  field_id    uuid        not null,
+  field_id    uuid        NOT NULL,
   FOREIGN KEY (field_id) REFERENCES fields (field_id)
 );
 
 CREATE TABLE if not exists crop_rotations
 (
   crop_rotation_id uuid PRIMARY KEY,
-  contour_id       uuid,
+  contour_id       uuid NOT NULL,
   FOREIGN KEY (contour_id) REFERENCES contours (contour_id),
   start_date       DATE NOT NULL,
   end_date         DATE NOT NULL,

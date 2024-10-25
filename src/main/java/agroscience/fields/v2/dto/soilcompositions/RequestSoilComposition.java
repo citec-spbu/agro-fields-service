@@ -1,9 +1,8 @@
 package agroscience.fields.v2.dto.soilcompositions;
 
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-
 import java.time.LocalDate;
+import lombok.Data;
 
 @Data
 @SuppressWarnings("MemberName")
