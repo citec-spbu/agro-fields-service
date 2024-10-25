@@ -3,7 +3,6 @@ package agroscience.fields.v2.services;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
