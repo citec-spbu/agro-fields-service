@@ -29,9 +29,6 @@ public class Contour {
   @Column(name = "geom", nullable = false, columnDefinition = "geometry(Geometry,0)")
   private Geometry geom; // Тип Geometry для хранения геометрических данных
 
-  @Column(name = "description", length = 256)
-  private String description;
-
   @Column(name = "color", length = 6, nullable = false)
   private String color;
 
