@@ -1,4 +1,4 @@
-package agroscience.fields.v2.dto.seasons;
+package agroscience.fields.v2.dto;
 
 import java.time.LocalDate;
 import lombok.Data;

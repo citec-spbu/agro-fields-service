@@ -1,7 +1,7 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.dto.croprotation.RequestCropRotationV2;
-import agroscience.fields.v2.dto.croprotation.ResponseCropRotationV2;
+import agroscience.fields.v2.dto.CropRotationV2DTO;
+import agroscience.fields.v2.dto.IdDTO;
 import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.services.CropRotationServiceV2;
 import jakarta.validation.Valid;
@@ -27,13 +27,13 @@ public class CropRotationsControllerV2 {
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public ResponseCropRotationV2 save(@Valid @RequestBody RequestCropRotationV2 requestCropRotation) {
+  public IdDTO save(@Valid @RequestBody CropRotationV2DTO requestCropRotation) {
     var cropRotation = modelMapper.map(requestCropRotation, CropRotationV2.class);
     var cropRotationEntity = cropRotationService.save(cropRotation);
-    return modelMapper.map(cropRotationEntity, ResponseCropRotationV2.class);
+    return new IdDTO(cropRotationEntity.getCropRotationId().toString());
   }
 
-  @GetMapping()
+  @GetMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
   public CropRotationV2 get(@Valid UUID cropRotationId) {
     return cropRotationService.getCropRotation(cropRotationId);

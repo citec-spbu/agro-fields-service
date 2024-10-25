@@ -1,15 +1,21 @@
 package agroscience.fields.v2.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.locationtech.jts.geom.Geometry;
 
 @Entity
@@ -35,5 +41,17 @@ public class Contour {
   @ManyToOne
   @JoinColumn(name = "field_id")
   private FieldV2 field;
+
+  @OneToMany(mappedBy = "contour", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+          orphanRemoval = true)
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private List<CropRotationV2> cropRotations;
+
+  @OneToMany(mappedBy = "contour", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+          orphanRemoval = true)
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private List<SoilComposition> soilCompositions;
 
 }

@@ -1,7 +1,7 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.dto.seasons.RequestSeason;
-import agroscience.fields.v2.dto.seasons.ResponseSeason;
+import agroscience.fields.v2.dto.IdDTO;
+import agroscience.fields.v2.dto.RequestSeason;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.security.TokenUserContext;
 import agroscience.fields.v2.services.SeasonsService;
@@ -27,14 +27,14 @@ public class SeasonsController {
 
   @PostMapping
   @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public ResponseSeason save(
+  public IdDTO save(
           final @AuthenticationPrincipal TokenUserContext token,
           @Valid @RequestBody RequestSeason request
   ) {
     var season = modelMapper.map(request, Season.class);
     season.setOrganizationId(token.orgId());
     var seasonEntity = seasonsService.save(season);
-    return modelMapper.map(seasonEntity, ResponseSeason.class);
+    return new IdDTO(seasonEntity.getSeasonId().toString());
   }
 
   @GetMapping

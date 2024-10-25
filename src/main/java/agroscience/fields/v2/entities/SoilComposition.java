@@ -3,6 +3,8 @@ package agroscience.fields.v2.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -21,9 +23,6 @@ public class SoilComposition {
   @Id
   @Column(name = "soil_composition_id")
   private UUID soilCompositionId;
-
-  @Column(name = "contour_id")
-  private UUID contourId;
 
   @Column(name = "ph")
   private String ph;
@@ -69,4 +68,9 @@ public class SoilComposition {
 
   @Column(name = "zn")
   private String zn;
+
+  @ManyToOne
+  @JoinColumn(name = "contour_id")
+  private Contour contour;
+
 }
