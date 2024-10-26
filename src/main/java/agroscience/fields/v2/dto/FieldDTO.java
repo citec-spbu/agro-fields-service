@@ -1,6 +1,5 @@
 package agroscience.fields.v2.dto;
 
-import agroscience.fields.v2.dto.ContourDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;

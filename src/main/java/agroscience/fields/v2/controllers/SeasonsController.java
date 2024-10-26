@@ -1,46 +1,35 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.dto.IdDTO;
-import agroscience.fields.v2.dto.RequestSeason;
 import agroscience.fields.v2.entities.Season;
-import agroscience.fields.v2.security.TokenUserContext;
+import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.services.SeasonsService;
-import jakarta.validation.Valid;
+import generated.agroscience.fields.api.SeasonApi;
+import generated.agroscience.fields.api.model.IdDTO;
+import generated.agroscience.fields.api.model.SeasonDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v2/fields/seasons")
-public class SeasonsController {
+@PreAuthorize("hasRole('organization') or hasRole('worker')")
+public class SeasonsController implements SeasonApi, SecurityController {
 
   private final SeasonsService seasonsService;
-  private final ModelMapper modelMapper;
+  private final SeasonMapper seasonsMapper;
 
-  @PostMapping
-  @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public IdDTO save(
-          final @AuthenticationPrincipal TokenUserContext token,
-          @Valid @RequestBody RequestSeason request
-  ) {
-    var season = modelMapper.map(request, Season.class);
-    season.setOrganizationId(token.orgId());
-    var seasonEntity = seasonsService.save(season);
-    return new IdDTO(seasonEntity.getSeasonId().toString());
+  @Override
+  public List<SeasonDTO> findSeasons() {
+    return seasonsMapper.map(seasonsService.getAll(token().orgId()));
   }
 
-  @GetMapping
-  @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public List<Season> getAll(final @AuthenticationPrincipal TokenUserContext token) {
-    return seasonsService.getAll(token.orgId());
+  @Override
+  public IdDTO saveSeason(SeasonDTO seasonDTO) {
+    Season season = seasonsMapper.map(seasonDTO);
+    season.setOrganizationId(token().orgId());
+    var seasonEntity = seasonsService.save(season);
+    return new IdDTO(seasonEntity.getSeasonId());
   }
 
 }

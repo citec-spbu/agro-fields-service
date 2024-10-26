@@ -1,0 +1,474 @@
+openapi: 3.0.3
+info:
+  title: Seasons API
+  version: 2.0.0
+  description: API for managing fields and seasons
+security:
+  - bearer-key: []
+paths:
+  /api/v2/fields/seasons:
+    post:
+      tags:
+        - Season
+      operationId: saveSeason
+      summary: Create a new season
+      security:
+        - bearer-key: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeasonDTO'
+      responses:
+        '200':
+          description: Season ID created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDTO'
+    get:
+      tags:
+        - Season
+      operationId: findSeasons
+      summary: Get all seasons for the organization
+      security:
+        - bearer-key: []
+      responses:
+        '200':
+          description: List of seasons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeasonDTO'
+
+  /api/v2/fields/contours:
+    get:
+      tags:
+        - Contours
+      operationId: findContour
+      summary: Get contour by ID
+      security:
+        - bearer-key: [ ]
+      parameters:
+        - name: contourId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Contour details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContourDTO'
+
+  /api/v2/fields/fields:
+    post:
+      tags:
+        - Fields
+      operationId: saveField
+      summary: Create a new field
+      security:
+        - bearer-key: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldDTO'
+      responses:
+        '200':
+          description: Field ID created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDTO'
+    get:
+      tags:
+        - Fields
+      operationId: findField
+      summary: Get field by ID
+      security:
+        - bearer-key: [ ]
+      parameters:
+        - name: fieldId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Field details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldDTO'
+
+  /api/v2/fields/crop-rotations:
+    post:
+      tags:
+        - Crop Rotations
+      operationId: saveCropRotation
+      summary: Create a new crop rotation
+      security:
+        - bearer-key: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CropRotationDTO'
+      responses:
+        '200':
+          description: Crop rotation ID created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDTO'
+    get:
+      tags:
+        - Crop Rotations
+      operationId: getCropRotation
+      summary: Get crop rotation by ID
+      security:
+        - bearer-key: [ ]
+      parameters:
+        - name: cropRotationId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Crop rotation details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CropRotationDTO'
+
+  /api/v2/fields/fields/season:
+    get:
+      tags:
+        - Fields
+      operationId: findFields
+      summary: Get all fields by season ID
+      security:
+        - bearer-key: [ ]
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of fields by season
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldWithContoursDTO'
+
+  /api/v1/soil-compositions:
+    post:
+      tags:
+        - SoilCompositions
+      operationId: saveSoilComposition
+      summary: Create a new soil composition entry
+      security:
+        - bearer-key: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SoilCompositionDTO'
+      responses:
+        '200':
+          description: Soil composition ID created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDTO'
+    get:
+      tags:
+        - SoilCompositions
+      operationId: getSoilComposition
+      summary: Get soil composition by ID
+      security:
+        - bearer-key: [ ]
+      parameters:
+        - name: soilCompositionId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Soil composition details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SoilCompositionDTO'
+
+
+components:
+  schemas:
+    FieldDTO:
+      type: object
+      properties:
+        fieldId:
+          type: string
+          description: The field ID
+          readOnly: true
+        seasonId:
+          type: string
+          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          description: Expected UUID
+        name:
+          type: string
+          description: The name of the field
+        description:
+          type: string
+          description: Description of the field
+        contours:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContourDTO'
+      required:
+        - name
+        - seasonId
+
+
+    ContourDTO:
+      type: object
+      properties:
+        contourId:
+          type: string
+          description: The contour ID
+          readOnly: true
+        color:
+          type: string
+          pattern: "^([A-Fa-f0-9]{6})$"
+          description: The color must be written in HEX format
+        squareArea:
+          type: string
+          description: The area of the contour
+        coordinates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinatesDTO'
+        cropRotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CropRotationDTO'
+          readOnly: true
+        soilCompositions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SoilCompositionDTO'
+          readOnly: true
+      required:
+        - color
+        - coordinates
+
+    CoordinatesDTO:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+          description: Must be filled
+        latitude:
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+          description: Must be filled
+      required:
+        - longitude
+        - latitude
+
+    CropRotationDTO:
+      type: object
+      properties:
+        cropRotationId:
+          type: string
+          description: The crop rotation ID
+          readOnly: true
+        contourID:
+          type: string
+          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          description: Expected UUID
+        startDate:
+          type: string
+          format: date
+          description: Start date of the crop rotation
+        endDate:
+          type: string
+          format: date
+          description: End date of the crop rotation
+        culture:
+          type: string
+          description: The culture being rotated
+        cultivar:
+          type: string
+          description: The specific cultivar
+        description:
+          type: string
+          description: Description of the crop rotation
+      required:
+        - contourID
+        - startDate
+        - endDate
+        - culture
+
+    FieldWithContoursDTO:
+      type: object
+      properties:
+        fieldId:
+          type: string
+          description: The field ID
+          readOnly: true
+        seasonId:
+          type: string
+          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          description: Expected UUID
+        name:
+          type: string
+          description: The name of the field
+        description:
+          type: string
+          description: Description of the field
+        contours:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContourSummaryDTO'
+          description: A list of contours associated with the field
+      required:
+        - name
+        - seasonId
+
+    ContourSummaryDTO:
+      type: object
+      properties:
+        contourId:
+          type: string
+          description: The contour ID
+          readOnly: true
+        color:
+          type: string
+          pattern: "^([A-Fa-f0-9]{6})$"
+          description: The color must be written in HEX format
+        squareArea:
+          type: string
+          description: The area of the contour
+        coordinates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinatesDTO'
+          description: Coordinates of the contour
+      required:
+        - color
+        - coordinates
+
+    IdDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Identification
+      required:
+        - id
+
+    SeasonDTO:
+      type: object
+      properties:
+        seasonId:
+          type: string
+          readOnly: true
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        description:
+          type: string
+      required:
+        - startDate
+        - endDate
+
+    SoilCompositionDTO:
+      type: object
+      properties:
+        soilCompositionId:
+          type: string
+          description: The soil composition ID
+          readOnly: true
+        ph:
+          type: string
+          description: The pH level of the soil
+        contourId:
+          type: string
+          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+          description: Expected UUID
+        sampleDate:
+          type: string
+          format: date
+          description: The date when the soil sample was taken
+        organicMatter:
+          type: string
+          description: The organic matter content
+        mobileP:
+          type: string
+          description: The mobile phosphorus content
+        mobileK:
+          type: string
+          description: The mobile potassium content
+        mobileS:
+          type: string
+          description: The mobile sulfur content
+        nitrateN:
+          type: string
+          description: The nitrate nitrogen content
+        ammoniumN:
+          type: string
+          description: The ammonium nitrogen content
+        hydrolyticAcidity:
+          type: string
+          description: Hydrolytic acidity
+        caExchange:
+          type: string
+          description: Calcium exchange content
+        mgExchange:
+          type: string
+          description: Magnesium exchange content
+        b:
+          type: string
+          description: Boron content
+        co:
+          type: string
+          description: Cobalt content
+        mn:
+          type: string
+          description: Manganese content
+        zn:
+          type: string
+          description: Zinc content
+      required:
+        - contourId
+        - sampleDate

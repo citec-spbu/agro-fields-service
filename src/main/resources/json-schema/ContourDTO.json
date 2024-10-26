@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ContourDTO",
+  "type": "object",
+  "properties": {
+    "contourId": {
+      "type": "string",
+      "description": "The contour ID",
+      "readOnly": true
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^([A-Fa-f0-9]{6})$",
+      "description": "The color must be written in HEX format"
+    },
+    "squareArea": {
+      "type": "string",
+      "description": "The area of the contour"
+    },
+    "coordinates": {
+      "type": "array",
+      "items": {
+        "$ref": "../json-schema/CoordinatesDTO.json"
+      }
+    },
+    "cropRotations": {
+      "type": "array",
+      "items": {
+        "$ref": "CropRotationDTO.json"
+      },
+      "readOnly": true
+    },
+    "soilCompositions": {
+      "type": "array",
+      "items": {
+        "$ref": "SoilCompositionDTO.json"
+      },
+      "readOnly": true
+    }
+  },
+  "required": ["color", "coordinates"]
+}

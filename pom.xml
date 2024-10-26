@@ -38,6 +38,7 @@
     <checkstyle.version>3.2.1</checkstyle.version>
     <puppycrawl.tools.checkstyle.version>10.3.1</puppycrawl.tools.checkstyle.version>
     <modelmapper.version>3.2.1</modelmapper.version>
+    <package>agroscience.fields</package>
   </properties>
 
 
@@ -142,12 +143,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.modelmapper</groupId>
-      <artifactId>modelmapper</artifactId>
-      <version>${modelmapper.version}</version>
-    </dependency>
-
   </dependencies>
 
 
@@ -225,6 +220,38 @@
             <version>${puppycrawl.tools.checkstyle.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>7.9.0</version>
+        <executions>
+          <execution>
+            <id>api-v1</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi/openapi.yaml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>generated.${package}.api</apiPackage>
+              <modelPackage>generated.${package}.api.model</modelPackage>
+              <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+              <typeMappings>
+                <typeMapping>OffsetDateTime=java.time.Instant</typeMapping>
+              </typeMappings>
+              <configOptions>
+                <openApiNullable>false</openApiNullable>
+                <skipDefaultInterface>true</skipDefaultInterface>
+                <interfaceOnly>true</interfaceOnly>
+                <useTags>true</useTags>
+                <useSpringBoot3>true</useSpringBoot3>
+                <useResponseEntity>false</useResponseEntity>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>

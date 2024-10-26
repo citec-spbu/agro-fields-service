@@ -2,6 +2,7 @@ package agroscience.fields.v2.services;
 
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class FieldsService {
   }
 
   public FieldV2 findById(UUID id) {
-    return fieldsRepository.findById(id).orElseThrow();
+    return fieldsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field not found"));
   }
 
   public List<FieldV2> findAll(UUID seasonId) {

@@ -21,6 +21,10 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  web:
+    locale: en
+    locale-resolver: fixed
+
 meteo:
   port: ${METEO_PORT}
   host: ${METEO_HOST}

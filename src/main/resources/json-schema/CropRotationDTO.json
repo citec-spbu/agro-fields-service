@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CropRotationV2DTO",
+  "type": "object",
+  "properties": {
+    "cropRotationId": {
+      "type": "string",
+      "description": "The crop rotation ID",
+      "readOnly": true
+    },
+    "contourID": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$",
+      "description": "Expected UUID"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Start date of the crop rotation"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date",
+      "description": "End date of the crop rotation"
+    },
+    "culture": {
+      "type": "string",
+      "description": "The culture being rotated"
+    },
+    "cultivar": {
+      "type": "string",
+      "description": "The specific cultivar"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the crop rotation"
+    }
+  },
+  "required": ["contourID", "startDate", "endDate", "culture"]
+}

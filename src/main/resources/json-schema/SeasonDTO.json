@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SeasonDTO",
+  "type": "object",
+  "properties": {
+    "seasonId": {
+      "type": "string",
+      "readOnly": true
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "required": ["startDate", "endDate"]
+}

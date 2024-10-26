@@ -1,40 +1,33 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.dto.IdDTO;
-import agroscience.fields.v2.dto.SoilCompositionDTO;
-import agroscience.fields.v2.entities.SoilComposition;
+import agroscience.fields.v2.mappers.SoilCompositionMapper;
 import agroscience.fields.v2.services.SoilCompositionsService;
-import jakarta.validation.Valid;
+import generated.agroscience.fields.api.SoilCompositionsApi;
+import generated.agroscience.fields.api.model.IdDTO;
+import generated.agroscience.fields.api.model.SoilCompositionDTO;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v2/fields/soil-compositions")
-public class SoilCompositionsController {
+@PreAuthorize("hasRole('organization') or hasRole('worker')")
+public class SoilCompositionsController implements SoilCompositionsApi {
 
-  private final ModelMapper modelMapper;
+  private final SoilCompositionMapper soilCompositionMapper;
   private final SoilCompositionsService soilCompositionsService;
 
-  @PostMapping
-  @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public IdDTO save(@Valid @RequestBody SoilCompositionDTO request) {
-    var soilComposition = modelMapper.map(request, SoilComposition.class);
-    var soilCompositionEntity = soilCompositionsService.save(soilComposition);
-    return new IdDTO(soilCompositionEntity.getSoilCompositionId().toString());
+  @Override
+  public SoilCompositionDTO getSoilComposition(UUID soilCompositionId) {
+    return soilCompositionMapper.map(soilCompositionsService.findById(soilCompositionId));
   }
 
-  @GetMapping
-  @PreAuthorize("hasRole('organization') or hasRole('worker')")
-  public SoilComposition get(@Valid @RequestParam String soilCompositionId) {
-    return soilCompositionsService.findById(UUID.fromString(soilCompositionId));
+  @Override
+  public IdDTO saveSoilComposition(SoilCompositionDTO soilCompositionDTO) {
+    var soilComposition = soilCompositionMapper.map(soilCompositionDTO);
+    var soilCompositionEntity = soilCompositionsService.save(soilComposition);
+    return new IdDTO(soilCompositionEntity.getSoilCompositionId());
   }
+
 }
