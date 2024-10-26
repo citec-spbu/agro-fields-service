@@ -3,8 +3,7 @@ info:
   title: Seasons API
   version: 2.0.0
   description: API for managing fields and seasons
-security:
-  - bearer-key: []
+
 paths:
   /api/v2/fields/seasons:
     post:
@@ -12,8 +11,6 @@ paths:
         - Season
       operationId: saveSeason
       summary: Create a new season
-      security:
-        - bearer-key: []
       requestBody:
         required: true
         content:
@@ -32,8 +29,6 @@ paths:
         - Season
       operationId: findSeasons
       summary: Get all seasons for the organization
-      security:
-        - bearer-key: []
       responses:
         '200':
           description: List of seasons
@@ -50,8 +45,6 @@ paths:
         - Contours
       operationId: findContour
       summary: Get contour by ID
-      security:
-        - bearer-key: [ ]
       parameters:
         - name: contourId
           in: query
@@ -73,8 +66,6 @@ paths:
         - Fields
       operationId: saveField
       summary: Create a new field
-      security:
-        - bearer-key: [ ]
       requestBody:
         required: true
         content:
@@ -93,8 +84,6 @@ paths:
         - Fields
       operationId: findField
       summary: Get field by ID
-      security:
-        - bearer-key: [ ]
       parameters:
         - name: fieldId
           in: query
@@ -116,8 +105,6 @@ paths:
         - Crop Rotations
       operationId: saveCropRotation
       summary: Create a new crop rotation
-      security:
-        - bearer-key: [ ]
       requestBody:
         required: true
         content:
@@ -136,8 +123,6 @@ paths:
         - Crop Rotations
       operationId: getCropRotation
       summary: Get crop rotation by ID
-      security:
-        - bearer-key: [ ]
       parameters:
         - name: cropRotationId
           in: query
@@ -159,8 +144,6 @@ paths:
         - Fields
       operationId: findFields
       summary: Get all fields by season ID
-      security:
-        - bearer-key: [ ]
       parameters:
         - name: id
           in: query
@@ -184,8 +167,6 @@ paths:
         - SoilCompositions
       operationId: saveSoilComposition
       summary: Create a new soil composition entry
-      security:
-        - bearer-key: [ ]
       requestBody:
         required: true
         content:
@@ -204,8 +185,6 @@ paths:
         - SoilCompositions
       operationId: getSoilComposition
       summary: Get soil composition by ID
-      security:
-        - bearer-key: [ ]
       parameters:
         - name: soilCompositionId
           in: query
