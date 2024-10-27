@@ -1,10 +1,15 @@
 package agroscience.fields.exceptions;
 
+import static java.util.Objects.requireNonNullElse;
+
+import generated.agroscience.fields.api.model.ExceptionBody;
+import generated.agroscience.fields.api.model.ExceptionBodyWithErrors;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,70 +18,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Slf4j
 public class HandleErrorService {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionBody handleValidationException(MethodArgumentNotValidException ex) {
-    ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
+  public ExceptionBodyWithErrors handleValidationException(MethodArgumentNotValidException ex) {
     List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-    exceptionBody.setErrors(errors.stream()
-            .collect(Collectors.toMap(FieldError::getField,
-                    FieldError::getDefaultMessage)));
-    return exceptionBody;
-  }
-
-  @ExceptionHandler(DateException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionBody handleValidationException(DateException ex) {
-    ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
-    Map<String, String> errorMap = new HashMap<>();
-    ex.getFieldErrors().forEach(fieldError -> {
-      errorMap.put(fieldError.getFirst(), fieldError.getSecond());
-    });
-    exceptionBody.setErrors(errorMap);
-
-    return exceptionBody;
+    Map<String, String> errorMap = errors.stream()
+            .collect(Collectors.toMap(
+                    FieldError::getField,
+                    error -> requireNonNullElse(error.getDefaultMessage(), "No message available")
+            ));
+    return new ExceptionBodyWithErrors(errorMap, "Bad request");
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ExceptionBody handleEntityNotFoundException(EntityNotFoundException ex) {
-    var exceptionBody = new ExceptionBody("Model not found.");
-    Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("message", ex.getMessage());
-    exceptionBody.setErrors(errorResponse);
-    return exceptionBody;
-  }
-
-  @ExceptionHandler(DuplicateException.class)
-  @ResponseStatus(HttpStatus.CONFLICT)
-  public ExceptionBody handleDuplicateException(DuplicateException ex) {
-    var exceptionBody = new ExceptionBody("Duplicate exception.");
-    Map<String, String> errorMap = new HashMap<>();
-    errorMap.put(ex.getFieldName(), ex.getMessage());
-    exceptionBody.setErrors(errorMap);
-    return exceptionBody;
-  }
-
-  @ExceptionHandler(AuthException.class)
-  @ResponseStatus(HttpStatus.FORBIDDEN)
-  public ExceptionBody handleAuthException(AuthException ex) {
-    var exceptionBody = new ExceptionBody("Auth exception.");
-    Map<String, String> errorMap = new HashMap<>();
-    errorMap.put("auth", ex.getMessage());
-    exceptionBody.setErrors(errorMap);
-    return exceptionBody;
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ExceptionBodyWithErrors handleEntityNotFoundException(EntityNotFoundException ex) {
+    Map<String, String> errors = new HashMap<>();
+    errors.put("error", ex.getMessage());
+    return new ExceptionBodyWithErrors(errors, "Model not found");
   }
 
   @ExceptionHandler(WrongCoordinatesException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionBody handleWrongCoordinatesException(WrongCoordinatesException ex) {
-    var exceptionBody = new ExceptionBody("Validation failed.");
-    Map<String, String> errorMap = new HashMap<>();
-    errorMap.put("geom", ex.getMessage());
-    exceptionBody.setErrors(errorMap);
-    return exceptionBody;
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ExceptionBody handleWrongCoordinatesException(Exception e) {
+    log.error("Internal error", e);
+    return new ExceptionBody("Internal server error");
   }
 
 }
