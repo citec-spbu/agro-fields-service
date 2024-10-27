@@ -28,7 +28,7 @@ public class CropRotationV2 extends ArchivedEntity {
   @Column(name = "start_date", nullable = false)
   private LocalDate startDate;
 
-  @Column(name = "end_date", nullable = false)
+  @Column(name = "end_date")
   private LocalDate endDate;
 
   @Column(name = "culture", length = 20)

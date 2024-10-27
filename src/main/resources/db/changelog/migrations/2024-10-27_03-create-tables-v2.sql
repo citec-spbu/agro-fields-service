@@ -35,7 +35,7 @@ create table if not exists crop_rotations
   contour_id       uuid    not null,
   foreign key (contour_id) references contours (contour_id),
   start_date       date    not null,
-  end_date         date    not null,
+  end_date         date,
   culture          text,
   cultivar         text,
   description      text,
