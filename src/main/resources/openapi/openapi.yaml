@@ -59,6 +59,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContourDTO'
+
   /api/v2/fields/{fieldId}/contours:
     post:
       tags:
@@ -270,9 +271,6 @@ components:
         squareArea:
           type: string
           description: The area of the contour
-        fieldId:
-          type: string
-          writeOnly: true
         coordinates:
           type: array
           items:

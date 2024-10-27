@@ -9,8 +9,6 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,17 +28,10 @@ public class ContoursController implements ContoursApi {
   }
 
   @Override
-  public IdDTO saveContour(@PathVariable UUID fieldId,@RequestBody ContourDTO contourDTO) {
+  public IdDTO saveContour(UUID fieldId, ContourDTO contourDTO) {
     var contourEntity = contourMapper.map(contourDTO);
-    var contourId = contourService.save(contourEntity);
+    var contourId = contourService.save(fieldId, contourEntity);
     return new IdDTO(contourId);
   }
-
-//  @Override
-//  public IdDTO saveContour(ContourDTO contour) {
-//    var contourEntity = contourMapper.map(contour);
-//    var contourId = contourService.save(contourEntity);
-//    return new IdDTO(contourId);
-//  }
 
 }
