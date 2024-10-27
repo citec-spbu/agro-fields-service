@@ -4,10 +4,13 @@ import agroscience.fields.v2.mappers.ContourMapper;
 import agroscience.fields.v2.services.ContoursService;
 import generated.agroscience.fields.api.ContoursApi;
 import generated.agroscience.fields.api.model.ContourDTO;
+import generated.agroscience.fields.api.model.IdDTO;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +28,19 @@ public class ContoursController implements ContoursApi {
   public ContourDTO findContour(UUID contourId) {
     return contourMapper.map(contourService.findById(contourId));
   }
+
+  @Override
+  public IdDTO saveContour(@PathVariable UUID fieldId,@RequestBody ContourDTO contourDTO) {
+    var contourEntity = contourMapper.map(contourDTO);
+    var contourId = contourService.save(contourEntity);
+    return new IdDTO(contourId);
+  }
+
+//  @Override
+//  public IdDTO saveContour(ContourDTO contour) {
+//    var contourEntity = contourMapper.map(contour);
+//    var contourId = contourService.save(contourEntity);
+//    return new IdDTO(contourId);
+//  }
 
 }

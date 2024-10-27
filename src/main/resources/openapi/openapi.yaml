@@ -59,6 +59,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContourDTO'
+  /api/v2/fields/{fieldId}/contours:
+    post:
+      tags:
+        - Contours
+      operationId: saveContour
+      summary: add a new contour to exist field
+      parameters:
+        - name: fieldId
+          in: path
+          required: true
+          description: Идентификатор поля, к которому добавляется контур.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContourDTO'
+      responses:
+        '200':
+          description: Added to Field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDTO'
 
   /api/v2/fields/fields:
     post:
@@ -243,6 +270,9 @@ components:
         squareArea:
           type: string
           description: The area of the contour
+        fieldId:
+          type: string
+          writeOnly: true
         coordinates:
           type: array
           items:

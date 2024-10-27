@@ -17,4 +17,10 @@ public class ContoursService {
             .orElseThrow(() -> new EntityNotFoundException("Contour not found"));
   }
 
+  public UUID save(Contour contour) {
+    var contourId = UUID.randomUUID();
+    contour.setContourId(contourId);
+    contoursRepository.save(contour);
+    return contourId;
+  }
 }
