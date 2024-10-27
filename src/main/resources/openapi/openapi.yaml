@@ -683,3 +683,24 @@ components:
           description: Identification
       required:
         - id
+
+    ExceptionBody:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+
+    ExceptionBodyWithErrors:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionBody'
+      type: object
+      properties:
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - message
+        - errors
