@@ -5,6 +5,8 @@ import agroscience.fields.v2.services.CropRotationServiceV2;
 import generated.agroscience.fields.api.CropRotationsApi;
 import generated.agroscience.fields.api.model.CropRotationDTO;
 import generated.agroscience.fields.api.model.IdDTO;
+import generated.agroscience.fields.api.model.UpdateCropRotationDTO;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,14 +21,24 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   private final CropRotationMapperV2 cropRotationMapperV2;
 
   @Override
-  public CropRotationDTO getCropRotation(UUID cropRotationId) {
-    return cropRotationMapperV2.map(cropRotationService.getCropRotation(cropRotationId));
+  public void changeCropRotation(UUID cropRotationId, UpdateCropRotationDTO updateCropRotationDTO) {
+    // TODO
   }
 
   @Override
-  public generated.agroscience.fields.api.model.IdDTO saveCropRotation(CropRotationDTO cropRotationDTO) {
+  public void deleteCropRotation(UUID cropRotationId) {
+    // TODO
+  }
+
+  @Override
+  public List<CropRotationDTO> getCropRotations(UUID contourID) {
+    return null;
+  }
+
+  @Override
+  public IdDTO saveCropRotation(UUID contourId, CropRotationDTO cropRotationDTO) {
     var cropRotation = cropRotationMapperV2.map(cropRotationDTO);
-    var cropRotationEntity = cropRotationService.save(cropRotation);
+    var cropRotationEntity = cropRotationService.save(contourId, cropRotation);
     return new IdDTO(cropRotationEntity.getCropRotationId());
   }
 

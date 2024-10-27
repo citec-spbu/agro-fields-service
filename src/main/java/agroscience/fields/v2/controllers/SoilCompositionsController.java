@@ -5,6 +5,7 @@ import agroscience.fields.v2.services.SoilCompositionsService;
 import generated.agroscience.fields.api.SoilCompositionsApi;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SoilCompositionDTO;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,14 +20,24 @@ public class SoilCompositionsController implements SoilCompositionsApi {
   private final SoilCompositionsService soilCompositionsService;
 
   @Override
-  public SoilCompositionDTO getSoilComposition(UUID soilCompositionId) {
-    return soilCompositionMapper.map(soilCompositionsService.findById(soilCompositionId));
+  public void changeSoilComposition(UUID soilCompositionId, SoilCompositionDTO soilCompositionDTO) {
+    // TODO
   }
 
   @Override
-  public IdDTO saveSoilComposition(SoilCompositionDTO soilCompositionDTO) {
+  public void deleteSoilComposition(UUID soilCompositionId) {
+    // TODO
+  }
+
+  @Override
+  public List<SoilCompositionDTO> getSoilCompositions(UUID contourId) {
+    return null; // TODO
+  }
+
+  @Override
+  public IdDTO saveSoilComposition(UUID contourId, SoilCompositionDTO soilCompositionDTO) {
     var soilComposition = soilCompositionMapper.map(soilCompositionDTO);
-    var soilCompositionEntity = soilCompositionsService.save(soilComposition);
+    var soilCompositionEntity = soilCompositionsService.save(contourId, soilComposition);
     return new IdDTO(soilCompositionEntity.getSoilCompositionId());
   }
 

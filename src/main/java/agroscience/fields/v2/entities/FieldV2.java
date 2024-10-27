@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -32,8 +34,9 @@ public class FieldV2 {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "season_id")
-  private UUID seasonId;
+  @ManyToOne
+  @JoinColumn(name = "season_id")
+  private Season season;
 
   @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
           fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет

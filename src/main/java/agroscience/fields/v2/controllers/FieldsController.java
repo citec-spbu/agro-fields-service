@@ -21,19 +21,19 @@ public class FieldsController implements FieldsApi {
   private final FieldsService fieldService;
 
   @Override
-  public FieldDTO findField(UUID fieldId) {
-    return fieldMapperV2.map(fieldService.findById(fieldId));
+  public void deleteField(UUID fieldId) {
+    // TODO
   }
 
   @Override
-  public List<FieldWithContoursDTO> findFields(UUID id) {
-    return fieldMapperV2.map(fieldService.findAll(id));
+  public List<FieldWithContoursDTO> findFields(UUID seasonId) {
+    return fieldMapperV2.map(fieldService.findAll(seasonId));
   }
 
   @Override
-  public IdDTO saveField(FieldDTO fieldDTO) {
+  public IdDTO saveField(UUID seasonId, FieldDTO fieldDTO) {
     var fieldEntity = fieldMapperV2.map(fieldDTO);
-    var savedFieldEntity = fieldService.save(fieldEntity);
+    var savedFieldEntity = fieldService.save(seasonId, fieldEntity);
     return new IdDTO(savedFieldEntity.getFieldId());
   }
 

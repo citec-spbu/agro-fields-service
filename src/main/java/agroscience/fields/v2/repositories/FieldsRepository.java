@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FieldsRepository extends JpaRepository<FieldV2, UUID> {
 
-  List<FieldV2> findAllBySeasonId(UUID id);
+  List<FieldV2> findAllBySeason_SeasonId(UUID id);
 
 }

@@ -1,7 +1,9 @@
 package agroscience.fields.v2.services;
 
 import agroscience.fields.v2.entities.FieldV2;
+import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.FieldsRepository;
+import agroscience.fields.v2.repositories.SeasonsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -10,11 +12,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FieldsService {
+public class FieldsService extends DefaultService {
 
   private final FieldsRepository fieldsRepository;
+  private final SeasonsRepository seasonsRepository;
 
-  public FieldV2 save(FieldV2 field) {
+  public FieldV2 save(UUID seasonId, FieldV2 field) {
+    var season = getOrThrow(seasonsRepository.findById(seasonId), Season.class);
+    field.setSeason(season);
     var fieldId = UUID.randomUUID();
     field.setFieldId(fieldId);
     field.getContours().forEach(c -> {
@@ -29,7 +34,7 @@ public class FieldsService {
   }
 
   public List<FieldV2> findAll(UUID seasonId) {
-    return fieldsRepository.findAllBySeasonId(seasonId);
+    return fieldsRepository.findAllBySeason_SeasonId(seasonId);
   }
 
 }
