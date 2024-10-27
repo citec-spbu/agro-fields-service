@@ -3,7 +3,7 @@ package agroscience.fields.v2.controllers;
 import agroscience.fields.v2.mappers.ContourMapper;
 import agroscience.fields.v2.services.ContoursService;
 import generated.agroscience.fields.api.ContoursApi;
-import generated.agroscience.fields.api.model.ContourDTO;
+import generated.agroscience.fields.api.model.ContourBaseDTO;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.UpdateContourDTO;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ContoursController implements ContoursApi {
 
   @Override
   public void changeContour(UUID contourId, UpdateContourDTO updateContourDTO) {
-    // TODO
+    // TODO в сервисный слой не передаём DTO
   }
 
   @Override
@@ -33,12 +33,12 @@ public class ContoursController implements ContoursApi {
   }
 
   @Override
-  public List<ContourDTO> findContours(UUID fieldId) {
+  public List<ContourBaseDTO> findContours(UUID fieldId) {
     return null; // TODO
   }
 
   @Override
-  public IdDTO saveContour(UUID fieldId, ContourDTO contourDTO) {
+  public IdDTO saveContour(UUID fieldId, ContourBaseDTO contourDTO) {
     var contourEntity = contourMapper.map(contourDTO);
     var contourId = contourService.save(fieldId, contourEntity);
     return new IdDTO(contourId);

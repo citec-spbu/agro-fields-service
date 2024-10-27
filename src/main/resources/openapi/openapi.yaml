@@ -17,7 +17,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SeasonDTO'
+              $ref: '#/components/schemas/SeasonBaseDTO'
       responses:
         '200':
           description: Season ID created
@@ -56,7 +56,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/SeasonDTO'
+                  $ref: '#/components/schemas/SeasonBaseDTO'
 
   /api/v2/fields/seasons/full:
     get:
@@ -74,7 +74,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SeasonWithFieldsDTO'
 
-  /api/v2/fields/contours:
+  /api/v2/fields/fields/{fieldId}/contours:
     get:
       tags:
         - Contours
@@ -82,7 +82,7 @@ paths:
       summary: Get contours by fieldId
       parameters:
         - name: fieldId
-          in: query
+          in: path
           required: true
           schema:
             type: string
@@ -95,7 +95,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ContourDTO'
+                  $ref: '#/components/schemas/ContourBaseDTO'
 
   /api/v2/fields/contour:
     delete:
@@ -141,7 +141,7 @@ paths:
       tags:
         - Contours
       operationId: saveContour
-      summary: add a new contour to exist field
+      summary: add a new contour to existing field
       parameters:
         - name: fieldId
           in: path
@@ -154,7 +154,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ContourDTO'
+              $ref: '#/components/schemas/ContourBaseDTO'
       responses:
         '200':
           description: Added to Field
@@ -190,7 +190,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/fields:
+  /api/v2/fields/seasons/{seasonId}/fields:
     get:
       tags:
         - Fields
@@ -198,7 +198,7 @@ paths:
       summary: Get all fields by season ID
       parameters:
         - name: seasonId
-          in: query
+          in: path
           required: true
           schema:
             type: string
@@ -211,7 +211,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldWithContoursDTO'
+                  $ref: '#/components/schemas/FieldDTO'
 
   /api/v2/fields/field:
     delete:
@@ -257,15 +257,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/crop-rotations:
+  /api/v2/fields/contours/{contourId}/crop-rotations:
     get:
       tags:
         - CropRotations
       operationId: getCropRotations
       summary: Get crop rotations by contourID
       parameters:
-        - name: contourID
-          in: query
+        - name: contourId
+          in: path
           required: true
           schema:
             type: string
@@ -411,11 +411,44 @@ paths:
 
 components:
   schemas:
-    FieldDTO:
+
+    SeasonBaseDTO:
+      type: object
+      properties:
+        seasonId:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+      required:
+        - startDate
+        - endDate
+
+    SeasonWithFieldsDTO:
+      allOf:
+        - $ref: '#/components/schemas/SeasonBaseDTO'
+        - type: object
+          properties:
+            fields:
+              type: array
+              items:
+                $ref: '#/components/schemas/FieldWithContoursAndCropRotationsDTO'
+          required:
+            - fields
+
+    FieldBaseDTO:
       type: object
       properties:
         fieldId:
           type: string
+          format: uuid
           description: The field ID
           readOnly: true
         name:
@@ -424,45 +457,34 @@ components:
         description:
           type: string
           description: Description of the field
-        contours:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContourDTO'
       required:
         - name
-        - seasonId
+        - description
 
-    ContourDTO:
-      type: object
-      properties:
-        contourId:
-          type: string
-          description: The contour ID
-          readOnly: true
-        color:
-          type: string
-          pattern: "^([A-Fa-f0-9]{6})$"
-          description: The color must be written in HEX format
-        squareArea:
-          type: string
-          description: The area of the contour
-        coordinates:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoordinatesDTO'
-        cropRotations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CropRotationDTO'
-          readOnly: true
-        soilCompositions:
-          type: array
-          items:
-            $ref: '#/components/schemas/SoilCompositionDTO'
-          readOnly: true
+    FieldDTO:
+      allOf:
+        - $ref: '#/components/schemas/FieldBaseDTO'
+        - type: object
+          properties:
+            contours:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContourBaseDTO'
       required:
-        - color
-        - coordinates
+        - contours
+
+    FieldWithContoursAndCropRotationsDTO:
+      allOf:
+        - $ref: '#/components/schemas/FieldBaseDTO'
+        - type: object
+          properties:
+            contours:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContourWithCropRotationsDTO'
+              description: A list of contours with crop rotations
+          required:
+            - contours
 
     CoordinatesDTO:
       type: object
@@ -483,11 +505,88 @@ components:
         - longitude
         - latitude
 
+    UpdateContourDTO:
+      type: object
+      properties:
+        color:
+          type: string
+          pattern: "^([A-Fa-f0-9]{6})$"
+          description: The color must be written in HEX format
+      required:
+        - color
+
+    ContourWithoutCoordinatesDTO:
+      type: object
+      properties:
+        contourId:
+          type: string
+          format: uuid
+          readOnly: true
+        color:
+          type: string
+          pattern: "^([A-Fa-f0-9]{6})$"
+          description: HEX color code
+        squareArea:
+          type: string
+      required:
+        - color
+
+    ContourBaseDTO:
+      allOf:
+        - $ref: '#/components/schemas/ContourWithoutCoordinatesDTO'
+      type: object
+      properties:
+        contourId:
+          type: string
+          format: uuid
+          readOnly: true
+        color:
+          type: string
+          pattern: "^([A-Fa-f0-9]{6})$"
+          description: HEX color code
+        coordinates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinatesDTO'
+        squareArea:
+          type: string
+      required:
+        - color
+        - coordinates
+
+    ContourWithCropRotationsDTO:
+      allOf:
+        - $ref: '#/components/schemas/ContourWithoutCoordinatesDTO'
+        - type: object
+          properties:
+            cropRotations:
+              type: array
+              items:
+                $ref: '#/components/schemas/CropRotationDTO'
+              readOnly: true
+          required:
+            - color
+            - coordinates
+
+    UpdateCropRotationDTO:
+      type: object
+      properties:
+        endDate:
+          type: string
+          format: date
+          description: End date of the crop rotation
+        description:
+          type: string
+          description: Description of the crop rotation
+      required:
+        - endDate
+
     CropRotationDTO:
       type: object
       properties:
         cropRotationId:
           type: string
+          format: uuid
           description: The crop rotation ID
           readOnly: true
         contourID:
@@ -517,97 +616,17 @@ components:
         - endDate
         - culture
 
-    FieldWithContoursDTO:
-      type: object
-      properties:
-        fieldId:
-          type: string
-          description: The field ID
-          readOnly: true
-        seasonId:
-          type: string
-          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
-          description: Expected UUID
-        name:
-          type: string
-          description: The name of the field
-        description:
-          type: string
-          description: Description of the field
-        contours:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContourSummaryDTO'
-          description: A list of contours associated with the field
-      required:
-        - name
-        - seasonId
-
-    ContourSummaryDTO:
-      type: object
-      properties:
-        contourId:
-          type: string
-          description: The contour ID
-          readOnly: true
-        color:
-          type: string
-          pattern: "^([A-Fa-f0-9]{6})$"
-          description: The color must be written in HEX format
-        squareArea:
-          type: string
-          description: The area of the contour
-        coordinates:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoordinatesDTO'
-          description: Coordinates of the contour
-      required:
-        - color
-        - coordinates
-
-    IdDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Identification
-      required:
-        - id
-
-    SeasonDTO:
-      type: object
-      properties:
-        seasonId:
-          type: string
-          readOnly: true
-        name:
-          type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
-      required:
-        - startDate
-        - endDate
-
     SoilCompositionDTO:
       type: object
       properties:
         soilCompositionId:
           type: string
+          format: uuid
           description: The soil composition ID
           readOnly: true
         ph:
           type: string
           description: The pH level of the soil
-        contourId:
-          type: string
-          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
-          description: Expected UUID
         sampleDate:
           type: string
           format: date
@@ -655,106 +674,12 @@ components:
         - contourId
         - sampleDate
 
-    SeasonWithFieldsDTO:
+    IdDTO:
       type: object
       properties:
-        seasonId:
+        id:
           type: string
-          description: The season ID
-          readOnly: true
-        name:
-          type: string
-          description: The name of the season
-        startDate:
-          type: string
-          format: date
-          description: Start date of the season
-        endDate:
-          type: string
-          format: date
-          description: End date of the season
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/FieldWithContoursAndCropRotationsDTO'
+          format: uuid
+          description: Identification
       required:
-        - seasonId
-        - startDate
-        - endDate
-        - fields
-
-    FieldWithContoursAndCropRotationsDTO:
-      type: object
-      properties:
-        fieldId:
-          type: string
-          description: The field ID
-          readOnly: true
-        name:
-          type: string
-          description: The name of the field
-        description:
-          type: string
-          description: Description of the field
-        contours:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContourWithCropRotationsDTO'
-          description: A list of contours with crop rotations
-      required:
-        - fieldId
-        - name
-        - contours
-
-    ContourWithCropRotationsDTO:
-      type: object
-      properties:
-        contourId:
-          type: string
-          description: The contour ID
-          readOnly: true
-        color:
-          type: string
-          pattern: "^([A-Fa-f0-9]{6})$"
-          description: The color must be written in HEX format
-        squareArea:
-          type: string
-          description: The area of the contour
-        coordinates:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoordinatesDTO'
-          description: Coordinates of the contour
-        cropRotations:
-          type: array
-          items:
-            $ref: '#/components/schemas/CropRotationDTO'
-          description: Crop rotations associated with the contour
-      required:
-        - contourId
-        - color
-        - coordinates
-        - cropRotations
-
-    UpdateContourDTO:
-      type: object
-      properties:
-        color:
-          type: string
-          pattern: "^([A-Fa-f0-9]{6})$"
-          description: The color must be written in HEX format
-      required:
-        - color
-
-    UpdateCropRotationDTO:
-      type: object
-      properties:
-        endDate:
-          type: string
-          format: date
-          description: End date of the crop rotation
-        description:
-          type: string
-          description: Description of the crop rotation
-      required:
-        - endDate
+        - id

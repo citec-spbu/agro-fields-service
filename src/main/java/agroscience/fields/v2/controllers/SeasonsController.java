@@ -5,7 +5,7 @@ import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.services.SeasonsService;
 import generated.agroscience.fields.api.SeasonApi;
 import generated.agroscience.fields.api.model.IdDTO;
-import generated.agroscience.fields.api.model.SeasonDTO;
+import generated.agroscience.fields.api.model.SeasonBaseDTO;
 import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
 import java.util.List;
 import java.util.UUID;
@@ -32,12 +32,12 @@ public class SeasonsController implements SeasonApi, SecurityController {
   }
 
   @Override
-  public List<SeasonDTO> findSeasons() {
+  public List<SeasonBaseDTO> findSeasons() {
     return seasonsMapper.map(seasonsService.getAll(token().orgId()));
   }
 
   @Override
-  public IdDTO saveSeason(SeasonDTO seasonDTO) {
+  public IdDTO saveSeason(SeasonBaseDTO seasonDTO) {
     Season season = seasonsMapper.map(seasonDTO);
     season.setOrganizationId(token().orgId());
     var seasonEntity = seasonsService.save(season);

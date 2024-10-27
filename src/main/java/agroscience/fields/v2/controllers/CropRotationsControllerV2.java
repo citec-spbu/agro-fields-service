@@ -22,7 +22,7 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
 
   @Override
   public void changeCropRotation(UUID cropRotationId, UpdateCropRotationDTO updateCropRotationDTO) {
-    // TODO
+    // TODO в сервисный слой не передаём DTO
   }
 
   @Override

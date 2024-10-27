@@ -4,7 +4,6 @@ import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.services.FieldsService;
 import generated.agroscience.fields.api.FieldsApi;
 import generated.agroscience.fields.api.model.FieldDTO;
-import generated.agroscience.fields.api.model.FieldWithContoursDTO;
 import generated.agroscience.fields.api.model.IdDTO;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class FieldsController implements FieldsApi {
   }
 
   @Override
-  public List<FieldWithContoursDTO> findFields(UUID seasonId) {
+  public List<FieldDTO> findFields(UUID seasonId) {
     return fieldMapperV2.map(fieldService.findAll(seasonId));
   }
 

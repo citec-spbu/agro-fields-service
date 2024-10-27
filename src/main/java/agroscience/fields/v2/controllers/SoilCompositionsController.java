@@ -21,7 +21,7 @@ public class SoilCompositionsController implements SoilCompositionsApi {
 
   @Override
   public void changeSoilComposition(UUID soilCompositionId, SoilCompositionDTO soilCompositionDTO) {
-    // TODO
+    // TODO в сервисный слой не передаём DTO
   }
 
   @Override
