@@ -29,6 +29,9 @@ public class Contour extends ArchivedEntity {
   @Column(name = "contour_id")
   private UUID contourId;
 
+  @Column(name = "name", nullable = false)
+  private String name;
+
   @Column(name = "square_area", length = 40, nullable = false)
   private String squareArea;
 
