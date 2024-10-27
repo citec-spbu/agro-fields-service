@@ -1,5 +1,7 @@
 package agroscience.fields.exceptions;
 
+import static java.util.Objects.requireNonNullElse;
+
 import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.ExceptionBodyWithErrors;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,8 +26,10 @@ public class HandleErrorService {
   public ExceptionBodyWithErrors handleValidationException(MethodArgumentNotValidException ex) {
     List<FieldError> errors = ex.getBindingResult().getFieldErrors();
     Map<String, String> errorMap = errors.stream()
-            .collect(Collectors.toMap(FieldError::getField,
-                    FieldError::getDefaultMessage));
+            .collect(Collectors.toMap(
+                    FieldError::getField,
+                    error -> requireNonNullElse(error.getDefaultMessage(), "No message available")
+            ));
     return new ExceptionBodyWithErrors(errorMap, "Bad request");
   }
 
