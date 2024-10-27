@@ -4,6 +4,7 @@ import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.services.FieldsService;
 import generated.agroscience.fields.api.FieldsApi;
 import generated.agroscience.fields.api.model.FieldDTO;
+import generated.agroscience.fields.api.model.FieldWithContoursAndCropRotationsDTO;
 import generated.agroscience.fields.api.model.IdDTO;
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +26,12 @@ public class FieldsController implements FieldsApi {
   }
 
   @Override
-  public List<FieldDTO> findFields(UUID seasonId) {
+  public List<FieldWithContoursAndCropRotationsDTO> findFields(UUID seasonId) {
     // TODO Нужно уметь отсекать архивированные сущности, вот пример getAllByOrganizationIdAndArchivedIsFalse
     // Найти его можно в seasonRepository
+    // Важно при запросе в базу отфилтровать cropRotations, чтобы пришёл самый последний только либо никакой
+    // Этот метод нужен для превью, для превью было бы "красиво" выводить последнюю растующую культуру,
+    // поэтому важно вернуть последний crop rotation
     return fieldMapperV2.map(fieldService.findAll(seasonId));
   }
 

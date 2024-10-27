@@ -21,6 +21,7 @@ create table if not exists fields
 create table if not exists contours
 (
   contour_id  uuid primary key,
+  name        text     not null,
   square_area text     not null,
   geom        geometry not null,
   color       text     not null,

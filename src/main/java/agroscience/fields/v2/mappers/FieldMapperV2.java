@@ -2,6 +2,7 @@ package agroscience.fields.v2.mappers;
 
 import agroscience.fields.v2.entities.FieldV2;
 import generated.agroscience.fields.api.model.FieldDTO;
+import generated.agroscience.fields.api.model.FieldWithContoursAndCropRotationsDTO;
 import java.util.List;
 import org.mapstruct.Mapper;
 
@@ -19,6 +20,6 @@ public interface FieldMapperV2 {
 
   FieldDTO map(FieldV2 field);
 
-  List<FieldDTO> map(List<FieldV2> fieldV2List);
+  List<FieldWithContoursAndCropRotationsDTO> map(List<FieldV2> fieldV2List);
 
 }

@@ -195,7 +195,7 @@ paths:
       tags:
         - Fields
       operationId: findFields
-      summary: Get all fields by season ID
+      summary: Get all fields by season ID for preview with last crop rotation
       parameters:
         - name: seasonId
           in: path
@@ -205,13 +205,13 @@ paths:
             format: uuid
       responses:
         '200':
-          description: List of fields by season
+          description: List of fields by season with one element list with last crop rotation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldDTO'
+                  $ref: '#/components/schemas/FieldWithContoursAndCropRotationsDTO'
 
   /api/v2/fields-service/field:
     delete:
@@ -508,28 +508,30 @@ components:
     UpdateContourDTO:
       type: object
       properties:
+        name:
+          type: string
+          description: Contour name
         color:
           type: string
           pattern: "^([A-Fa-f0-9]{6})$"
           description: The color must be written in HEX format
       required:
         - color
+        - name
 
     ContourWithoutCoordinatesDTO:
-      type: object
-      properties:
-        contourId:
-          type: string
-          format: uuid
-          readOnly: true
-        color:
-          type: string
-          pattern: "^([A-Fa-f0-9]{6})$"
-          description: HEX color code
-        squareArea:
-          type: string
-      required:
-        - color
+      allOf:
+        - $ref: '#/components/schemas/UpdateContourDTO'
+        - type: object
+          properties:
+            contourId:
+              type: string
+              format: uuid
+              readOnly: true
+            squareArea:
+              type: string
+          required:
+            - color
 
     ContourBaseDTO:
       allOf:
@@ -571,28 +573,6 @@ components:
     UpdateCropRotationDTO:
       type: object
       properties:
-        endDate:
-          type: string
-          format: date
-          description: End date of the crop rotation
-        description:
-          type: string
-          description: Description of the crop rotation
-      required:
-        - endDate
-
-    CropRotationDTO:
-      type: object
-      properties:
-        cropRotationId:
-          type: string
-          format: uuid
-          description: The crop rotation ID
-          readOnly: true
-        contourID:
-          type: string
-          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
-          description: Expected UUID
         startDate:
           type: string
           format: date
@@ -601,20 +581,35 @@ components:
           type: string
           format: date
           description: End date of the crop rotation
-        culture:
-          type: string
-          description: The culture being rotated
-        cultivar:
-          type: string
-          description: The specific cultivar
         description:
           type: string
           description: Description of the crop rotation
       required:
-        - contourID
         - startDate
         - endDate
-        - culture
+        - description
+
+    CropRotationDTO:
+      allOf:
+        - $ref: '#/components/schemas/UpdateCropRotationDTO'
+        - type: object
+          properties:
+            cropRotationId:
+              type: string
+              format: uuid
+              description: The crop rotation ID
+              readOnly: true
+            culture:
+              type: string
+              description: The culture being rotated
+            cultivar:
+              type: string
+              description: The specific cultivar
+          required:
+            - contourID
+            - startDate
+            - endDate
+            - culture
 
     SoilCompositionDTO:
       type: object
