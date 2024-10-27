@@ -37,7 +37,7 @@ public class HandleErrorService {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ExceptionBodyWithErrors handleEntityNotFoundException(EntityNotFoundException ex) {
     Map<String, String> errors = new HashMap<>();
-    errors.put("Error", ex.getMessage());
+    errors.put("error", ex.getMessage());
     return new ExceptionBodyWithErrors(errors, "Model not found");
   }
 
