@@ -6,7 +6,7 @@ info:
 
 paths:
 
-  /api/v2/fields/season:
+  /api/v2/fields-service/season:
     post:
       tags:
         - Season
@@ -42,7 +42,7 @@ paths:
         '200':
           description: Season deleted
 
-  /api/v2/fields/seasons:
+  /api/v2/fields-service/seasons:
     get:
       tags:
         - Season
@@ -58,7 +58,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SeasonBaseDTO'
 
-  /api/v2/fields/seasons/full:
+  /api/v2/fields-service/seasons/full:
     get:
       tags:
         - Season
@@ -74,7 +74,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SeasonWithFieldsDTO'
 
-  /api/v2/fields/fields/{fieldId}/contours:
+  /api/v2/fields-service/fields/{fieldId}/contours:
     get:
       tags:
         - Contours
@@ -97,7 +97,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ContourBaseDTO'
 
-  /api/v2/fields/contour:
+  /api/v2/fields-service/contour:
     delete:
       tags:
         - Contours
@@ -136,7 +136,7 @@ paths:
         '200':
           description: Changed
 
-  /api/v2/fields/fields/{fieldId}/contour:
+  /api/v2/fields-service/fields/{fieldId}/contour:
     post:
       tags:
         - Contours
@@ -163,7 +163,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/seasons/{seasonId}/field:
+  /api/v2/fields-service/seasons/{seasonId}/field:
     post:
       tags:
         - Fields
@@ -190,7 +190,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/seasons/{seasonId}/fields:
+  /api/v2/fields-service/seasons/{seasonId}/fields:
     get:
       tags:
         - Fields
@@ -213,7 +213,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/FieldDTO'
 
-  /api/v2/fields/field:
+  /api/v2/fields-service/field:
     delete:
       tags:
         - Fields
@@ -230,7 +230,7 @@ paths:
         '200':
           description: Field deleted
 
-  /api/v2/fields/contours/{contourId}/crop-rotation:
+  /api/v2/fields-service/contours/{contourId}/crop-rotation:
     post:
       tags:
         - CropRotations
@@ -257,7 +257,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/contours/{contourId}/crop-rotations:
+  /api/v2/fields-service/contours/{contourId}/crop-rotations:
     get:
       tags:
         - CropRotations
@@ -280,7 +280,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CropRotationDTO'
 
-  /api/v2/fields/crop-rotation:
+  /api/v2/fields-service/crop-rotation:
     delete:
       tags:
         - CropRotations
@@ -319,7 +319,7 @@ paths:
         '200':
           description: Changed
 
-  /api/v2/fields/contours/{contourId}/soil-composition:
+  /api/v2/fields-service/contours/{contourId}/soil-composition:
     post:
       tags:
         - SoilCompositions
@@ -346,7 +346,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
-  /api/v2/fields/contours/{contourId}/soil-compositions:
+  /api/v2/fields-service/contours/{contourId}/soil-compositions:
     get:
       tags:
         - SoilCompositions
@@ -369,7 +369,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SoilCompositionDTO'
 
-  /api/v2/fields/soil-composition:
+  /api/v2/fields-service/soil-composition:
     put:
       tags:
         - SoilCompositions
