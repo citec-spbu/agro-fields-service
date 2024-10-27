@@ -195,7 +195,7 @@ paths:
       tags:
         - Fields
       operationId: findFields
-      summary: Get all fields by season ID
+      summary: Get all fields by season ID for preview with last crop rotation
       parameters:
         - name: seasonId
           in: path
@@ -205,13 +205,13 @@ paths:
             format: uuid
       responses:
         '200':
-          description: List of fields by season
+          description: List of fields by season with one element list with last crop rotation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldDTO'
+                  $ref: '#/components/schemas/FieldWithContoursAndCropRotationsDTO'
 
   /api/v2/fields-service/field:
     delete:
@@ -508,6 +508,9 @@ components:
     UpdateContourDTO:
       type: object
       properties:
+        name:
+          type: string
+          description: Contour name
         color:
           type: string
           pattern: "^([A-Fa-f0-9]{6})$"
@@ -522,6 +525,9 @@ components:
           type: string
           format: uuid
           readOnly: true
+        name:
+          type: string
+          description: Contour name
         color:
           type: string
           pattern: "^([A-Fa-f0-9]{6})$"
@@ -589,10 +595,6 @@ components:
           format: uuid
           description: The crop rotation ID
           readOnly: true
-        contourID:
-          type: string
-          pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
-          description: Expected UUID
         startDate:
           type: string
           format: date
