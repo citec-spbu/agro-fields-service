@@ -9,7 +9,7 @@ paths:
   /api/v2/fields-service/season:
     post:
       tags:
-        - Season
+        - Seasons
       operationId: saveSeason
       summary: Create a new season
       requestBody:
@@ -28,7 +28,7 @@ paths:
 
     delete:
       tags:
-        - Season
+        - Seasons
       operationId: deleteSeason
       summary: Delete season by seasonId
       parameters:
@@ -45,7 +45,7 @@ paths:
   /api/v2/fields-service/seasons:
     get:
       tags:
-        - Season
+        - Seasons
       operationId: findSeasons
       summary: Get all seasons for the organization without fields
       responses:
@@ -61,7 +61,7 @@ paths:
   /api/v2/fields-service/seasons/full:
     get:
       tags:
-        - Season
+        - Seasons
       operationId: findFullSeasons
       summary: Get all seasons for the organization
       responses:

@@ -22,7 +22,8 @@ import org.locationtech.jts.geom.Geometry;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Contour {
+@EqualsAndHashCode(callSuper = true)
+public class Contour extends ArchivedEntity {
 
   @Id
   @Column(name = "contour_id")

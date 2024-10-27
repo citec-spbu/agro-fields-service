@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -17,7 +18,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CropRotationV2 {
+@EqualsAndHashCode(callSuper = true)
+public class CropRotationV2 extends ArchivedEntity {
 
   @Id
   @Column(name = "crop_rotation_id")

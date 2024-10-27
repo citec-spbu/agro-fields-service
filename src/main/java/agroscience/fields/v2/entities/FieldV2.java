@@ -22,7 +22,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FieldV2 {
+@EqualsAndHashCode(callSuper = true)
+public class FieldV2 extends ArchivedEntity {
 
   @Id
   @Column(name = "field_id")
@@ -39,7 +40,7 @@ public class FieldV2 {
   private Season season;
 
   @OneToMany(mappedBy = "field", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-          fetch = FetchType.EAGER, orphanRemoval = true) // FetchType - сразу запрос на поля или нет
+          orphanRemoval = true)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<Contour> contours;

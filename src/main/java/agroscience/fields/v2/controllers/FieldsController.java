@@ -21,11 +21,13 @@ public class FieldsController implements FieldsApi {
 
   @Override
   public void deleteField(UUID fieldId) {
-    // TODO
+    // TODO По факту не удаляем, а просто ставим флажок, что архивировано. С вложенными объектами также
   }
 
   @Override
   public List<FieldDTO> findFields(UUID seasonId) {
+    // TODO Нужно уметь отсекать архивированные сущности, вот пример getAllByOrganizationIdAndArchivedIsFalse
+    // Найти его можно в seasonRepository
     return fieldMapperV2.map(fieldService.findAll(seasonId));
   }
 

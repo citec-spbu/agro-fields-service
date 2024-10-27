@@ -29,12 +29,12 @@ public class ContoursController implements ContoursApi {
 
   @Override
   public void deleteContour(UUID contourId) {
-    // TODO
+    // TODO Помечаем как архивированно
   }
 
   @Override
   public List<ContourBaseDTO> findContours(UUID fieldId) {
-    return null; // TODO
+    return null; // TODO не возвращаем архивированные
   }
 
   @Override

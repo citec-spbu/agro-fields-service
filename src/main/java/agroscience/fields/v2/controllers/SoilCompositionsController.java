@@ -26,7 +26,7 @@ public class SoilCompositionsController implements SoilCompositionsApi {
 
   @Override
   public void deleteSoilComposition(UUID soilCompositionId) {
-    // TODO
+    // TODO Не удаляем, архивируем
   }
 
   @Override

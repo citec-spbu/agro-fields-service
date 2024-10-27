@@ -20,7 +20,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Season {
+@EqualsAndHashCode(callSuper = true)
+public class Season extends ArchivedEntity {
 
   @Id
   @Column(name = "season_id")

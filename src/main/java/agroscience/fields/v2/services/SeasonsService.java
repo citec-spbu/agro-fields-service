@@ -20,7 +20,7 @@ public class SeasonsService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    return seasonsRepository.getAllByOrganizationId(organizationId);
+    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId);
   }
 
 }

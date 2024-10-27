@@ -3,7 +3,7 @@ package agroscience.fields.v2.controllers;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.services.SeasonsService;
-import generated.agroscience.fields.api.SeasonApi;
+import generated.agroscience.fields.api.SeasonsApi;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SeasonBaseDTO;
 import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
@@ -16,23 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('organization') or hasRole('worker')")
-public class SeasonsController implements SeasonApi, SecurityController {
+public class SeasonsController implements SeasonsApi, SecurityController {
 
   private final SeasonsService seasonsService;
   private final SeasonMapper seasonsMapper;
 
   @Override
   public void deleteSeason(UUID seasonId) {
-    // TODO
+    // TODO Не удаляем, архивируем
   }
 
   @Override
   public List<SeasonWithFieldsDTO> findFullSeasons() {
-    return null; // TODO
+    return null; // TODO Не возвращаем архивированное
   }
 
   @Override
   public List<SeasonBaseDTO> findSeasons() {
+    // TODO не дать пользователю получить архивированные сезоны
     return seasonsMapper.map(seasonsService.getAll(token().orgId()));
   }
 

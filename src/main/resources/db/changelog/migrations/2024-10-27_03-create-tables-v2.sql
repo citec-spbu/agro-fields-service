@@ -2,49 +2,53 @@ create table if not exists seasons
 (
   season_id       uuid primary key,
   name            text,
-  start_date      date not null,
-  end_date        date not null,
-  organization_id uuid not null
+  start_date      date    not null,
+  end_date        date    not null,
+  organization_id uuid    not null,
+  archived        boolean not null default false
 );
 
 create table if not exists fields
 (
   field_id    uuid primary key,
-  name        text not null,
+  name        text    not null,
   description text,
-  season_id   uuid not null,
-  foreign key (season_id) references seasons (season_id)
+  season_id   uuid    not null,
+  foreign key (season_id) references seasons (season_id),
+  archived    boolean not null default false
 );
 
 create table if not exists contours
 (
   contour_id  uuid primary key,
-  square_area text not null,
+  square_area text     not null,
   geom        geometry not null,
-  color       text not null,
-  field_id    uuid not null,
-  foreign key (field_id) references fields (field_id)
+  color       text     not null,
+  field_id    uuid     not null,
+  foreign key (field_id) references fields (field_id),
+  archived    boolean  not null default false
 );
 
 create table if not exists crop_rotations
 (
   crop_rotation_id uuid primary key,
-  contour_id       uuid not null,
+  contour_id       uuid    not null,
   foreign key (contour_id) references contours (contour_id),
-  start_date       date not null,
-  end_date         date not null,
+  start_date       date    not null,
+  end_date         date    not null,
   culture          text,
   cultivar         text,
-  description      text
+  description      text,
+  archived         boolean not null default false
 );
 
 create table if not exists soil_compositions
 (
   soil_composition_id uuid primary key,
-  contour_id          uuid not null,
+  contour_id          uuid    not null,
   foreign key (contour_id) references contours (contour_id),
   ph                  text,
-  sample_date         date not null,
+  sample_date         date    not null,
   organic_matter      text,
   mobile_p            text,
   mobile_k            text,
@@ -57,7 +61,8 @@ create table if not exists soil_compositions
   b                   text,
   co                  text,
   mn                  text,
-  zn                  text
+  zn                  text,
+  archived            boolean not null default false
 );
 
 commit;

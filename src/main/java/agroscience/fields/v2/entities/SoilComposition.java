@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -18,7 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuppressWarnings("MemberName")
-public class SoilComposition {
+@EqualsAndHashCode(callSuper = true)
+public class SoilComposition extends ArchivedEntity {
 
   @Id
   @Column(name = "soil_composition_id")

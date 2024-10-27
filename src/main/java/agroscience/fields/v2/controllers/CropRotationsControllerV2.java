@@ -27,12 +27,12 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
 
   @Override
   public void deleteCropRotation(UUID cropRotationId) {
-    // TODO
+    // TODO Не удаляем, архивируем
   }
 
   @Override
   public List<CropRotationDTO> getCropRotations(UUID contourID) {
-    return null;
+    return null; // TODO
   }
 
   @Override
