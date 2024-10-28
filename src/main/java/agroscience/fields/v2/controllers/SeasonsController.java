@@ -22,6 +22,11 @@ public class SeasonsController implements SeasonsApi, SecurityController {
   private final SeasonMapper seasonsMapper;
 
   @Override
+  public void changeSeason(UUID seasonId, SeasonBaseDTO seasonBaseDTO) {
+    // TODO обновлять
+  }
+
+  @Override
   public void deleteSeason(UUID seasonId) {
     // TODO Не удаляем, архивируем
   }
