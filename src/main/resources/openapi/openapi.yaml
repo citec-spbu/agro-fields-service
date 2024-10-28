@@ -26,6 +26,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdDTO'
 
+    put:
+      tags:
+        - Seasons
+      operationId: changeSeason
+      summary: Change season
+      parameters:
+        - name: seasonId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeasonBaseDTO'
+      responses:
+        '200':
+          description: Changed
+
     delete:
       tags:
         - Seasons
@@ -230,6 +252,28 @@ paths:
         '200':
           description: Field deleted
 
+    put:
+      tags:
+        - Fields
+      operationId: changeField
+      summary: Change field
+      parameters:
+        - name: fieldId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldBaseDTO'
+      responses:
+        '200':
+          description: Changed
+
   /api/v2/fields-service/contours/{contourId}/crop-rotation:
     post:
       tags:
@@ -428,6 +472,7 @@ components:
           type: string
           format: date
       required:
+        - name
         - startDate
         - endDate
 

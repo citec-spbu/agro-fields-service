@@ -3,6 +3,7 @@ package agroscience.fields.v2.controllers;
 import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.services.FieldsService;
 import generated.agroscience.fields.api.FieldsApi;
+import generated.agroscience.fields.api.model.FieldBaseDTO;
 import generated.agroscience.fields.api.model.FieldDTO;
 import generated.agroscience.fields.api.model.FieldWithContoursAndCropRotationsDTO;
 import generated.agroscience.fields.api.model.IdDTO;
@@ -19,6 +20,11 @@ public class FieldsController implements FieldsApi {
 
   private final FieldMapperV2 fieldMapperV2;
   private final FieldsService fieldService;
+
+  @Override
+  public void changeField(UUID fieldId, FieldBaseDTO fieldBaseDTO) {
+    // TODO обновлять
+  }
 
   @Override
   public void deleteField(UUID fieldId) {
