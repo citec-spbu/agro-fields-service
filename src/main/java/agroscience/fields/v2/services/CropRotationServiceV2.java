@@ -1,6 +1,5 @@
 package agroscience.fields.v2.services;
 
-import agroscience.fields.v2.entities.Contour;
 import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.repositories.ContoursRepository;
 import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
@@ -16,7 +15,7 @@ public class CropRotationServiceV2 extends DefaultService {
   private final ContoursRepository contoursRepository;
 
   public CropRotationV2 save(UUID contourId, CropRotationV2 cropRotation) {
-    var contour = getOrThrow(contoursRepository.findById(contourId), Contour.class);
+    var contour = getOrThrow(contourId, contoursRepository::findById);
     cropRotation.setContour(contour);
     var cropRotationId = UUID.randomUUID();
     cropRotation.setCropRotationId(cropRotationId);

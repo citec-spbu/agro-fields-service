@@ -1,7 +1,6 @@
 package agroscience.fields.v2.services;
 
 import agroscience.fields.v2.entities.FieldV2;
-import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +17,7 @@ public class FieldsService extends DefaultService {
   private final SeasonsRepository seasonsRepository;
 
   public FieldV2 save(UUID seasonId, FieldV2 field) {
-    var season = getOrThrow(seasonsRepository.findById(seasonId), Season.class);
+    var season = getOrThrow(seasonId, seasonsRepository::findById);
     field.setSeason(season);
     var fieldId = UUID.randomUUID();
     field.setFieldId(fieldId);
