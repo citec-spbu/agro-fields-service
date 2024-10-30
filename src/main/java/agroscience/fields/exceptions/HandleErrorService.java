@@ -1,14 +1,12 @@
 package agroscience.fields.exceptions;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNullElse;
 
+import generated.agroscience.fields.api.model.ApiError;
 import generated.agroscience.fields.api.model.ExceptionBody;
-import generated.agroscience.fields.api.model.ExceptionBodyWithErrors;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -21,31 +19,40 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class HandleErrorService {
 
+  private static final String BAD_REQUEST_MESSAGE = "Bad request";
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionBodyWithErrors handleValidationException(MethodArgumentNotValidException ex) {
+  public ExceptionBody handleValidationException(MethodArgumentNotValidException ex) {
+    String message = "%s: %s";
     List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-    Map<String, String> errorMap = errors.stream()
-            .collect(Collectors.toMap(
-                    FieldError::getField,
-                    error -> requireNonNullElse(error.getDefaultMessage(), "No message available")
-            ));
-    return new ExceptionBodyWithErrors(errorMap, "Bad request");
+    List<ApiError> apiErrors = errors.stream()
+            .map(e -> new ApiError(
+                    BAD_REQUEST_MESSAGE,
+                    format(
+                            message,
+                            e.getField(),
+                            requireNonNullElse(e.getDefaultMessage(), "No message available"))
+                    )
+            ).toList();
+    return new ExceptionBody(apiErrors);
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionBodyWithErrors handleEntityNotFoundException(EntityNotFoundException ex) {
-    Map<String, String> errors = new HashMap<>();
-    errors.put("error", ex.getMessage());
-    return new ExceptionBodyWithErrors(errors, "Model not found");
+  public ExceptionBody handleEntityNotFoundException(EntityNotFoundException ex) {
+    return exceptionBody(BAD_REQUEST_MESSAGE, ex.getMessage());
   }
 
   @ExceptionHandler(WrongCoordinatesException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ExceptionBody handleWrongCoordinatesException(Exception e) {
     log.error("Internal error", e);
-    return new ExceptionBody("Internal server error");
+    return exceptionBody("Interlan error", "Unknown exception");
+  }
+
+  private ExceptionBody exceptionBody(String title, String description) {
+    return new ExceptionBody(List.of(new ApiError(title, description)));
   }
 
 }

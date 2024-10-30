@@ -724,23 +724,25 @@ components:
       required:
         - id
 
+    ApiError:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+      required:
+        - title
+        - description
+
     ExceptionBody:
       type: object
       properties:
-        message:
-          type: string
-      required:
-        - message
-
-    ExceptionBodyWithErrors:
-      allOf:
-        - $ref: '#/components/schemas/ExceptionBody'
-      type: object
-      properties:
         errors:
-          type: object
-          additionalProperties:
-            type: string
+          description: Errors list
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ApiError'
       required:
-        - message
         - errors
