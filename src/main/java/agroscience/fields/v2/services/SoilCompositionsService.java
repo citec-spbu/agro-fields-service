@@ -1,6 +1,5 @@
 package agroscience.fields.v2.services;
 
-import agroscience.fields.v2.entities.Contour;
 import agroscience.fields.v2.entities.SoilComposition;
 import agroscience.fields.v2.repositories.ContoursRepository;
 import agroscience.fields.v2.repositories.SoilCompositionsRepository;
@@ -17,7 +16,7 @@ public class SoilCompositionsService extends DefaultService {
   private final ContoursRepository contoursRepository;
 
   public SoilComposition save(UUID contourId, SoilComposition soilComposition) {
-    var contour = getOrThrow(contoursRepository.findById(contourId), Contour.class);
+    var contour = getOrThrow(contourId, contoursRepository::findById);
     soilComposition.setContour(contour);
     var soilCompositionId = UUID.randomUUID();
     soilComposition.setSoilCompositionId(soilCompositionId);
