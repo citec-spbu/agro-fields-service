@@ -25,6 +25,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     put:
       tags:
@@ -47,6 +51,10 @@ paths:
       responses:
         '200':
           description: Changed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     delete:
       tags:
@@ -63,6 +71,10 @@ paths:
       responses:
         '200':
           description: Season deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/seasons:
     get:
@@ -79,6 +91,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SeasonBaseDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/seasons/full:
     get:
@@ -95,6 +111,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SeasonWithFieldsDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/fields/{fieldId}/contours:
     get:
@@ -118,6 +138,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ContourBaseDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contour:
     delete:
@@ -135,6 +159,10 @@ paths:
       responses:
         '200':
           description: Contour deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     put:
       tags:
@@ -157,6 +185,10 @@ paths:
       responses:
         '200':
           description: Changed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/fields/{fieldId}/contour:
     post:
@@ -184,6 +216,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/seasons/{seasonId}/field:
     post:
@@ -211,6 +247,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/seasons/{seasonId}/fields:
     get:
@@ -234,6 +274,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FieldWithContoursAndCropRotationsDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/field:
     delete:
@@ -251,6 +295,10 @@ paths:
       responses:
         '200':
           description: Field deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     put:
       tags:
@@ -273,6 +321,10 @@ paths:
       responses:
         '200':
           description: Changed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contours/{contourId}/crop-rotation:
     post:
@@ -300,6 +352,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contours/{contourId}/crop-rotations:
     get:
@@ -323,6 +379,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CropRotationDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/crop-rotation:
     delete:
@@ -340,6 +400,10 @@ paths:
       responses:
         '200':
           description: Crop rotation deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     put:
       tags:
@@ -362,6 +426,10 @@ paths:
       responses:
         '200':
           description: Changed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contours/{contourId}/soil-composition:
     post:
@@ -389,6 +457,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contours/{contourId}/soil-compositions:
     get:
@@ -412,6 +484,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SoilCompositionDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/soil-composition:
     put:
@@ -435,6 +511,10 @@ paths:
       responses:
         '200':
           description: Changed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     delete:
       tags:
@@ -451,6 +531,10 @@ paths:
       responses:
         '200':
           description: SoilComposition deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
 
 components:
@@ -746,3 +830,18 @@ components:
             $ref: '#/components/schemas/ApiError'
       required:
         - errors
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExceptionBody'
+
+    InternalError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExceptionBody'
