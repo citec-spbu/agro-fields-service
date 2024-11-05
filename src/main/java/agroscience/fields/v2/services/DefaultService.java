@@ -2,6 +2,7 @@ package agroscience.fields.v2.services;
 
 import static java.lang.String.format;
 
+import agroscience.fields.v2.entities.ArchivedEntity;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +17,12 @@ public abstract class DefaultService {
 
   protected static  <T> T getOrThrow(UUID id, Function<UUID, Optional<T>> function) {
     return function.apply(id).orElseThrow(() -> new EntityNotFoundException(format(NOT_FOUND, id)));
+  }
+
+  protected static  <T> void checkArchived(UUID id, T entity) {
+    if (entity instanceof ArchivedEntity && ((ArchivedEntity) entity).isArchived()) {
+      throw new EntityNotFoundException(format(NOT_FOUND + "because archived", id));
+    }
   }
 
 }
