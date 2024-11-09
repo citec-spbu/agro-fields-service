@@ -2,7 +2,11 @@ package agroscience.fields;
 
 import agroscience.fields.dto.field.CoordinatesDTO;
 import agroscience.fields.dto.field.GeomDTO;
-import agroscience.fields.v2.entities.*;
+import agroscience.fields.v2.entities.Contour;
+import agroscience.fields.v2.entities.FieldV2;
+import agroscience.fields.v2.entities.Season;
+import agroscience.fields.v2.entities.SoilComposition;
+import agroscience.fields.v2.entities.CropRotationV2;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
