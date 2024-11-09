@@ -47,7 +47,7 @@ public class SeasonsController implements SeasonsApi, SecurityController {
     Season season = seasonsMapper.map(seasonDTO);
     season.setOrganizationId(token().orgId());
     var seasonEntity = seasonsService.save(season);
-    return new IdDTO(seasonEntity.getSeasonId());
+    return new IdDTO(seasonEntity.getId());
   }
 
 }

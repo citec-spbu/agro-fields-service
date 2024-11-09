@@ -19,13 +19,8 @@ public class FieldsService extends DefaultService {
   public FieldV2 save(UUID seasonId, FieldV2 field) {
     var season = getOrThrow(seasonId, seasonsRepository::findById);
     field.setSeason(season);
-    var fieldId = UUID.randomUUID();
-    field.setFieldId(fieldId);
-    field.getContours().forEach(c -> {
-      c.setContourId(UUID.randomUUID());
-      c.setField(field);
-    });
-    return fieldsRepository.save(field); // try ... catch
+    field.getContours().forEach(c -> c.setField(field));
+    return fieldsRepository.save(field);
   }
 
   public FieldV2 findById(UUID id) {
@@ -33,7 +28,7 @@ public class FieldsService extends DefaultService {
   }
 
   public List<FieldV2> findAll(UUID seasonId) {
-    return fieldsRepository.findAllBySeason_SeasonId(seasonId);
+    return fieldsRepository.findAllBySeason_Id(seasonId);
   }
 
 }

@@ -1,6 +1,6 @@
 create table if not exists seasons
 (
-  season_id       uuid primary key,
+  id              uuid    primary key,
   name            text,
   start_date      date    not null,
   end_date        date    not null,
@@ -10,31 +10,31 @@ create table if not exists seasons
 
 create table if not exists fields
 (
-  field_id    uuid primary key,
+  id          uuid    primary key,
   name        text    not null,
   description text,
   season_id   uuid    not null,
-  foreign key (season_id) references seasons (season_id),
+  foreign key (season_id) references seasons (id),
   archived    boolean not null default false
 );
 
 create table if not exists contours
 (
-  contour_id  uuid primary key,
+  id          uuid     primary key,
   name        text     not null,
   square_area text     not null,
   geom        geometry not null,
   color       text     not null,
   field_id    uuid     not null,
-  foreign key (field_id) references fields (field_id),
+  foreign key (field_id) references fields (id),
   archived    boolean  not null default false
 );
 
 create table if not exists crop_rotations
 (
-  crop_rotation_id uuid primary key,
+  id               uuid    primary key,
   contour_id       uuid    not null,
-  foreign key (contour_id) references contours (contour_id),
+  foreign key (contour_id) references contours (id),
   start_date       date    not null,
   end_date         date,
   culture          text,
@@ -45,9 +45,9 @@ create table if not exists crop_rotations
 
 create table if not exists soil_compositions
 (
-  soil_composition_id uuid primary key,
+  soil_composition_id uuid    primary key,
   contour_id          uuid    not null,
-  foreign key (contour_id) references contours (contour_id),
+  foreign key (contour_id) references contours (id),
   ph                  text,
   sample_date         date    not null,
   organic_matter      text,

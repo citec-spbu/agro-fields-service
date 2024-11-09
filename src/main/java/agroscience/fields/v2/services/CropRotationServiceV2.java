@@ -17,8 +17,6 @@ public class CropRotationServiceV2 extends DefaultService {
   public CropRotationV2 save(UUID contourId, CropRotationV2 cropRotation) {
     var contour = getOrThrow(contourId, contoursRepository::findById);
     cropRotation.setContour(contour);
-    var cropRotationId = UUID.randomUUID();
-    cropRotation.setCropRotationId(cropRotationId);
     return cropRotationRepository.save(cropRotation);
   }
 

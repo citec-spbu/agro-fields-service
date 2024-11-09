@@ -36,7 +36,7 @@ paths:
       operationId: changeSeason
       summary: Change season
       parameters:
-        - name: seasonId
+        - name: id
           in: query
           required: true
           schema:
@@ -62,7 +62,7 @@ paths:
       operationId: deleteSeason
       summary: Delete season by seasonId
       parameters:
-        - name: seasonId
+        - name: id
           in: query
           required: true
           schema:
@@ -116,14 +116,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/fields/{fieldId}/contours:
+  /api/v2/fields-service/fields/{id}/contours:
     get:
       tags:
         - Contours
       operationId: findContours
       summary: Get contours by fieldId
       parameters:
-        - name: fieldId
+        - name: id
           in: path
           required: true
           schema:
@@ -150,7 +150,7 @@ paths:
       operationId: deleteContour
       summary: Delete contour by contourId
       parameters:
-        - name: contourId
+        - name: id
           in: query
           required: true
           schema:
@@ -170,7 +170,7 @@ paths:
       operationId: changeContour
       summary: Change contour
       parameters:
-        - name: contourId
+        - name: id
           in: query
           required: true
           schema:
@@ -190,14 +190,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/fields/{fieldId}/contour:
+  /api/v2/fields-service/fields/{id}/contour:
     post:
       tags:
         - Contours
       operationId: saveContour
       summary: add a new contour to existing field
       parameters:
-        - name: fieldId
+        - name: id
           in: path
           required: true
           schema:
@@ -221,14 +221,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/seasons/{seasonId}/field:
+  /api/v2/fields-service/seasons/{id}/field:
     post:
       tags:
         - Fields
       operationId: saveField
       summary: Create a new field to existing season
       parameters:
-        - name: seasonId
+        - name: id
           in: path
           required: true
           schema:
@@ -252,14 +252,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/seasons/{seasonId}/fields:
+  /api/v2/fields-service/seasons/{id}/fields:
     get:
       tags:
         - Fields
       operationId: findFields
       summary: Get all fields by season ID for preview with last crop rotation
       parameters:
-        - name: seasonId
+        - name: id
           in: path
           required: true
           schema:
@@ -286,7 +286,7 @@ paths:
       operationId: deleteField
       summary: Delete field by fieldId
       parameters:
-        - name: fieldId
+        - name: id
           in: query
           required: true
           schema:
@@ -306,7 +306,7 @@ paths:
       operationId: changeField
       summary: Change field
       parameters:
-        - name: fieldId
+        - name: id
           in: query
           required: true
           schema:
@@ -326,14 +326,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/contours/{contourId}/crop-rotation:
+  /api/v2/fields-service/contours/{id}/crop-rotation:
     post:
       tags:
         - CropRotations
       operationId: saveCropRotation
       summary: Create a new crop rotation
       parameters:
-        - name: contourId
+        - name: id
           in: path
           required: true
           schema:
@@ -357,14 +357,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/contours/{contourId}/crop-rotations:
+  /api/v2/fields-service/contours/{id}/crop-rotations:
     get:
       tags:
         - CropRotations
       operationId: getCropRotations
       summary: Get crop rotations by contourID
       parameters:
-        - name: contourId
+        - name: id
           in: path
           required: true
           schema:
@@ -391,7 +391,7 @@ paths:
       operationId: deleteCropRotation
       summary: Delete crop rotations by cropRotationId
       parameters:
-        - name: cropRotationId
+        - name: id
           in: query
           required: true
           schema:
@@ -411,7 +411,7 @@ paths:
       operationId: changeCropRotation
       summary: Change crop rotation
       parameters:
-        - name: CropRotationId
+        - name: id
           in: query
           required: true
           schema:
@@ -431,14 +431,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/contours/{contourId}/soil-composition:
+  /api/v2/fields-service/contours/{id}/soil-composition:
     post:
       tags:
         - SoilCompositions
       operationId: saveSoilComposition
       summary: Create a new soil composition to existing contour
       parameters:
-        - name: contourId
+        - name: id
           in: path
           required: true
           schema:
@@ -462,14 +462,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
-  /api/v2/fields-service/contours/{contourId}/soil-compositions:
+  /api/v2/fields-service/contours/{id}/soil-compositions:
     get:
       tags:
         - SoilCompositions
       operationId: getSoilCompositions
       summary: Get soil compositions by contourID
       parameters:
-        - name: contourId
+        - name: id
           in: path
           required: true
           schema:
@@ -496,7 +496,7 @@ paths:
       operationId: changeSoilComposition
       summary: Change SoilComposition
       parameters:
-        - name: SoilCompositionId
+        - name: id
           in: query
           required: true
           schema:
@@ -522,7 +522,7 @@ paths:
       operationId: deleteSoilComposition
       summary: Delete SoilComposition by SoilCompositionId
       parameters:
-        - name: soilCompositionId
+        - name: id
           in: query
           required: true
           schema:
@@ -541,9 +541,11 @@ components:
   schemas:
 
     SeasonBaseDTO:
+      discriminator:
+        propertyName: season
       type: object
       properties:
-        seasonId:
+        id:
           type: string
           format: uuid
           readOnly: true
@@ -573,9 +575,11 @@ components:
             - fields
 
     FieldBaseDTO:
+      discriminator:
+        propertyName: field
       type: object
       properties:
-        fieldId:
+        id:
           type: string
           format: uuid
           description: The field ID
@@ -635,6 +639,8 @@ components:
         - latitude
 
     UpdateContourDTO:
+      discriminator:
+        propertyName: contour
       type: object
       properties:
         name:
@@ -649,11 +655,13 @@ components:
         - name
 
     ContourWithoutCoordinatesDTO:
+      discriminator:
+        propertyName: contour
       allOf:
         - $ref: '#/components/schemas/UpdateContourDTO'
         - type: object
           properties:
-            contourId:
+            id:
               type: string
               format: uuid
               readOnly: true
@@ -663,11 +671,13 @@ components:
             - color
 
     ContourBaseDTO:
+      discriminator:
+        propertyName: contour
       allOf:
         - $ref: '#/components/schemas/ContourWithoutCoordinatesDTO'
       type: object
       properties:
-        contourId:
+        id:
           type: string
           format: uuid
           readOnly: true
@@ -700,6 +710,8 @@ components:
             - coordinates
 
     UpdateCropRotationDTO:
+      discriminator:
+        propertyName: cropRotation
       type: object
       properties:
         startDate:
@@ -723,7 +735,7 @@ components:
         - $ref: '#/components/schemas/UpdateCropRotationDTO'
         - type: object
           properties:
-            cropRotationId:
+            id:
               type: string
               format: uuid
               description: The crop rotation ID
@@ -735,7 +747,7 @@ components:
               type: string
               description: The specific cultivar
           required:
-            - contourID
+            - id
             - startDate
             - endDate
             - culture
@@ -743,7 +755,7 @@ components:
     SoilCompositionDTO:
       type: object
       properties:
-        soilCompositionId:
+        id:
           type: string
           format: uuid
           description: The soil composition ID
@@ -795,7 +807,7 @@ components:
           type: string
           description: Zinc content
       required:
-        - contourId
+        - id
         - sampleDate
 
     IdDTO:
