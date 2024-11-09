@@ -39,7 +39,7 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   public IdDTO saveCropRotation(UUID contourId, CropRotationDTO cropRotationDTO) {
     var cropRotation = cropRotationMapperV2.map(cropRotationDTO);
     var cropRotationEntity = cropRotationService.save(contourId, cropRotation);
-    return new IdDTO(cropRotationEntity.getCropRotationId());
+    return new IdDTO(cropRotationEntity.getId());
   }
 
 }

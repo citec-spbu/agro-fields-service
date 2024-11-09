@@ -45,7 +45,7 @@ public class FieldsController implements FieldsApi {
   public IdDTO saveField(UUID seasonId, FieldDTO fieldDTO) {
     var fieldEntity = fieldMapperV2.map(fieldDTO);
     var savedFieldEntity = fieldService.save(seasonId, fieldEntity);
-    return new IdDTO(savedFieldEntity.getFieldId());
+    return new IdDTO(savedFieldEntity.getId());
   }
 
 }

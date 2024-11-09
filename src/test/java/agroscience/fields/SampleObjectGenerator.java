@@ -39,7 +39,6 @@ public class SampleObjectGenerator {
 
   public static Season createSampleSeason() {
     Season season = new Season();
-    season.setSeasonId(UUID.randomUUID());
     season.setName("potato");
     season.setEndDate(LocalDate.now());
     season.setArchived(false);
@@ -50,12 +49,10 @@ public class SampleObjectGenerator {
 
   public static FieldV2 createSampleFieldAndContourInside(Season season){
     FieldV2 field = new FieldV2();
-    field.setFieldId(UUID.randomUUID());
     field.setSeason(season);
     field.setName("Test Field");
     field.setDescription("Description of the test field");
     Contour contour = new Contour();
-    contour.setContourId(UUID.randomUUID());
     contour.setName("Test Contour");
     contour.setSquareArea("1000");
     contour.setColor("FF5733");
@@ -68,7 +65,6 @@ public class SampleObjectGenerator {
   public static SoilComposition createSampleSoilComposition(Contour contour) {
     SoilComposition soilComposition = new SoilComposition();
     soilComposition.setContour(contour);
-    soilComposition.setSoilCompositionId(UUID.randomUUID());
     soilComposition.setPh("6.5");
     soilComposition.setSampleDate(LocalDate.now());
     soilComposition.setOrganicMatter("5.2%");
@@ -90,7 +86,6 @@ public class SampleObjectGenerator {
   public static CropRotationV2 createSampleCropRotation(Contour contour) {
     CropRotationV2 cropRotation = new CropRotationV2();
     cropRotation.setContour(contour);
-    cropRotation.setCropRotationId(UUID.randomUUID());
     cropRotation.setStartDate(LocalDate.now());
     cropRotation.setEndDate(LocalDate.now().plusMonths(6));
     cropRotation.setCulture("Wheat");
@@ -102,7 +97,6 @@ public class SampleObjectGenerator {
   public static Contour createSampleContour(FieldV2 field) {
     Contour contour = new Contour();
     contour.setField(field);
-    contour.setContourId(UUID.randomUUID());
     contour.setName("Sample Contour");
     contour.setSquareArea("1000");
     contour.setGeom(geom());
