@@ -4,7 +4,6 @@ import agroscience.fields.v2.entities.Contour;
 import agroscience.fields.v2.entities.SoilComposition;
 import agroscience.fields.v2.repositories.ContoursRepository;
 import agroscience.fields.v2.repositories.SoilCompositionsRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,6 @@ public class SoilCompositionsService extends DefaultService {
     return soilCompositionsRepository.save(soilComposition);
   }
 
-  public SoilComposition findById(UUID soilCompositionId) {
-    return soilCompositionsRepository.findById(soilCompositionId)
-            .orElseThrow(() -> new EntityNotFoundException("SoilComposition not found"));
-  }
-
   public void archive(UUID soilCompositionId) {
     SoilComposition soilComposition = getOrThrow(soilCompositionId, soilCompositionsRepository::findById);
     soilComposition.setArchived(true);
@@ -37,7 +31,7 @@ public class SoilCompositionsService extends DefaultService {
   public void updateSoilComposition(UUID soilCompositionId, SoilComposition updatedSoilComposition) {
     SoilComposition oldSoilComposition = getOrThrow(soilCompositionId, soilCompositionsRepository::findById);
     checkArchived(soilCompositionId, oldSoilComposition);
-    updatedSoilComposition.setSoilCompositionId(oldSoilComposition.getSoilCompositionId());
+    updatedSoilComposition.setId(oldSoilComposition.getId());
     updatedSoilComposition.setContour(oldSoilComposition.getContour());
     soilCompositionsRepository.save(updatedSoilComposition);
   }
