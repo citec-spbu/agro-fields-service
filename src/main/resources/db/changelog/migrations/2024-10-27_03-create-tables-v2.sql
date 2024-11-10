@@ -45,7 +45,7 @@ create table if not exists crop_rotations
 
 create table if not exists soil_compositions
 (
-  soil_composition_id uuid    primary key,
+  id uuid    primary key,
   contour_id          uuid    not null,
   foreign key (contour_id) references contours (id),
   ph                  text,
