@@ -132,8 +132,8 @@ public class SoilCompositionTest extends AbstractTest {
     ResponseEntity<Void> response = httpSteps.sendPutRequest(soilComposition.getId(), soilCompositionDTO, url, "id");
     //Then
     assertEquals(200, response.getStatusCode().value());
-    List<SoilComposition> SoilCompositions = soilCompositionsRepository.findAll();
-    assertEquals(soilCompositionDTO, soilCompositionMapper.map(SoilCompositions.get(0)));
+    List<SoilComposition> soilCompositions = soilCompositionsRepository.findAll();
+    assertEquals(soilCompositionDTO, soilCompositionMapper.map(soilCompositions.get(0)));
   }
 
 }
