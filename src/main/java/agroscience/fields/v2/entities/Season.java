@@ -3,7 +3,6 @@ package agroscience.fields.v2.entities;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
@@ -21,11 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Season extends ArchivedEntity {
-
-  @Id
-  @Column(name = "season_id")
-  private UUID seasonId;
+public class Season extends AbstractEntity {
 
   @Column(name = "name")
   private String name;

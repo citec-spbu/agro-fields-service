@@ -42,7 +42,7 @@ public class SoilCompositionsController implements SoilCompositionsApi {
   public IdDTO saveSoilComposition(UUID contourId, SoilCompositionDTO soilCompositionDTO) {
     var soilComposition = soilCompositionMapper.map(soilCompositionDTO);
     var soilCompositionEntity = soilCompositionsService.save(contourId, soilComposition);
-    return new IdDTO(soilCompositionEntity.getSoilCompositionId());
+    return new IdDTO(soilCompositionEntity.getId());
   }
 
 }

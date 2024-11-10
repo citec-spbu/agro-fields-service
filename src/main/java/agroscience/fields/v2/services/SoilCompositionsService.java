@@ -20,8 +20,6 @@ public class SoilCompositionsService extends DefaultService {
   public SoilComposition save(UUID contourId, SoilComposition soilComposition) {
     var contour = getOrThrow(contourId, contoursRepository::findById);
     soilComposition.setContour(contour);
-    var soilCompositionId = UUID.randomUUID();
-    soilComposition.setSoilCompositionId(soilCompositionId);
     return soilCompositionsRepository.save(soilComposition);
   }
 
