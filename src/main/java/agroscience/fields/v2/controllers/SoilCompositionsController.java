@@ -1,6 +1,8 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.SoilComposition;
 import agroscience.fields.v2.mappers.SoilCompositionMapper;
+import agroscience.fields.v2.services.ContoursService;
 import agroscience.fields.v2.services.SoilCompositionsService;
 import generated.agroscience.fields.api.SoilCompositionsApi;
 import generated.agroscience.fields.api.model.IdDTO;
@@ -21,17 +23,19 @@ public class SoilCompositionsController implements SoilCompositionsApi {
 
   @Override
   public void changeSoilComposition(UUID soilCompositionId, SoilCompositionDTO soilCompositionDTO) {
-    // TODO в сервисный слой не передаём DTO
+    SoilComposition updatedSoilComposition = soilCompositionMapper.map(soilCompositionDTO);
+    soilCompositionsService.updateSoilComposition(soilCompositionId, updatedSoilComposition);
   }
 
   @Override
   public void deleteSoilComposition(UUID soilCompositionId) {
-    // TODO Не удаляем, архивируем
+    soilCompositionsService.archive(soilCompositionId);
   }
 
   @Override
   public List<SoilCompositionDTO> getSoilCompositions(UUID contourId) {
-    return null; // TODO
+    List<SoilComposition> soilCompositionList = soilCompositionsService.getAllSoilCompositions(contourId);
+    return soilCompositionMapper.map(soilCompositionList);
   }
 
   @Override
