@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @Component
 public class HttpSteps {
+
   @Autowired
   private TestRestTemplate testRestTemplate;
   private static final String TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjk0OTQzNTQsImV4cCI6MTcyOTQ5Nzk1NCwic3ViIjoiYzUzNmQyODEtNTM5MC00YzViLWIxYTMtNjIwNjEzOWZjZTFlIiwicm9sZSI6Im9yZ2FuaXphdGlvbiIsImVtYWlsIjoidGVzdEB0ZXN0LnJ1Iiwib3JnIjoiYzUzNmQyODEtNTM5MC00YzViLWIxYTMtNjIwNjEzOWZjZTFlIn0.0pXuoEo35KiJVYStWFz7cM2UMSbwe19vyZNtIoLDpHs";
@@ -45,6 +46,7 @@ public class HttpSteps {
             request,
             responseType
     );
+
   }
 
   public  ResponseEntity<Void> sendDeleteRequest(UUID soilCompositionId, String url, String queryParamName) {
