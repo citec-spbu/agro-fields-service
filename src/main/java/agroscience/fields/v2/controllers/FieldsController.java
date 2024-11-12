@@ -30,7 +30,7 @@ public class FieldsController implements FieldsApi {
   @Override
   public List<MeteoResponse> coordinatesForMeteoService() {
     return List.of();
-    // TODO Отдавать координаты всех полей
+    // TODO Отдавать координаты всех полей, нужно использовать JdbcTemplate. В сервисе можно использовать MeteoResponse
   }
 
   @Override
