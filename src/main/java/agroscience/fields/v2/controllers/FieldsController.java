@@ -7,6 +7,7 @@ import generated.agroscience.fields.api.model.FieldBaseDTO;
 import generated.agroscience.fields.api.model.FieldDTO;
 import generated.agroscience.fields.api.model.FieldWithContoursAndCropRotationsDTO;
 import generated.agroscience.fields.api.model.IdDTO;
+import generated.agroscience.fields.api.model.MeteoResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,12 @@ public class FieldsController implements FieldsApi {
   @Override
   public void changeField(UUID fieldId, FieldBaseDTO fieldBaseDTO) {
     // TODO обновлять
+  }
+
+  @Override
+  public List<MeteoResponse> coordinatesForMeteoService() {
+    return List.of();
+    // TODO Отдавать координаты всех полей
   }
 
   @Override

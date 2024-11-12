@@ -326,6 +326,27 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /api/internal/fields-service/fields/all-coordinates:
+    get:
+      tags:
+        - Fields
+      operationId: coordinatesForMeteoService
+      summary: Get coordinates for meteo service
+      responses:
+        '200':
+          description: List of fields by season with one element list with last crop rotation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MeteoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+
   /api/v2/fields-service/contours/{id}/crop-rotation:
     post:
       tags:
@@ -637,6 +658,17 @@ components:
       required:
         - longitude
         - latitude
+
+    MeteoResponse:
+      allOf:
+        - $ref: '#/components/schemas/CoordinatesDTO'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+          required:
+            - id
 
     UpdateContourDTO:
       discriminator:
