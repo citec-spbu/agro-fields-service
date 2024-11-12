@@ -329,7 +329,7 @@ paths:
   /api/internal/fields-service/fields/all-coordinates:
     get:
       tags:
-        - Fields
+        - MeteoSlave
       operationId: coordinatesForMeteoService
       summary: Get coordinates for meteo service
       responses:
