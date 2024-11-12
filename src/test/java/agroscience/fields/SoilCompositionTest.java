@@ -63,8 +63,7 @@ public class SoilCompositionTest extends AbstractTest {
     assertEquals(IdDTO.class, response.getBody().getClass());
     assertEquals(new IdDTO(savedSoilCompositions.get(0).getId()), response.getBody());
     assertEquals(1, savedSoilCompositions.size());
-    assertEquals(contourId, savedSoilCompositions.get(0).getContour().getId());
-    assertEquals(soilComposition.getB(),savedSoilCompositions.get(0).getB());
+    assertEquals(soilComposition,savedSoilCompositions.get(0));
   }
 
   @Test
@@ -129,6 +128,7 @@ public class SoilCompositionTest extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     List<SoilComposition> soilCompositions = soilCompositionsRepository.findAll();
     assertEquals(soilCompositionDTO, soilCompositionMapper.map(soilCompositions.get(0)));
+    assertEquals(soilComposition, soilCompositions.get(0));
   }
 
 }
