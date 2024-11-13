@@ -52,7 +52,6 @@ public class CropRotationV2Test extends AbstractTest {
     fieldRepository.save(field);
     UUID contourId = field.getContours().get(0).getId();
     CropRotationV2 cropRotation = createSampleCropRotation(field.getContours().get(0));
-    cropRotationRepository.save(cropRotation);
     //When
     CropRotationDTO cropRotationDTO = cropRotationMapper.map(cropRotation);
     String url = "/api/v2/fields-service/contours/" + contourId + "/crop-rotation";

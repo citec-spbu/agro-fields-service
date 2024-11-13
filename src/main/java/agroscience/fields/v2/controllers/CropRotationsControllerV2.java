@@ -29,7 +29,6 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
 
   @Override
   public void deleteCropRotation(UUID cropRotationId) {
-    //Не удаляем, архивируем
     cropRotationService.delete(cropRotationId);
   }
 
@@ -41,8 +40,7 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   @Override
   public IdDTO saveCropRotation(UUID contourId, CropRotationDTO cropRotationDTO) {
     CropRotationV2 cropRotation = cropRotationMapperV2.map(cropRotationDTO);
-    CropRotationV2 cropRotationEntity = cropRotationService.save(contourId, cropRotation);
-    return new IdDTO(cropRotationEntity.getId());
+    return new IdDTO(cropRotationService.save(contourId, cropRotation).getId());
   }
 
 }
