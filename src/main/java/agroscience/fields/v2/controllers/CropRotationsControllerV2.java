@@ -29,7 +29,7 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
 
   @Override
   public void deleteCropRotation(UUID cropRotationId) {
-    cropRotationService.delete(cropRotationId);
+    cropRotationService.archive(cropRotationId);
   }
 
   @Override

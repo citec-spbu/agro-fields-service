@@ -31,7 +31,7 @@ public class CropRotationServiceV2 extends DefaultService {
     cropRotationRepository.save(cropRotation);
   }
 
-  public void delete(UUID cropRotationId) {
+  public void archive(UUID cropRotationId) {
     CropRotationV2 cropRotation = getOrThrow(cropRotationId, cropRotationRepository::findById);
     cropRotation.setArchived(true);
     cropRotationRepository.save(cropRotation);

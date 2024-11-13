@@ -65,6 +65,7 @@ public class CropRotationV2Test extends AbstractTest {
     assertEquals(new IdDTO(savedCropRotations.get(0).getId()), response.getBody());
     assertEquals(1, savedCropRotations.size());
     assertEquals(cropRotation.getId(), savedCropRotations.get(0).getId());
+    assertEquals(cropRotation, savedCropRotations.get(0));
   }
 
   @Test
