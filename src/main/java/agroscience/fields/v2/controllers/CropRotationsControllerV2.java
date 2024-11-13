@@ -5,7 +5,6 @@ import agroscience.fields.v2.services.CropRotationServiceV2;
 import generated.agroscience.fields.api.CropRotationsApi;
 import generated.agroscience.fields.api.model.CropRotationDTO;
 import generated.agroscience.fields.api.model.IdDTO;
-import generated.agroscience.fields.api.model.UpdateCropRotationDTO;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   private final CropRotationMapperV2 cropRotationMapperV2;
 
   @Override
-  public void changeCropRotation(UUID cropRotationId, UpdateCropRotationDTO updateCropRotationDTO) {
+  public void changeCropRotation(UUID cropRotationId, CropRotationDTO updateCropRotationDTO) {
     // TODO в сервисный слой не передаём DTO
   }
 

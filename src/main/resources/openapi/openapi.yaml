@@ -422,7 +422,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCropRotationDTO'
+              $ref: '#/components/schemas/CropRotationDTO'
       responses:
         '200':
           description: Changed
@@ -709,11 +709,20 @@ components:
             - color
             - coordinates
 
-    UpdateCropRotationDTO:
-      discriminator:
-        propertyName: cropRotation
+    CropRotationDTO:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: The crop rotation ID
+          readOnly: true
+        culture:
+          type: string
+          description: The culture being rotated
+        cultivar:
+          type: string
+          description: The specific cultivar
         startDate:
           type: string
           format: date
@@ -726,31 +735,10 @@ components:
           type: string
           description: Description of the crop rotation
       required:
+        - id
         - startDate
-        - endDate
-        - description
-
-    CropRotationDTO:
-      allOf:
-        - $ref: '#/components/schemas/UpdateCropRotationDTO'
-        - type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: The crop rotation ID
-              readOnly: true
-            culture:
-              type: string
-              description: The culture being rotated
-            cultivar:
-              type: string
-              description: The specific cultivar
-          required:
-            - id
-            - startDate
-            - endDate
-            - culture
+        - culture
+        - cultivar
 
     SoilCompositionDTO:
       type: object
