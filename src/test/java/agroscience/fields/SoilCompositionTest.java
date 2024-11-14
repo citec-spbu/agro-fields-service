@@ -40,7 +40,7 @@ public class SoilCompositionTest extends AbstractTest {
   public void clear() {
     fieldRepository.deleteAll();
     soilCompositionsRepository.deleteAll();
-    fieldRepository.deleteAll();
+    seasonsRepository.deleteAll();
   }
 
   @Test
@@ -51,8 +51,8 @@ public class SoilCompositionTest extends AbstractTest {
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
     UUID contourId = field.getContours().get(0).getId();
-    // When
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
+    // When
     SoilCompositionDTO soilCompositionDTO = soilCompositionMapper.map(soilComposition);
     String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
     ResponseEntity<IdDTO> response = httpSteps.sendPostRequest(soilCompositionDTO,url, IdDTO.class);
@@ -63,8 +63,8 @@ public class SoilCompositionTest extends AbstractTest {
     assertEquals(IdDTO.class, response.getBody().getClass());
     assertEquals(new IdDTO(savedSoilCompositions.get(0).getId()), response.getBody());
     assertEquals(1, savedSoilCompositions.size());
-    assertEquals(contourId, savedSoilCompositions.get(0).getContour().getId());
-    assertEquals(soilComposition.getB(),savedSoilCompositions.get(0).getB());
+    soilComposition.setId(savedSoilCompositions.get(0).getId());
+    assertEquals(soilComposition,savedSoilCompositions.get(0));
   }
 
   @Test
@@ -75,25 +75,20 @@ public class SoilCompositionTest extends AbstractTest {
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
     UUID contourId = field.getContours().get(0).getId();
-    // When
     SoilComposition soilComposition1 = createSampleSoilComposition(field.getContours().get(0));
     SoilComposition soilComposition2 = createSampleSoilComposition(field.getContours().get(0));
     soilCompositionsRepository.save(soilComposition1);
     soilCompositionsRepository.save(soilComposition2);
+    // When
     String url = "/api/v2/fields-service/contours/" + contourId + "/soil-compositions";
-    ResponseEntity<List<SoilCompositionDTO>> response1 = httpSteps.sendGetRequest(url, new ParameterizedTypeReference<>() {});
-    ResponseEntity<List<SoilCompositionDTO>> response2 = httpSteps.sendGetRequest(url, new ParameterizedTypeReference<>() {});
+    ResponseEntity<List<SoilCompositionDTO>> response = httpSteps.sendGetRequest(url, new ParameterizedTypeReference<>() {});
     //Then
-    assertEquals(200, response1.getStatusCode().value());
-    assertEquals(200, response2.getStatusCode().value());
-    List<SoilCompositionDTO> responseDto1 = response1.getBody();
-    List<SoilCompositionDTO> responseDto2 = response2.getBody();
-    assertNotNull(responseDto1);
-    assertNotNull(responseDto2);
-    assertEquals(2,responseDto2.size());
-    assertEquals(2,responseDto2.size());
-    assertEquals(responseDto1.get(0),soilCompositionMapper.map(soilComposition1));
-    assertEquals(responseDto1.get(1),soilCompositionMapper.map(soilComposition2));
+    assertEquals(200, response.getStatusCode().value());
+    List<SoilCompositionDTO> responseDto = response.getBody();
+    assertNotNull(responseDto);
+    assertEquals(2,responseDto.size());
+    assertEquals(responseDto.get(0),soilCompositionMapper.map(soilComposition1));
+    assertEquals(responseDto.get(1),soilCompositionMapper.map(soilComposition2));
   }
 
   @Test
@@ -103,9 +98,9 @@ public class SoilCompositionTest extends AbstractTest {
     seasonsRepository.save(season);
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
-    //When
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
     soilCompositionsRepository.save(soilComposition);
+    //When
     String url = "/api/v2/fields-service/soil-composition";
     ResponseEntity<Void> response = httpSteps.sendDeleteRequest(soilComposition.getId(),url, "id");
     //Then
@@ -123,9 +118,9 @@ public class SoilCompositionTest extends AbstractTest {
     seasonsRepository.save(season);
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
-    //When
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
     soilCompositionsRepository.save(soilComposition);
+    //When
     soilComposition.setCo("KoKOKOkO");
     SoilCompositionDTO soilCompositionDTO = soilCompositionMapper.map(soilComposition);
     String url = "/api/v2/fields-service/soil-composition";
@@ -134,6 +129,7 @@ public class SoilCompositionTest extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     List<SoilComposition> soilCompositions = soilCompositionsRepository.findAll();
     assertEquals(soilCompositionDTO, soilCompositionMapper.map(soilCompositions.get(0)));
+    assertEquals(soilComposition, soilCompositions.get(0));
   }
 
 }

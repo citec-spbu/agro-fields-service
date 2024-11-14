@@ -1,12 +1,10 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.mappers.CropRotationMapperV2;
 import agroscience.fields.v2.services.CropRotationServiceV2;
 import generated.agroscience.fields.api.CropRotationsApi;
 import generated.agroscience.fields.api.model.CropRotationDTO;
 import generated.agroscience.fields.api.model.IdDTO;
-import generated.agroscience.fields.api.model.UpdateCropRotationDTO;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -22,25 +20,26 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   private final CropRotationMapperV2 cropRotationMapperV2;
 
   @Override
-  public void changeCropRotation(UUID cropRotationId, UpdateCropRotationDTO updateCropRotationDTO) {
-    CropRotationV2 updateCropRotation = cropRotationMapperV2.map(updateCropRotationDTO);
-    cropRotationService.update(cropRotationId, updateCropRotation);
+  public void changeCropRotation(UUID cropRotationId, CropRotationDTO updateCropRotationDTO) {
+    // TODO в сервисный слой не передаём DTO
   }
 
   @Override
   public void deleteCropRotation(UUID cropRotationId) {
-    cropRotationService.archive(cropRotationId);
+    // TODO Не удаляем, архивируем
   }
 
   @Override
   public List<CropRotationDTO> getCropRotations(UUID contourID) {
-    return cropRotationMapperV2.map(cropRotationService.getAllByContourId(contourID));
+    return null; // TODO
   }
 
   @Override
   public IdDTO saveCropRotation(UUID contourId, CropRotationDTO cropRotationDTO) {
-    CropRotationV2 cropRotation = cropRotationMapperV2.map(cropRotationDTO);
-    return new IdDTO(cropRotationService.save(contourId, cropRotation).getId());
+    var cropRotation = cropRotationMapperV2.map(cropRotationDTO);
+    var cropRotationEntity = cropRotationService.save(contourId, cropRotation);
+    return new IdDTO(cropRotationEntity.getId());
   }
 
 }
+
