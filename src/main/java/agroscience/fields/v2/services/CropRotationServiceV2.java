@@ -25,10 +25,9 @@ public class CropRotationServiceV2 extends DefaultService {
   public void update(UUID cropRotationId, CropRotationV2 updateCropRotation) {
     CropRotationV2 cropRotation = getOrThrow(cropRotationId, cropRotationRepository::findById);
     checkArchived(cropRotationId, cropRotation);
-    cropRotation.setDescription(updateCropRotation.getDescription());
-    cropRotation.setStartDate(updateCropRotation.getStartDate());
-    cropRotation.setEndDate(updateCropRotation.getEndDate());
-    cropRotationRepository.save(cropRotation);
+    updateCropRotation.setContour(cropRotation.getContour());
+    updateCropRotation.setId(cropRotation.getId());
+    cropRotationRepository.save(updateCropRotation);
   }
 
   public void archive(UUID cropRotationId) {
