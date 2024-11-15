@@ -51,4 +51,10 @@ public class Contour extends AbstractEntity {
   @EqualsAndHashCode.Exclude
   private List<SoilComposition> soilCompositions;
 
+  @Override
+  public void archive() {
+    super.archive();
+    soilCompositions.forEach(SoilComposition::archive);
+  }
+
 }

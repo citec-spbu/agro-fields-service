@@ -20,5 +20,9 @@ public abstract class AbstractEntity {
   @Column(name = "archived", nullable = false)
   protected boolean archived;
 
+  public void archive() {
+    archived = true;
+  }
+
 
 }
