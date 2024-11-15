@@ -40,10 +40,4 @@ public class Season extends AbstractEntity {
   @EqualsAndHashCode.Exclude
   private List<FieldV2> fields;
 
-  @Override
-  public void archive() {
-    super.archive();
-    fields.forEach(FieldV2::archive);
-  }
-
 }

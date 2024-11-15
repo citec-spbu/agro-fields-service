@@ -7,8 +7,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,11 +37,5 @@ public class FieldV2 extends AbstractEntity {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<Contour> contours;
-
-  @Override
-  public void archive() {
-    super.archive();
-    contours.forEach(Contour::archive);
-  }
 
 }
