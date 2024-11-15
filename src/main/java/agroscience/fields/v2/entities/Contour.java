@@ -55,9 +55,6 @@ public class Contour extends AbstractEntity {
   public void archive() {
     super.archive();
     soilCompositions.forEach(SoilComposition::archive);
-    if (field.getContours().size() == 1) {
-      field.setArchived(true);
-    }
   }
 
 }
