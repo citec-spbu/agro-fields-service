@@ -2,7 +2,6 @@ package agroscience.fields.v2.controllers;
 
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.mappers.SeasonMapper;
-import agroscience.fields.v2.security.TokenUserContext;
 import agroscience.fields.v2.services.SeasonsService;
 import generated.agroscience.fields.api.SeasonsApi;
 import generated.agroscience.fields.api.model.IdDTO;
@@ -24,32 +23,30 @@ public class SeasonsController implements SeasonsApi, SecurityController {
 
   @Override
   public void changeSeason(UUID seasonId, SeasonBaseDTO seasonBaseDTO) {
-    Season updateSeason = seasonsMapper.map(seasonBaseDTO);
-    seasonsService.update(seasonId, updateSeason);
+    // TODO обновлять
   }
 
   @Override
   public void deleteSeason(UUID seasonId) {
-    seasonsService.archive(seasonId);
+    // TODO Не удаляем, архивируем
   }
 
   @Override
   public List<SeasonWithFieldsDTO> findFullSeasons() {
-    TokenUserContext token = token();
-    return seasonsService.getAllWithField(token.orgId());
+    return null; // TODO Не возвращаем архивированное
   }
 
   @Override
   public List<SeasonBaseDTO> findSeasons() {
-    TokenUserContext token = token();
-    return seasonsService.getAll(token.orgId());
+    // TODO не дать пользователю получить архивированные сезоны
+    return seasonsMapper.map(seasonsService.getAll(token().orgId()));
   }
 
   @Override
   public IdDTO saveSeason(SeasonBaseDTO seasonDTO) {
     Season season = seasonsMapper.map(seasonDTO);
     season.setOrganizationId(token().orgId());
-    Season  seasonEntity = seasonsService.save(season);
+    var seasonEntity = seasonsService.save(season);
     return new IdDTO(seasonEntity.getId());
   }
 
