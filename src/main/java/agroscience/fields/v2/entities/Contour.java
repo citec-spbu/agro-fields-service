@@ -8,6 +8,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -55,7 +57,10 @@ public class Contour extends AbstractEntity {
   public void archive() {
     super.archive();
     soilCompositions.forEach(SoilComposition::archive);
-    if (field.getContours().size() == 1) {
+    List<Contour> contoursWithArchivedFalse = field.getContours().stream()
+            .filter(contour -> !contour.isArchived())
+            .toList();
+    if (contoursWithArchivedFalse.isEmpty()) {
       field.setArchived(true);
     }
   }
