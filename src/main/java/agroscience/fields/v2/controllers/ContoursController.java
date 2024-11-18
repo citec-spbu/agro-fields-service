@@ -1,5 +1,6 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.Contour;
 import agroscience.fields.v2.mappers.ContourMapper;
 import agroscience.fields.v2.services.ContoursService;
 import generated.agroscience.fields.api.ContoursApi;
@@ -24,17 +25,19 @@ public class ContoursController implements ContoursApi {
 
   @Override
   public void changeContour(UUID contourId, UpdateContourDTO updateContourDTO) {
-    // TODO в сервисный слой не передаём DTO
+    Contour updatedContour = contourMapper.map(updateContourDTO);
+    contourService.update(contourId, updatedContour);
   }
 
   @Override
   public void deleteContour(UUID contourId) {
-    // TODO Помечаем как архивированно
+    contourService.archive(contourId);
   }
 
   @Override
   public List<ContourBaseDTO> findContours(UUID fieldId) {
-    return null; // TODO не возвращаем архивированные
+    List<Contour> contourList =  contourService.findAllByFieldId(fieldId);
+    return contourMapper.map(contourList);
   }
 
   @Override
