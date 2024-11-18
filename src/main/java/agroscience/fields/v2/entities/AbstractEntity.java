@@ -24,5 +24,4 @@ public abstract class AbstractEntity {
     archived = true;
   }
 
-
 }
