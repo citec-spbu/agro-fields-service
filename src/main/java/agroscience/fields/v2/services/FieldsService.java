@@ -23,6 +23,13 @@ public class FieldsService extends DefaultService {
     return fieldsRepository.save(field);
   }
 
+  public void update(UUID fieldId, FieldV2 updateField) {
+    FieldV2 field = getOrThrow(fieldId, fieldsRepository::findById);
+    field.setName(updateField.getName());
+    field.setDescription(updateField.getDescription());
+    fieldsRepository.save(field);
+  }
+
   public FieldV2 findById(UUID id) {
     return fieldsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field not found"));
   }

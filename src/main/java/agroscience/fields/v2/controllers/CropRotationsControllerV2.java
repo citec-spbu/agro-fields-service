@@ -1,5 +1,6 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.mappers.CropRotationMapperV2;
 import agroscience.fields.v2.services.CropRotationServiceV2;
 import generated.agroscience.fields.api.CropRotationsApi;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+
 @PreAuthorize("hasRole('organization') or hasRole('worker')")
 public class CropRotationsControllerV2 implements CropRotationsApi {
 
@@ -20,18 +22,19 @@ public class CropRotationsControllerV2 implements CropRotationsApi {
   private final CropRotationMapperV2 cropRotationMapperV2;
 
   @Override
-  public void changeCropRotation(UUID cropRotationId, CropRotationDTO updateCropRotationDTO) {
-    // TODO в сервисный слой не передаём DTO
+  public void changeCropRotation(UUID cropRotationId, CropRotationDTO cropRotationDTO) {
+    CropRotationV2 cropRotationV2 = cropRotationMapperV2.map(cropRotationDTO);
+    cropRotationService.update(cropRotationId, cropRotationV2);
   }
 
   @Override
   public void deleteCropRotation(UUID cropRotationId) {
-    // TODO Не удаляем, архивируем
+    cropRotationService.archive(cropRotationId);
   }
 
   @Override
   public List<CropRotationDTO> getCropRotations(UUID contourID) {
-    return null; // TODO
+    return cropRotationMapperV2.map(cropRotationService.getAllByContourId(contourID));
   }
 
   @Override

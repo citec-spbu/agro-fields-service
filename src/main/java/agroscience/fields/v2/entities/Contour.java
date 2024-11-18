@@ -51,4 +51,17 @@ public class Contour extends AbstractEntity {
   @EqualsAndHashCode.Exclude
   private List<SoilComposition> soilCompositions;
 
+  @Override
+  public void archive() {
+    super.archive();
+    soilCompositions.forEach(SoilComposition::archive);
+    cropRotations.forEach(CropRotationV2::archive);
+    List<Contour> contoursWithArchivedFalse = field.getContours().stream()
+            .filter(contour -> !contour.isArchived())
+            .toList();
+    if (contoursWithArchivedFalse.isEmpty()) {
+      field.setArchived(true);
+    }
+  }
+
 }
