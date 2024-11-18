@@ -38,4 +38,10 @@ public class FieldV2 extends AbstractEntity {
   @EqualsAndHashCode.Exclude
   private List<Contour> contours;
 
+  @Override
+  public void archive() {
+    super.archive();
+    contours.forEach(Contour::archive);
+  }
+
 }
