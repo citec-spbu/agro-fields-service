@@ -709,10 +709,6 @@ components:
         - $ref: '#/components/schemas/ContourWithoutCoordinatesDTO'
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         color:
           type: string
           pattern: "^([A-Fa-f0-9]{6})$"
