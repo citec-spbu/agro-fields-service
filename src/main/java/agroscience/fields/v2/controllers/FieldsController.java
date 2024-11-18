@@ -1,5 +1,6 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.services.FieldsService;
 import generated.agroscience.fields.api.FieldsApi;
@@ -23,7 +24,8 @@ public class FieldsController implements FieldsApi {
 
   @Override
   public void changeField(UUID fieldId, FieldBaseDTO fieldBaseDTO) {
-    // TODO обновлять
+    FieldV2 updateField = fieldMapperV2.map(fieldBaseDTO);
+    fieldService.update(fieldId, updateField);
   }
 
   @Override
