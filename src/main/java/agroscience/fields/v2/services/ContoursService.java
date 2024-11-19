@@ -21,7 +21,8 @@ public class ContoursService extends DefaultService {
   }
 
   public UUID save(UUID fieldId, Contour contour) {
-    var field = getOrThrow(fieldId, fieldsRepository::findById);
+    FieldV2 field = getOrThrow(fieldId, fieldsRepository::findById);
+    checkArchived(fieldId, field);
     contour.setField(field);
     return contoursRepository.save(contour).getId();
   }

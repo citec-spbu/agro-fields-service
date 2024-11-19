@@ -17,14 +17,15 @@ public class SoilCompositionsService extends DefaultService {
   private final ContoursRepository contoursRepository;
 
   public SoilComposition save(UUID contourId, SoilComposition soilComposition) {
-    var contour = getOrThrow(contourId, contoursRepository::findById);
+    Contour contour = getOrThrow(contourId, contoursRepository::findById);
+    checkArchived(contourId, contour);
     soilComposition.setContour(contour);
     return soilCompositionsRepository.save(soilComposition);
   }
 
   public void archive(UUID soilCompositionId) {
     SoilComposition soilComposition = getOrThrow(soilCompositionId, soilCompositionsRepository::findById);
-    soilComposition.setArchived(true);
+    soilComposition.archive();
     soilCompositionsRepository.save(soilComposition);
   }
 
@@ -38,6 +39,7 @@ public class SoilCompositionsService extends DefaultService {
 
   public List<SoilComposition> getAllSoilCompositions(UUID contourId) {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
+    checkArchived(contourId, contour);
     return soilCompositionsRepository.findAllByContourAndArchivedIsFalse(contour);
   }
 
