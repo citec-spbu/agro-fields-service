@@ -23,6 +23,9 @@ public interface ContourMapper {
 
   Contour map(UpdateContourDTO updateContourDTO);
 
+  @Mapping(target = "coordinates", source = "geom", qualifiedByName = "toCoordinates")
+  ContourBaseDTO map(Contour contour);
+
   List<ContourBaseDTO> map(List<Contour> contourList);
 
   @Named("toGeom")
