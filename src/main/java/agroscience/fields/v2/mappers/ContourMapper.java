@@ -4,6 +4,7 @@ import agroscience.fields.exceptions.WrongCoordinatesException;
 import agroscience.fields.v2.entities.Contour;
 import generated.agroscience.fields.api.model.ContourBaseDTO;
 import generated.agroscience.fields.api.model.CoordinatesDTO;
+import generated.agroscience.fields.api.model.UpdateContourDTO;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,13 @@ public interface ContourMapper {
 
   @Mapping(target = "geom", source = "request.coordinates", qualifiedByName = "toGeom")
   Contour map(ContourBaseDTO request);
+
+  Contour map(UpdateContourDTO updateContourDTO);
+
+  @Mapping(target = "coordinates", source = "geom", qualifiedByName = "toCoordinates")
+  ContourBaseDTO map(Contour contour);
+
+  List<ContourBaseDTO> map(List<Contour> contourList);
 
   @Named("toGeom")
   default Geometry mapGeom(List<CoordinatesDTO> coordinates) {

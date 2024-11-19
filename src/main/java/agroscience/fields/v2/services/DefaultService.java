@@ -21,7 +21,7 @@ public abstract class DefaultService {
 
   protected static <T extends AbstractEntity> void checkArchived(UUID id, T entity) {
     if (entity.isArchived()) {
-      throw new EntityNotFoundException(format(NOT_FOUND + "because archived", id));
+      throw new EntityNotFoundException(format(NOT_FOUND + " because archived", id));
     }
   }
 
