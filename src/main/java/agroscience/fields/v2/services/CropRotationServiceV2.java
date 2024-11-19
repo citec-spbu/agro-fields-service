@@ -18,6 +18,7 @@ public class CropRotationServiceV2 extends DefaultService {
 
   public CropRotationV2 save(UUID contourId, CropRotationV2 cropRotation) {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
+    checkArchived(contourId, contour);
     cropRotation.setContour(contour);
     return cropRotationRepository.save(cropRotation);
   }
@@ -32,11 +33,13 @@ public class CropRotationServiceV2 extends DefaultService {
 
   public void archive(UUID cropRotationId) {
     CropRotationV2 cropRotation = getOrThrow(cropRotationId, cropRotationRepository::findById);
-    cropRotation.setArchived(true);
+    cropRotation.archive();
     cropRotationRepository.save(cropRotation);
   }
 
   public List<CropRotationV2> getAllByContourId(UUID contourId) {
+    Contour contour = getOrThrow(contourId, contoursRepository::findById);
+    checkArchived(contourId, contour);
     return cropRotationRepository.getAllByContourIdAndArchivedIsFalse(contourId);
   }
 }

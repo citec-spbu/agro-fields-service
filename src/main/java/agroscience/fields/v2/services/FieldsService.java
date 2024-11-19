@@ -1,6 +1,7 @@
 package agroscience.fields.v2.services;
 
 import agroscience.fields.v2.entities.FieldV2;
+import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,7 +18,8 @@ public class FieldsService extends DefaultService {
   private final SeasonsRepository seasonsRepository;
 
   public FieldV2 save(UUID seasonId, FieldV2 field) {
-    var season = getOrThrow(seasonId, seasonsRepository::findById);
+    Season season = getOrThrow(seasonId, seasonsRepository::findById);
+    checkArchived(seasonId, season);
     field.setSeason(season);
     field.getContours().forEach(c -> c.setField(field));
     return fieldsRepository.save(field);
@@ -25,6 +27,7 @@ public class FieldsService extends DefaultService {
 
   public void update(UUID fieldId, FieldV2 updateField) {
     FieldV2 field = getOrThrow(fieldId, fieldsRepository::findById);
+    checkArchived(fieldId, field);
     field.setName(updateField.getName());
     field.setDescription(updateField.getDescription());
     fieldsRepository.save(field);
@@ -35,6 +38,8 @@ public class FieldsService extends DefaultService {
   }
 
   public List<FieldV2> findAll(UUID seasonId) {
+    Season season = getOrThrow(seasonId, seasonsRepository::findById);
+    checkArchived(seasonId, season);
     return fieldsRepository.findAllBySeason_Id(seasonId);
   }
 
