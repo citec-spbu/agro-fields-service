@@ -18,7 +18,7 @@ public class MeteoSlaveService extends DefaultService {
 
   @Transactional
   public List<MeteoResponse> getAllFieldCoordinates() {
-    List<FieldV2> fieldList = fieldsRepository.findAllAndArchivedIsFalse();
+    List<FieldV2> fieldList = fieldsRepository.findAllByArchivedIsFalse();
     List<MeteoResponse> responseList = new ArrayList<>();
     fieldList.forEach(field -> {
       Coordinate coordinate = field.getContours().get(0).getGeom().getCoordinates()[0];
