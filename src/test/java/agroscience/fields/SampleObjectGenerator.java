@@ -11,6 +11,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class SampleObjectGenerator {
     season.setEndDate(LocalDate.now());
     season.setArchived(false);
     season.setStartDate(LocalDate.now());
-    season.setOrganizationId(UUID.randomUUID());
+    season.setOrganizationId(UUID.fromString("c536d281-5390-4c5b-b1a3-6206139fce1e"));
     return season;
   }
 
@@ -58,6 +59,7 @@ public class SampleObjectGenerator {
     contour.setColor("FF5733");
     contour.setGeom(geom());
     contour.setField(field);
+    contour.setCropRotations(new ArrayList<>());
     field.setContours(List.of(contour));
     return field;
   }

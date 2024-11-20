@@ -23,30 +23,32 @@ public class SeasonsController implements SeasonsApi, SecurityController {
 
   @Override
   public void changeSeason(UUID seasonId, SeasonBaseDTO seasonBaseDTO) {
-    // TODO обновлять
+    Season season = seasonsMapper.map(seasonBaseDTO);
+    seasonsService.update(seasonId, season);
   }
 
   @Override
   public void deleteSeason(UUID seasonId) {
-    // TODO Не удаляем, архивируем
+    seasonsService.archive(seasonId);
   }
 
   @Override
   public List<SeasonWithFieldsDTO> findFullSeasons() {
-    return null; // TODO Не возвращаем архивированное
+    List<Season> seasons = seasonsService.getAll(token().orgId());
+    return seasonsMapper.mapWithField(seasons);
   }
 
   @Override
   public List<SeasonBaseDTO> findSeasons() {
-    // TODO не дать пользователю получить архивированные сезоны
-    return seasonsMapper.map(seasonsService.getAll(token().orgId()));
+    List<Season> seasons = seasonsService.getAll(token().orgId());
+    return seasonsMapper.map(seasons);
   }
 
   @Override
   public IdDTO saveSeason(SeasonBaseDTO seasonDTO) {
     Season season = seasonsMapper.map(seasonDTO);
     season.setOrganizationId(token().orgId());
-    var seasonEntity = seasonsService.save(season);
+    Season seasonEntity = seasonsService.save(season);
     return new IdDTO(seasonEntity.getId());
   }
 
