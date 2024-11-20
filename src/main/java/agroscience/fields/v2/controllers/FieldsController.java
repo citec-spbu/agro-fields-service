@@ -1,6 +1,5 @@
 package agroscience.fields.v2.controllers;
 
-import agroscience.fields.dao.entities.Crop;
 import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.mappers.FieldMapperV2;
@@ -13,8 +12,6 @@ import generated.agroscience.fields.api.model.IdDTO;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
