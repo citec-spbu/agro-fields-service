@@ -1,5 +1,7 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.dao.entities.Crop;
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.services.FieldsService;
@@ -8,8 +10,11 @@ import generated.agroscience.fields.api.model.FieldBaseDTO;
 import generated.agroscience.fields.api.model.FieldDTO;
 import generated.agroscience.fields.api.model.FieldWithContoursAndCropRotationsDTO;
 import generated.agroscience.fields.api.model.IdDTO;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,17 +35,22 @@ public class FieldsController implements FieldsApi {
 
   @Override
   public void deleteField(UUID fieldId) {
-    // TODO По факту не удаляем, а просто ставим флажок, что архивировано. С вложенными объектами также
+    fieldService.archive(fieldId);
   }
 
   @Override
   public List<FieldWithContoursAndCropRotationsDTO> findFields(UUID seasonId) {
-    // TODO Нужно уметь отсекать архивированные сущности, вот пример getAllByOrganizationIdAndArchivedIsFalse
-    // Найти его можно в seasonRepository
-    // Важно при запросе в базу отфилтровать cropRotations, чтобы пришёл самый последний только либо никакой
-    // Этот метод нужен для превью, для превью было бы "красиво" выводить последнюю растующую культуру,
-    // поэтому важно вернуть последний crop rotation
-    return fieldMapperV2.map(fieldService.findAll(seasonId));
+    List<FieldV2> fields = fieldService.findAll(seasonId);
+    fields.forEach(fieldV2 -> {
+      fieldV2.getContours().forEach(contour -> {
+        List<CropRotationV2> latestCrop = contour.getCropRotations().stream()
+                .sorted(Comparator.comparing(CropRotationV2::getStartDate).reversed())
+                .limit(1)
+                .toList();
+        contour.setCropRotations(latestCrop);
+      });
+    });
+    return fieldMapperV2.map(fields);
   }
 
   @Override
