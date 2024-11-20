@@ -18,13 +18,13 @@ public class MeteoSlaveService extends DefaultService {
 
   @Transactional
   public List<MeteoResponse> getAllFieldCoordinates() {
-    List<FieldV2> fieldList = fieldsRepository.findAll();
-    List<MeteoResponse> response = new ArrayList<>();
+    List<FieldV2> fieldList = fieldsRepository.findAllAndArchivedIsFalse();
+    List<MeteoResponse> responseList = new ArrayList<>();
     fieldList.forEach(field -> {
       Coordinate coordinate = field.getContours().get(0).getGeom().getCoordinates()[0];
-      response.add(new MeteoResponse(coordinate.getX(), coordinate.getY(), field.getId()));
+      responseList.add(new MeteoResponse(coordinate.getX(), coordinate.getY(), field.getId()));
     });
-    return response;
+    return responseList;
   }
 
 }

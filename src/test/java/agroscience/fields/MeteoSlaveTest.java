@@ -30,18 +30,22 @@ public class MeteoSlaveTest extends AbstractTest{
     // Given
     Season season = createSampleSeason();
     seasonsRepository.save(season);
-    FieldV2 field = createSampleFieldAndContourInside(season);
-    fieldRepository.save(field);
+    FieldV2 field1 = createSampleFieldAndContourInside(season);
+    FieldV2 field2 = createSampleFieldAndContourInside(season);
+    field2.archive();
+    fieldRepository.save(field1);
+    fieldRepository.save(field2);
     // When
     String url = "/api/internal/fields-service/fields/all-coordinates";
     ResponseEntity<List<MeteoResponse>> response = httpSteps.sendGetRequest(url, new ParameterizedTypeReference<>() {});
     // Then
-    Coordinate coordinate = field.getContours().get(0).getGeom().getCoordinates()[0];
+    Coordinate coordinate = field1.getContours().get(0).getGeom().getCoordinates()[0];
     assertEquals(200, response.getStatusCode().value());
     assertNotNull(response.getBody());
+    assertEquals(1,response.getBody().size());
     assertEquals(coordinate.getX(),response.getBody().get(0).getLongitude());
     assertEquals(coordinate.getY(),response.getBody().get(0).getLatitude());
-    assertEquals(field.getId(),response.getBody().get(0).getId());
+    assertEquals(field1.getId(),response.getBody().get(0).getId());
   }
 
 }
