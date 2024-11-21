@@ -63,7 +63,6 @@ public class FieldV2Test extends AbstractTest {
     assertEquals(IdDTO.class, response.getBody().getClass());
     assertEquals(new IdDTO(savedFields.get(0).getId()), response.getBody());
     assertEquals(1, savedFields.size());
-    assertEquals(field.getId(), savedFields.get(0).getId());
     assertEquals(field, savedFields.get(0));
   }
 
@@ -116,7 +115,7 @@ public class FieldV2Test extends AbstractTest {
     ResponseEntity<Void> response = httpSteps.sendPutRequest(field.getId(), fieldDTO, url, "id");
     //Then
     assertEquals(200, response.getStatusCode().value());
-    assertEquals(fieldDTO, fieldMapperV2.map(fieldTestRepository.findAllWithContours().get(0)));
+    assertEquals(fieldDTO, fieldMapperV2.map(fieldTestRepository.findAllByArchivedIsFalse().get(0)));
     assertEquals(field, fieldTestRepository.findAll().get(0));
   }
 
