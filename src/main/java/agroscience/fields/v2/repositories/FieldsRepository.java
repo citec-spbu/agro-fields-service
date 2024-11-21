@@ -10,4 +10,6 @@ public interface FieldsRepository extends AbstractRepository<FieldV2> {
 
   List<FieldV2> findAllBySeasonIdAndArchivedIsFalse(UUID id);
 
+  List<FieldV2> findAllByArchivedIsFalse();
+
 }

@@ -60,6 +60,7 @@ public class SampleObjectGenerator {
     contour.setGeom(geom());
     contour.setField(field);
     contour.setCropRotations(new ArrayList<>());
+    contour.setSoilCompositions(new ArrayList<>());
     field.setContours(List.of(contour));
     return field;
   }
