@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SeasonsService {
+public class SeasonsService extends DefaultService {
 
   private final SeasonsRepository seasonsRepository;
 
@@ -18,7 +18,22 @@ public class SeasonsService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    return seasonsRepository.getAllByIdAndArchivedIsFalse(organizationId);
+    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId);
+  }
+
+  public void archive(UUID seasonId) {
+    Season season = getOrThrow(seasonId, seasonsRepository::findById);
+    season.archive();
+    seasonsRepository.save(season);
+  }
+
+  public void update(UUID seasonId, Season season) {
+    Season old = getOrThrow(seasonId, seasonsRepository::findById);
+    checkArchived(seasonId, old);
+    season.setId(old.getId());
+    season.setOrganizationId(old.getOrganizationId());
+    season.setFields(old.getFields());
+    seasonsRepository.save(season);
   }
 
 }
