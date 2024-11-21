@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FieldsRepository extends AbstractRepository<FieldV2> {
 
-  List<FieldV2> findAllBySeason_Id(UUID id);
+  List<FieldV2> findAllBySeasonIdAndArchivedIsFalse(UUID id);
 
 }
