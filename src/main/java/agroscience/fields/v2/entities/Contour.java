@@ -54,12 +54,8 @@ public class Contour extends AbstractEntity {
   @Override
   public void archive() {
     super.archive();
-    if (soilCompositions != null) {
-      soilCompositions.forEach(SoilComposition::archive);
-    }
-    if (cropRotations != null) {
-      cropRotations.forEach(CropRotationV2::archive);
-    }
+    soilCompositions.forEach(SoilComposition::archive);
+    cropRotations.forEach(CropRotationV2::archive);
     List<Contour> contoursWithArchivedFalse = field.getContours().stream()
             .filter(contour -> !contour.isArchived())
             .toList();
