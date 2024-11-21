@@ -1,5 +1,6 @@
 package agroscience.fields.v2.services;
 
+import agroscience.fields.v2.entities.Contour;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.FieldsRepository;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +35,15 @@ public class FieldsService extends DefaultService {
     fieldsRepository.save(field);
   }
 
-  public FieldV2 findById(UUID id) {
-    return fieldsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Field not found"));
-  }
-
   public List<FieldV2> findAll(UUID seasonId) {
     Season season = getOrThrow(seasonId, seasonsRepository::findById);
     checkArchived(seasonId, season);
-    return fieldsRepository.findAllBySeason_Id(seasonId);
+    return fieldsRepository.findAllBySeasonIdAndArchivedIsFalse(seasonId);
   }
 
+  public void archive(UUID contourId) {
+    FieldV2 fieldV2 = getOrThrow(contourId, fieldsRepository::findById);
+    fieldV2.archive();
+    fieldsRepository.save(fieldV2);
+  }
 }
