@@ -1,5 +1,6 @@
 # Запуск проекта
 
+./mvnw clean package -DskipTests  
 docker compose up
 
 # Конфигурация
