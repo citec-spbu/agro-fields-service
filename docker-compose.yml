@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8002:8002"
+      - 8004:8080
     depends_on:
       database:
         condition: service_healthy
@@ -18,7 +18,7 @@ services:
     env_file:
       - .env
     ports:
-      - "5434:5432"
+      - 5434:5432
     volumes:
       - pgdbdata:/var/lib/postgresql/data/
       - ./db-init:/docker-entrypoint-initdb.d
