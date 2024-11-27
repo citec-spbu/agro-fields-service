@@ -37,17 +37,6 @@ public class SeasonsController implements SeasonsApi, SecurityController {
   @Override
   public List<SeasonWithFieldsDTO> findFullSeasons() {
     List<Season> seasons = seasonsService.getAll(token().orgId());
-    seasons.forEach(season -> {
-      season.getFields().forEach(fieldV2 -> {
-        fieldV2.getContours().forEach(contour -> {
-          List<CropRotationV2> crops = contour.getCropRotations().stream()
-                  .sorted(Comparator.comparing(CropRotationV2::getStartDate).reversed())
-                  .toList();
-          contour.setCropRotations(crops);
-        });
-
-      });
-    });
     return seasonsMapper.mapWithField(seasons);
   }
 
