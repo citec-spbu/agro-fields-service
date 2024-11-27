@@ -95,7 +95,7 @@ public class SeasonsTest extends AbstractTest {
     //Then
     assertEquals(200, response.getStatusCode().value());
     assertTrue(seasonsRepository.findAll().get(0).isArchived());
-    assertEquals(0, seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(season.getOrganizationId()).size());
+    assertEquals(0, seasonsRepository.getAllByOrganizationIdAndArchivedIsFalseOrderByStartDateDesc(season.getOrganizationId()).size());
   }
 
   @Test
