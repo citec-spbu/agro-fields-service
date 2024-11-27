@@ -1,5 +1,6 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.services.SeasonsService;
@@ -7,6 +8,7 @@ import generated.agroscience.fields.api.SeasonsApi;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SeasonBaseDTO;
 import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,17 @@ public class SeasonsController implements SeasonsApi, SecurityController {
   @Override
   public List<SeasonWithFieldsDTO> findFullSeasons() {
     List<Season> seasons = seasonsService.getAll(token().orgId());
+    seasons.forEach(season -> {
+      season.getFields().forEach(fieldV2 -> {
+        fieldV2.getContours().forEach(contour -> {
+          List<CropRotationV2> crops = contour.getCropRotations().stream()
+                  .sorted(Comparator.comparing(CropRotationV2::getStartDate).reversed())
+                  .toList();
+          contour.setCropRotations(crops);
+        });
+
+      });
+    });
     return seasonsMapper.mapWithField(seasons);
   }
 

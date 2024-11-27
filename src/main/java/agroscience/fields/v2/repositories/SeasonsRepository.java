@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SeasonsRepository extends AbstractRepository<Season> {
 
-  List<Season> getAllByOrganizationIdAndArchivedIsFalse(UUID orgId);
+  List<Season> getAllByOrganizationIdAndArchivedIsFalseOrderByStartDateDesc(UUID orgId);
 
 }

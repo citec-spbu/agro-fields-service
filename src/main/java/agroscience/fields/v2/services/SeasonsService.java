@@ -18,7 +18,7 @@ public class SeasonsService extends DefaultService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId);
+    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalseOrderByStartDateDesc(organizationId);
   }
 
   public void archive(UUID seasonId) {
