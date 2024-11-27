@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
@@ -106,7 +107,8 @@ public class CropRotationV2Test extends AbstractTest {
     //Then
     assertEquals(200, response.getStatusCode().value());
     assertTrue(cropRotationRepository.findAll().get(0).isArchived());
-    assertEquals(0, cropRotationRepository.getAllByContourIdAndArchivedIsFalse(cropRotation.getContour().getId()).size());
+    Sort sort = Sort.by(Sort.Direction.ASC, "startDate");
+    assertEquals(0, cropRotationRepository.getAllByContourIdAndArchivedIsFalse(cropRotation.getContour().getId(), sort).size());
   }
 
   @Test
