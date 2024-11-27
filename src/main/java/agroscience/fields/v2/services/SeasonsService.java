@@ -5,6 +5,7 @@ import agroscience.fields.v2.repositories.SeasonsRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,8 @@ public class SeasonsService extends DefaultService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalseOrderByStartDateDesc(organizationId);
+    Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId, sort);
   }
 
   public void archive(UUID seasonId) {

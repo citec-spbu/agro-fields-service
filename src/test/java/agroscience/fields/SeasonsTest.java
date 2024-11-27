@@ -1,7 +1,5 @@
 package agroscience.fields;
 
-import agroscience.fields.v2.controllers.SeasonsController;
-import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.mappers.SeasonMapper;
@@ -14,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import static agroscience.fields.SampleObjectGenerator.createSampleFieldAndContourInside;
@@ -21,6 +20,7 @@ import static agroscience.fields.SampleObjectGenerator.createSampleSeason;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class SeasonsTest extends AbstractTest {
 
@@ -95,7 +95,8 @@ public class SeasonsTest extends AbstractTest {
     //Then
     assertEquals(200, response.getStatusCode().value());
     assertTrue(seasonsRepository.findAll().get(0).isArchived());
-    assertEquals(0, seasonsRepository.getAllByOrganizationIdAndArchivedIsFalseOrderByStartDateDesc(season.getOrganizationId()).size());
+    Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+    assertEquals(0, seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(season.getOrganizationId(), sort).size());
   }
 
   @Test
