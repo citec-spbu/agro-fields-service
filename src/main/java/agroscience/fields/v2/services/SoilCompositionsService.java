@@ -7,6 +7,7 @@ import agroscience.fields.v2.repositories.SoilCompositionsRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,7 +41,8 @@ public class SoilCompositionsService extends DefaultService {
   public List<SoilComposition> getAllSoilCompositions(UUID contourId) {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
     checkArchived(contourId, contour);
-    return soilCompositionsRepository.findAllByContourAndArchivedIsFalse(contour);
+    Sort sort = Sort.by(Sort.Direction.DESC, "sampleDate");
+    return soilCompositionsRepository.findAllByContourAndArchivedIsFalse(contour, sort);
   }
 
 }
