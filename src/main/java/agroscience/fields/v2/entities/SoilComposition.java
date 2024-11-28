@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Geometry;
 
 @Entity
 @Table(name = "soil_compositions")
@@ -64,6 +65,9 @@ public class SoilComposition extends AbstractEntity {
 
   @Column(name = "zn")
   private String zn;
+
+  @Column(name = "point", columnDefinition = "GEOMETRY(Point, 4326)")
+  private Geometry point;
 
   @ManyToOne
   @JoinColumn(name = "contour_id")

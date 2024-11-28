@@ -7,6 +7,9 @@ import agroscience.fields.v2.repositories.SoilCompositionsRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +21,15 @@ public class SoilCompositionsService extends DefaultService {
 
   public SoilComposition save(UUID contourId, SoilComposition soilComposition) {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
+    if (soilComposition.getPoint() == null) {
+      Coordinate coordinate = contour.getGeom().getCoordinates()[0];
+      GeometryFactory geometryFactory = new GeometryFactory();
+      Point point = geometryFactory.createPoint(coordinate);
+      soilComposition.setPoint(point);
+    }
+    if (!contour.getGeom().contains(soilComposition.getPoint())) {
+      throw new IllegalArgumentException("The point does not belong to the contour");
+    }
     checkArchived(contourId, contour);
     soilComposition.setContour(contour);
     return soilCompositionsRepository.save(soilComposition);

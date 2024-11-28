@@ -822,6 +822,8 @@ components:
         zn:
           type: string
           description: Zinc content
+        point:
+          $ref: '#/components/schemas/CoordinatesDTO'
       required:
         - id
         - sampleDate

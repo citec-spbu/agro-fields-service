@@ -52,19 +52,27 @@ public class SoilCompositionTest extends AbstractTest {
     fieldRepository.save(field);
     UUID contourId = field.getContours().get(0).getId();
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
+    SoilComposition soilCompositionWithOutPoint = createSampleSoilComposition(field.getContours().get(0));
+    soilCompositionWithOutPoint.setPoint(null);
     // When
     SoilCompositionDTO soilCompositionDTO = soilCompositionMapper.map(soilComposition);
+    SoilCompositionDTO soilCompositionDTOWithOutPoint = soilCompositionMapper.map(soilCompositionWithOutPoint);
     String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
-    ResponseEntity<IdDTO> response = httpSteps.sendPostRequest(soilCompositionDTO,url, IdDTO.class);
+    ResponseEntity<IdDTO> response1 = httpSteps.sendPostRequest(soilCompositionDTO, url, IdDTO.class);
+    ResponseEntity<IdDTO> response2 = httpSteps.sendPostRequest(soilCompositionDTOWithOutPoint, url, IdDTO.class);
     // Then
     List<SoilComposition> savedSoilCompositions = soilCompositionsRepository.findAll();
-    assertEquals(200, response.getStatusCode().value());
-    assertNotNull(response.getBody());
-    assertEquals(IdDTO.class, response.getBody().getClass());
-    assertEquals(new IdDTO(savedSoilCompositions.get(0).getId()), response.getBody());
-    assertEquals(1, savedSoilCompositions.size());
+    assertEquals(200, response1.getStatusCode().value());
+    assertEquals(200, response2.getStatusCode().value());
+    assertNotNull(response1.getBody());
+    assertNotNull(response2.getBody());
+    assertEquals(new IdDTO(savedSoilCompositions.get(0).getId()), response1.getBody());
+    assertEquals(new IdDTO(savedSoilCompositions.get(1).getId()), response2.getBody());
+    assertEquals(2, savedSoilCompositions.size());
     soilComposition.setId(savedSoilCompositions.get(0).getId());
-    assertEquals(soilComposition,savedSoilCompositions.get(0));
+    assertEquals(soilComposition, savedSoilCompositions.get(0));
+    soilComposition.setId(savedSoilCompositions.get(1).getId());
+    assertEquals(soilComposition, savedSoilCompositions.get(1));
   }
 
   @Test

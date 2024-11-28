@@ -10,6 +10,7 @@ import agroscience.fields.v2.entities.CropRotationV2;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,10 @@ public class SampleObjectGenerator {
     soilComposition.setCo("0.05 mg/kg");
     soilComposition.setMn("6.2 mg/kg");
     soilComposition.setZn("1.1 mg/kg");
+    Coordinate coordinate = contour.getGeom().getCoordinates()[0];
+    GeometryFactory geometryFactory = new GeometryFactory();
+    Point point = geometryFactory.createPoint(coordinate);
+    soilComposition.setPoint(point);
     return soilComposition;
   }
 

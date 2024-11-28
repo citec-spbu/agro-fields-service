@@ -63,7 +63,8 @@ create table if not exists soil_compositions
   co                  text,
   mn                  text,
   zn                  text,
-  archived            boolean not null default false
+  archived            boolean not null default false,
+  point GEOMETRY(Point, 4321)
 );
 
 commit;
