@@ -37,12 +37,11 @@ public class SeasonsTest extends AbstractTest {
   @Autowired
   private CropRotationRepositoryV2 cropRotationRepository;
   @Autowired
-  private CropRotationMapperV2 cropRotationMapper;
-  @Autowired
   private HttpSteps httpSteps;
 
   @BeforeEach
   public void clear() {
+    cropRotationRepository.deleteAll();
     seasonsRepository.deleteAll();
     fieldRepository.deleteAll();
   }
