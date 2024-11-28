@@ -1,8 +1,11 @@
 package agroscience.fields;
 
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.entities.Season;
+import agroscience.fields.v2.mappers.CropRotationMapperV2;
 import agroscience.fields.v2.mappers.SeasonMapper;
+import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import generated.agroscience.fields.api.model.SeasonBaseDTO;
@@ -14,13 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import java.time.LocalDate;
 import java.util.List;
+import static agroscience.fields.SampleObjectGenerator.createSampleCropRotation;
 import static agroscience.fields.SampleObjectGenerator.createSampleFieldAndContourInside;
 import static agroscience.fields.SampleObjectGenerator.createSampleSeason;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 public class SeasonsTest extends AbstractTest {
 
@@ -30,6 +34,10 @@ public class SeasonsTest extends AbstractTest {
   private SeasonMapper seasonMapper;
   @Autowired
   private FieldsRepository fieldRepository;
+  @Autowired
+  private CropRotationRepositoryV2 cropRotationRepository;
+  @Autowired
+  private CropRotationMapperV2 cropRotationMapper;
   @Autowired
   private HttpSteps httpSteps;
 
@@ -61,13 +69,23 @@ public class SeasonsTest extends AbstractTest {
   }
 
   @Test
-  public void getCropRotationTest() {
+  public void getSeasonTest() {
     //Given
     Season season = createSampleSeason();
     seasonsRepository.save(season);
-    FieldV2 fieldV2 = createSampleFieldAndContourInside(season);
-    fieldRepository.save(fieldV2);
-    season.setFields(List.of(fieldV2));
+    Season season1 = createSampleSeason();
+    season1.setStartDate(LocalDate.of(2024, 10, 2));
+    seasonsRepository.save(season1);
+    FieldV2 field = createSampleFieldAndContourInside(season1);
+    fieldRepository.save(field);
+    season.setFields(List.of(field));
+    season1.setFields(List.of(field));
+    CropRotationV2 cropRotation = createSampleCropRotation(field.getContours().get(0));
+    cropRotationRepository.save(cropRotation);
+    CropRotationV2 cropRotation2 = createSampleCropRotation(field.getContours().get(0));
+    cropRotation2.setStartDate(LocalDate.of(2024, 10, 2));
+    cropRotationRepository.save(cropRotation2);
+    field.getContours().get(0).setCropRotations(List.of(cropRotation2, cropRotation));
     //When
     String url1 = "/api/v2/fields-service/seasons";
     String url2 = "/api/v2/fields-service/seasons/full";
@@ -78,10 +96,10 @@ public class SeasonsTest extends AbstractTest {
     assertEquals(200, response2.getStatusCode().value());
     assertNotNull(response1.getBody());
     assertNotNull(response2.getBody());
-    assertEquals(1, response1.getBody().size());
-    assertEquals(1, response2.getBody().size());
-    assertEquals(seasonMapper.map(List.of(season)).get(0), response1.getBody().get(0));
-    assertEquals(seasonMapper.mapWithField(List.of(season)).get(0), response2.getBody().get(0));
+    assertEquals(2, response1.getBody().size());
+    assertEquals(2, response2.getBody().size());
+    assertEquals(seasonMapper.map(List.of(season1)).get(0), response1.getBody().get(0));
+    assertEquals(seasonMapper.mapWithField(List.of(season1)).get(0), response2.getBody().get(0));
   }
 
   @Test

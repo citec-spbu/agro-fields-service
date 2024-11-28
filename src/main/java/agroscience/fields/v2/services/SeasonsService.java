@@ -21,13 +21,13 @@ public class SeasonsService extends DefaultService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+    Sort sort = Sort.by(Sort.Direction.ASC, "startDate");
     List<Season> seasons = seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId, sort);
     seasons.forEach(season -> {
       season.getFields().forEach(fieldV2 -> {
         fieldV2.getContours().forEach(contour -> {
           List<CropRotationV2> crops = contour.getCropRotations().stream()
-                  .sorted(Comparator.comparing(CropRotationV2::getStartDate).reversed())
+                  .sorted(Comparator.comparing(CropRotationV2::getStartDate))
                   .toList();
           contour.setCropRotations(crops);
         });
