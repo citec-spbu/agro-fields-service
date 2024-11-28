@@ -72,6 +72,7 @@ public class SoilCompositionTest extends AbstractTest {
     soilComposition.setId(savedSoilCompositions.get(0).getId());
     assertEquals(soilComposition, savedSoilCompositions.get(0));
     soilComposition.setId(savedSoilCompositions.get(1).getId());
+    soilComposition.setPoint(savedSoilCompositions.get(1).getPoint());
     assertEquals(soilComposition, savedSoilCompositions.get(1));
   }
 

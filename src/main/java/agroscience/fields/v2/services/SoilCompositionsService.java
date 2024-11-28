@@ -27,7 +27,8 @@ public class SoilCompositionsService extends DefaultService {
       Point point = geometryFactory.createPoint(coordinate);
       soilComposition.setPoint(point);
     }
-    if (!contour.getGeom().contains(soilComposition.getPoint())) {
+    if (!contour.getGeom().contains(soilComposition.getPoint())
+            && !contour.getGeom().intersects(soilComposition.getPoint())) {
       throw new IllegalArgumentException("The point does not belong to the contour");
     }
     checkArchived(contourId, contour);
