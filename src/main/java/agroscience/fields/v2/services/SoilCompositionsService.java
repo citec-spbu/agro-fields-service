@@ -41,7 +41,7 @@ public class SoilCompositionsService extends DefaultService {
   public List<SoilComposition> getAllSoilCompositions(UUID contourId) {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
     checkArchived(contourId, contour);
-    Sort sort = Sort.by(Sort.Direction.DESC, "sampleDate");
+    Sort sort = Sort.by(Sort.Direction.ASC, "sampleDate");
     return soilCompositionsRepository.findAllByContourAndArchivedIsFalse(contour, sort);
   }
 
