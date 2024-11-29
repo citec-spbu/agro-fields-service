@@ -3,7 +3,6 @@ package agroscience.fields;
 import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.FieldV2;
 import agroscience.fields.v2.entities.Season;
-import agroscience.fields.v2.mappers.CropRotationMapperV2;
 import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
 import agroscience.fields.v2.repositories.FieldsRepository;

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ public class Contour extends AbstractEntity {
           orphanRemoval = true)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
+  @OrderBy("startDate ASC")
   private List<CropRotationV2> cropRotations;
 
   @OneToMany(mappedBy = "contour", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
