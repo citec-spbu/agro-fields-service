@@ -13,7 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import static agroscience.fields.SampleObjectGenerator.createSampleCropRotation;
@@ -79,6 +82,7 @@ public class CropRotationV2Test extends AbstractTest {
     CropRotationV2 cropRotation1 = createSampleCropRotation(field.getContours().get(0));
     cropRotationRepository.save(cropRotation1);
     CropRotationV2 cropRotation2 = createSampleCropRotation(field.getContours().get(0));
+    cropRotation2.setStartDate(LocalDate.of(2024, 10, 2));
     cropRotationRepository.save(cropRotation2);
     //When
     String url = "/api/v2/fields-service/contours/" + contourId + "/crop-rotations";
@@ -87,8 +91,8 @@ public class CropRotationV2Test extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     assertNotNull(response.getBody());
     assertEquals(2, response.getBody().size());
-    assertEquals(response.getBody().get(0), cropRotationMapper.map(cropRotation1));
-    assertEquals(response.getBody().get(1), cropRotationMapper.map(cropRotation2));
+    assertEquals(cropRotationMapper.map(cropRotation1), response.getBody().get(1));
+    assertEquals(cropRotationMapper.map(cropRotation2), response.getBody().get(0));
   }
 
   @Test
@@ -106,7 +110,8 @@ public class CropRotationV2Test extends AbstractTest {
     //Then
     assertEquals(200, response.getStatusCode().value());
     assertTrue(cropRotationRepository.findAll().get(0).isArchived());
-    assertEquals(0, cropRotationRepository.getAllByContourIdAndArchivedIsFalse(cropRotation.getContour().getId()).size());
+    Sort sort = Sort.by(Sort.Direction.ASC, "startDate");
+    assertEquals(0, cropRotationRepository.getAllByContourIdAndArchivedIsFalse(cropRotation.getContour().getId(), sort).size());
   }
 
   @Test
