@@ -1,5 +1,6 @@
 package agroscience.fields.v2.controllers;
 
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.services.SeasonsService;
@@ -7,6 +8,7 @@ import generated.agroscience.fields.api.SeasonsApi;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SeasonBaseDTO;
 import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

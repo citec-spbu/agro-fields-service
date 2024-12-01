@@ -1,10 +1,13 @@
 package agroscience.fields.v2.services;
 
+import agroscience.fields.v2.entities.CropRotationV2;
 import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.SeasonsRepository;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +21,8 @@ public class SeasonsService extends DefaultService {
   }
 
   public List<Season> getAll(UUID organizationId) {
-    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId);
+    Sort sort = Sort.by(Sort.Direction.ASC, "startDate");
+    return seasonsRepository.getAllByOrganizationIdAndArchivedIsFalse(organizationId, sort);
   }
 
   public void archive(UUID seasonId) {

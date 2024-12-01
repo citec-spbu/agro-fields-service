@@ -5,6 +5,7 @@ import agroscience.fields.v2.entities.Season;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import generated.agroscience.fields.api.model.MeteoResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class MeteoSlaveTest extends AbstractTest{
   private FieldsRepository fieldRepository;
   @Autowired
   private HttpSteps httpSteps;
+
+  @BeforeEach
+  public void clear() {
+    seasonsRepository.deleteAll();
+    fieldRepository.deleteAll();
+  }
 
   @Test
   public void getCoordinatesTest(){
