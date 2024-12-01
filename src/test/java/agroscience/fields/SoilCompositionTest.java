@@ -13,7 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import static agroscience.fields.SampleObjectGenerator.createSampleFieldAndContourInside;
@@ -77,6 +79,7 @@ public class SoilCompositionTest extends AbstractTest {
     UUID contourId = field.getContours().get(0).getId();
     SoilComposition soilComposition1 = createSampleSoilComposition(field.getContours().get(0));
     SoilComposition soilComposition2 = createSampleSoilComposition(field.getContours().get(0));
+    soilComposition2.setSampleDate(LocalDate.of(2024, 10, 2));
     soilCompositionsRepository.save(soilComposition1);
     soilCompositionsRepository.save(soilComposition2);
     // When
@@ -87,8 +90,8 @@ public class SoilCompositionTest extends AbstractTest {
     List<SoilCompositionDTO> responseDto = response.getBody();
     assertNotNull(responseDto);
     assertEquals(2,responseDto.size());
-    assertEquals(responseDto.get(0),soilCompositionMapper.map(soilComposition1));
-    assertEquals(responseDto.get(1),soilCompositionMapper.map(soilComposition2));
+    assertEquals(responseDto.get(1),soilCompositionMapper.map(soilComposition1));
+    assertEquals(responseDto.get(0),soilCompositionMapper.map(soilComposition2));
   }
 
   @Test
@@ -107,7 +110,8 @@ public class SoilCompositionTest extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     List<SoilComposition> savedSoilCompositions = soilCompositionsRepository.findAll();
     assertTrue(savedSoilCompositions.get(0).isArchived());
-    List<SoilComposition> savedSoilCompositionsAndNotArchived = soilCompositionsRepository.findAllByContourAndArchivedIsFalse(field.getContours().get(0));
+    Sort sort = Sort.by(Sort.Direction.DESC, "sampleDate");
+    List<SoilComposition> savedSoilCompositionsAndNotArchived = soilCompositionsRepository.findAllByContourAndArchivedIsFalse(field.getContours().get(0), sort);
     assertEquals(0,savedSoilCompositionsAndNotArchived.size());
   }
 
