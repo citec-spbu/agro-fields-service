@@ -86,8 +86,8 @@ public class SampleObjectGenerator {
     soilComposition.setZn("1.1 mg/kg");
     Coordinate coordinate = new Coordinate(2,2.5);
     GeometryFactory geometryFactory = new GeometryFactory();
-    Point point = geometryFactory.createPoint(coordinate);
-    soilComposition.setPoint(point);
+    Point coordinates = geometryFactory.createPoint(coordinate);
+    soilComposition.setCoordinates(coordinates);
     return soilComposition;
   }
 

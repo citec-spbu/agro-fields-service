@@ -53,7 +53,7 @@ public class SoilCompositionTest extends AbstractTest {
     UUID contourId = field.getContours().get(0).getId();
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
     SoilComposition soilCompositionWithOutPoint = createSampleSoilComposition(field.getContours().get(0));
-    soilCompositionWithOutPoint.setPoint(null);
+    soilCompositionWithOutPoint.setCoordinates(null);
     // When
     SoilCompositionDTO soilCompositionDTO = soilCompositionMapper.map(soilComposition);
     SoilCompositionDTO soilCompositionDTOWithOutPoint = soilCompositionMapper.map(soilCompositionWithOutPoint);
@@ -72,7 +72,7 @@ public class SoilCompositionTest extends AbstractTest {
     soilComposition.setId(savedSoilCompositions.get(0).getId());
     assertEquals(soilComposition, savedSoilCompositions.get(0));
     soilComposition.setId(savedSoilCompositions.get(1).getId());
-    soilComposition.setPoint(savedSoilCompositions.get(1).getPoint());
+    soilComposition.setCoordinates(savedSoilCompositions.get(1).getCoordinates());
     assertEquals(soilComposition, savedSoilCompositions.get(1));
   }
 

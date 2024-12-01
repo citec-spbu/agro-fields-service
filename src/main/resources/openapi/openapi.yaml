@@ -822,7 +822,7 @@ components:
         zn:
           type: string
           description: Zinc content
-        point:
+        coordinates:
           $ref: '#/components/schemas/CoordinatesDTO'
       required:
         - id

@@ -16,32 +16,32 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring", uses = {SoilCompositionMapper.class})
 public interface SoilCompositionMapper {
 
-  @Mapping(target = "point", source = "request.point", qualifiedByName = "fromPointDTOToGeometry")
+  @Mapping(target = "coordinates", source = "request.coordinates", qualifiedByName = "toGeometry")
   SoilComposition map(SoilCompositionDTO request);
 
-  @Mapping(target = "point", source = "entity.point", qualifiedByName = "fromGeometryToPointDTO")
+  @Mapping(target = "coordinates", source = "entity.coordinates", qualifiedByName = "toPointDTO")
   SoilCompositionDTO map(SoilComposition entity);
 
   List<SoilCompositionDTO> map(List<SoilComposition> soilCompositionList);
 
-  @Named("fromPointDTOToGeometry")
-  default Geometry mapPoint(CoordinatesDTO point) {
-    if (point == null) {
+  @Named("toGeometry")
+  default Geometry mapPoint(CoordinatesDTO coordinates) {
+    if (coordinates == null) {
       return null;
     }
     GeometryFactory geometryFactory = new GeometryFactory();
-    return geometryFactory.createPoint(new Coordinate(point.getLongitude(), point.getLatitude()));
+    return geometryFactory.createPoint(new Coordinate(coordinates.getLongitude(), coordinates.getLatitude()));
   }
 
-  @Named("fromGeometryToPointDTO")
+  @Named("toPointDTO")
   default CoordinatesDTO mapGeometry(Geometry geometry) {
     if (geometry == null) {
       return null;
     }
-    Point point = (Point) geometry;
+    Point coordinates = (Point) geometry;
     return new CoordinatesDTO()
-            .latitude(point.getY())
-            .longitude(point.getX());
+            .latitude(coordinates.getY())
+            .longitude(coordinates.getX());
   }
 
 }
