@@ -15,6 +15,7 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring", uses = {SoilCompositionMapper.class})
 public interface SoilCompositionMapper {
+  GeometryFactory geometryFactory = new GeometryFactory();
 
   @Mapping(target = "coordinates", source = "request.coordinates", qualifiedByName = "toGeometry")
   SoilComposition map(SoilCompositionDTO request);
@@ -29,7 +30,6 @@ public interface SoilCompositionMapper {
     if (coordinates == null) {
       return null;
     }
-    GeometryFactory geometryFactory = new GeometryFactory();
     return geometryFactory.createPoint(new Coordinate(coordinates.getLongitude(), coordinates.getLatitude()));
   }
 
