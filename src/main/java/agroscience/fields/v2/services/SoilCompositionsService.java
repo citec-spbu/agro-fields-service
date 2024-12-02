@@ -21,6 +21,10 @@ public class SoilCompositionsService extends DefaultService {
     Contour contour = getOrThrow(contourId, contoursRepository::findById);
     checkArchived(contourId, contour);
     soilComposition.setContour(contour);
+    if (soilComposition.getCoordinates() == null) {
+      soilComposition.setDefaultCoordinates();
+    }
+    soilComposition.checkBelongToContour();
     return soilCompositionsRepository.save(soilComposition);
   }
 
