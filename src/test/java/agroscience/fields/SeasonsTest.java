@@ -7,6 +7,8 @@ import agroscience.fields.v2.mappers.SeasonMapper;
 import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
+import generated.agroscience.fields.api.model.ApiError;
+import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.SeasonBaseDTO;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
@@ -49,11 +51,19 @@ public class SeasonsTest extends AbstractTest {
   public void createSeasonTest() {
     //Given
     Season season = createSampleSeason();
+    Season seasonWithLongName = createSampleSeason();
+    seasonWithLongName.setName("A".repeat(51));
     //When
     SeasonBaseDTO seasonBaseDTO = seasonMapper.map(List.of(season)).get(0);
+    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(seasonWithLongName)).get(0);
     String url = "/api/v2/fields-service/season";
     ResponseEntity<IdDTO> response = httpSteps.sendPostRequest(seasonBaseDTO, url, IdDTO.class);
+    ResponseEntity<ExceptionBody> responseE = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
     //Then
+    assertEquals(400, responseE.getStatusCode().value());
+    assertNotNull(responseE.getBody());
+    List<ApiError> apiErrors = responseE.getBody().getErrors();
+    assertEquals("name: size must be between 1 and 50", apiErrors.get(0).getDescription());
     List<Season> savedSeasons = seasonsRepository.findAll();
     savedSeasons.get(0).setOrganizationId(season.getOrganizationId());
     season.setId(savedSeasons.get(0).getId());
