@@ -748,13 +748,13 @@ components:
         culture:
           type: string
           description: The culture being rotated
-          minimum: 1
-          maximum: 20
+          minLength: 1
+          maxLength: 20
         cultivar:
           type: string
           description: The specific cultivar
-          minimum: 1
-          maximum: 20
+          minLength: 1
+          maxLength: 20
         startDate:
           type: string
           format: date
