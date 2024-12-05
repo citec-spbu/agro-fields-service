@@ -607,13 +607,14 @@ components:
           readOnly: true
         name:
           type: string
-          description: The name of the field
+          minimum: 1
+          maximum: 20
+          description: The name of the field should be in the range from 1 to 20
         description:
           type: string
           description: Description of the field
       required:
         - name
-        - description
 
     FieldDTO:
       allOf:
