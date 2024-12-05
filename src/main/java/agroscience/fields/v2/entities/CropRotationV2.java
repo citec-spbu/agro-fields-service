@@ -25,10 +25,10 @@ public class CropRotationV2 extends AbstractEntity {
   @Column(name = "end_date")
   private LocalDate endDate;
 
-  @Column(name = "culture", length = 20)
+  @Column(name = "culture", length = 20, nullable = false)
   private String culture;
 
-  @Column(name = "cultivar", length = 20)
+  @Column(name = "cultivar", length = 20, nullable = false)
   private String cultivar;
 
   @Column(name = "description", length = 256)
