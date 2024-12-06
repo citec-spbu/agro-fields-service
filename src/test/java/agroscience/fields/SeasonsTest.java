@@ -51,19 +51,11 @@ public class SeasonsTest extends AbstractTest {
   public void createSeasonTest() {
     //Given
     Season season = createSampleSeason();
-    Season seasonWithLongName = createSampleSeason();
-    seasonWithLongName.setName("A".repeat(51));
     //When
     SeasonBaseDTO seasonBaseDTO = seasonMapper.map(List.of(season)).get(0);
-    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(seasonWithLongName)).get(0);
     String url = "/api/v2/fields-service/season";
     ResponseEntity<IdDTO> response = httpSteps.sendPostRequest(seasonBaseDTO, url, IdDTO.class);
-    ResponseEntity<ExceptionBody> responseE = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
     //Then
-    assertEquals(400, responseE.getStatusCode().value());
-    assertNotNull(responseE.getBody());
-    List<ApiError> apiErrors = responseE.getBody().getErrors();
-    assertEquals("name: size must be between 1 and 50", apiErrors.get(0).getDescription());
     List<Season> savedSeasons = seasonsRepository.findAll();
     savedSeasons.get(0).setOrganizationId(season.getOrganizationId());
     season.setId(savedSeasons.get(0).getId());
@@ -74,6 +66,23 @@ public class SeasonsTest extends AbstractTest {
     assertEquals(1, savedSeasons.size());
     assertEquals(season.getId(), savedSeasons.get(0).getId());
     assertEquals(season, savedSeasons.get(0));
+  }
+
+  @Test
+  public void createInvalidSeasonTest() {
+    //Given
+    Season seasonWithLongName = createSampleSeason();
+    seasonWithLongName.setName("A".repeat(51));
+    //When
+    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(seasonWithLongName)).get(0);
+    String url = "/api/v2/fields-service/season";
+    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    List<ApiError> apiErrors = response.getBody().getErrors();
+    assertEquals(1, apiErrors.size());
+    assertEquals("name: size must be between 1 and 50", apiErrors.get(0).getDescription());
   }
 
   @Test
