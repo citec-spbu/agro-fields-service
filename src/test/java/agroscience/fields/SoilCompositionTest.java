@@ -58,27 +58,18 @@ public class SoilCompositionTest extends AbstractTest {
     SoilComposition soilComposition = createSampleSoilComposition(field.getContours().get(0));
     SoilComposition soilCompositionWithOutPoint = createSampleSoilComposition(field.getContours().get(0));
     soilCompositionWithOutPoint.setCoordinates(null);
-    SoilComposition soilCompositionWithLongCo = createSampleSoilComposition(field.getContours().get(0));
-    soilCompositionWithLongCo.setCo("A".repeat(51));
-    SoilCompositionDTO soilCompositionDTOWithLongCo = soilCompositionMapper.map(soilCompositionWithLongCo);
     // When
     SoilCompositionDTO soilCompositionDTO = soilCompositionMapper.map(soilComposition);
     SoilCompositionDTO soilCompositionDTOWithOutPoint = soilCompositionMapper.map(soilCompositionWithOutPoint);
     String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
     ResponseEntity<IdDTO> response1 = httpSteps.sendPostRequest(soilCompositionDTO, url, IdDTO.class);
     ResponseEntity<IdDTO> response2 = httpSteps.sendPostRequest(soilCompositionDTOWithOutPoint, url, IdDTO.class);
-    ResponseEntity<ExceptionBody> response3 = httpSteps.sendPostRequest(soilCompositionDTOWithLongCo, url, ExceptionBody.class);
     // Then
     List<SoilComposition> savedSoilCompositions = soilCompositionsRepository.findAll();
     assertEquals(200, response1.getStatusCode().value());
     assertEquals(200, response2.getStatusCode().value());
-    assertEquals(400, response3.getStatusCode().value());
     assertNotNull(response1.getBody());
     assertNotNull(response2.getBody());
-    assertNotNull(response3.getBody());
-    List<ApiError> apiErrors = response3.getBody().getErrors();
-    assertEquals(1, apiErrors.size());
-    assertEquals("co: size must be between 1 and 50",apiErrors.get(0).getDescription());
     assertEquals(new IdDTO(savedSoilCompositions.get(0).getId()), response1.getBody());
     assertEquals(new IdDTO(savedSoilCompositions.get(1).getId()), response2.getBody());
     assertEquals(2, savedSoilCompositions.size());
@@ -87,6 +78,28 @@ public class SoilCompositionTest extends AbstractTest {
     soilComposition.setId(savedSoilCompositions.get(1).getId());
     soilComposition.setCoordinates(savedSoilCompositions.get(1).getCoordinates());
     assertEquals(soilComposition, savedSoilCompositions.get(1));
+  }
+
+  @Test
+  public void createInvalidSoilCompositionTest() {
+    // Given
+    Season season = createSampleSeason();
+    seasonsRepository.save(season);
+    FieldV2 field = createSampleFieldAndContourInside(season);
+    fieldRepository.save(field);
+    UUID contourId = field.getContours().get(0).getId();
+    SoilComposition soilCompositionWithLongCo = createSampleSoilComposition(field.getContours().get(0));
+    soilCompositionWithLongCo.setCo("A".repeat(51));
+    //When
+    SoilCompositionDTO soilCompositionDTOWithLongCo = soilCompositionMapper.map(soilCompositionWithLongCo);
+    String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
+    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(soilCompositionDTOWithLongCo, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    List<ApiError> apiErrors = response.getBody().getErrors();
+    assertEquals(1, apiErrors.size());
+    assertEquals("co: size must be between 1 and 50",apiErrors.get(0).getDescription());
   }
 
   @Test
