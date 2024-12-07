@@ -71,18 +71,20 @@ public class SeasonsTest extends AbstractTest {
   @Test
   public void createInvalidSeasonTest() {
     //Given
-    Season seasonWithLongName = createSampleSeason();
-    seasonWithLongName.setName("A".repeat(51));
+    Season invalidSeason = createSampleSeason();
+    invalidSeason.setName("A".repeat(51));
+    invalidSeason.setStartDate(null);
     //When
-    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(seasonWithLongName)).get(0);
+    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(invalidSeason)).get(0);
     String url = "/api/v2/fields-service/season";
     ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
     //Then
     assertEquals(400, response.getStatusCode().value());
     assertNotNull(response.getBody());
     List<ApiError> apiErrors = response.getBody().getErrors();
-    assertEquals(1, apiErrors.size());
-    assertEquals("name: size must be between 1 and 50", apiErrors.get(0).getDescription());
+    assertEquals(2, apiErrors.size());
+    assertEquals("startDate: must not be null", apiErrors.get(0).getDescription());
+    assertEquals("name: size must be between 1 and 50", apiErrors.get(1).getDescription());
   }
 
   @Test
