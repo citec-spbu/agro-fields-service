@@ -572,6 +572,8 @@ components:
           readOnly: true
         name:
           type: string
+          minLength: 1
+          maxLength: 50
         startDate:
           type: string
           format: date
