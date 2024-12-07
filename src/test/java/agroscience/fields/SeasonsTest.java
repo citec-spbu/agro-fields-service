@@ -71,20 +71,27 @@ public class SeasonsTest extends AbstractTest {
   @Test
   public void createInvalidSeasonTest() {
     //Given
-    Season invalidSeason = createSampleSeason();
-    invalidSeason.setName("A".repeat(51));
-    invalidSeason.setStartDate(null);
+    Season SeasonWithLongName = createSampleSeason();
+    Season SeasonWithNullDate = createSampleSeason();
+    SeasonWithLongName.setName("A".repeat(51));
+    SeasonWithNullDate.setStartDate(null);
     //When
-    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(invalidSeason)).get(0);
+    SeasonBaseDTO seasonWithLongNameDTO = seasonMapper.map(List.of(SeasonWithLongName)).get(0);
+    SeasonBaseDTO SeasonWithNullDateDTO = seasonMapper.map(List.of(SeasonWithNullDate)).get(0);
     String url = "/api/v2/fields-service/season";
-    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseLongName = httpSteps.sendPostRequest(seasonWithLongNameDTO, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseNullDate = httpSteps.sendPostRequest(SeasonWithNullDateDTO, url, ExceptionBody.class);
     //Then
-    assertEquals(400, response.getStatusCode().value());
-    assertNotNull(response.getBody());
-    List<ApiError> apiErrors = response.getBody().getErrors();
-    assertEquals(2, apiErrors.size());
-    assertEquals("startDate: must not be null", apiErrors.get(0).getDescription());
-    assertEquals("name: size must be between 1 and 50", apiErrors.get(1).getDescription());
+    assertEquals(400, responseLongName.getStatusCode().value());
+    assertEquals(400, responseNullDate.getStatusCode().value());
+    assertNotNull(responseLongName.getBody());
+    assertNotNull(responseNullDate.getBody());
+    List<ApiError> apiErrorsLongName = responseLongName.getBody().getErrors();
+    List<ApiError> apiErrorsNullDate = responseNullDate.getBody().getErrors();
+    assertEquals(1, apiErrorsLongName.size());
+    assertEquals(1, apiErrorsNullDate.size());
+    assertEquals("name: size must be between 1 and 50", apiErrorsLongName.get(0).getDescription());
+    assertEquals("startDate: must not be null", apiErrorsNullDate.get(0).getDescription());
   }
 
   @Test
