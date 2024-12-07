@@ -778,6 +778,8 @@ components:
           readOnly: true
         ph:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The pH level of the soil
         sampleDate:
           type: string
@@ -785,42 +787,68 @@ components:
           description: The date when the soil sample was taken
         organicMatter:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The organic matter content
         mobileP:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The mobile phosphorus content
         mobileK:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The mobile potassium content
         mobileS:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The mobile sulfur content
         nitrateN:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The nitrate nitrogen content
         ammoniumN:
           type: string
+          minLength: 1
+          maxLength: 50
           description: The ammonium nitrogen content
         hydrolyticAcidity:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Hydrolytic acidity
         caExchange:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Calcium exchange content
         mgExchange:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Magnesium exchange content
         b:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Boron content
         co:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Cobalt content
         mn:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Manganese content
         zn:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Zinc content
         coordinates:
           $ref: '#/components/schemas/CoordinatesDTO'

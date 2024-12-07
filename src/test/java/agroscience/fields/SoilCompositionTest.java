@@ -7,6 +7,8 @@ import agroscience.fields.v2.mappers.SoilCompositionMapper;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import agroscience.fields.v2.repositories.SoilCompositionsRepository;
+import generated.agroscience.fields.api.model.ApiError;
+import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.IdDTO;
 import generated.agroscience.fields.api.model.SoilCompositionDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,6 +78,37 @@ public class SoilCompositionTest extends AbstractTest {
     soilComposition.setId(savedSoilCompositions.get(1).getId());
     soilComposition.setCoordinates(savedSoilCompositions.get(1).getCoordinates());
     assertEquals(soilComposition, savedSoilCompositions.get(1));
+  }
+
+  @Test
+  public void createInvalidSoilCompositionTest() {
+    // Given
+    Season season = createSampleSeason();
+    seasonsRepository.save(season);
+    FieldV2 field = createSampleFieldAndContourInside(season);
+    fieldRepository.save(field);
+    UUID contourId = field.getContours().get(0).getId();
+    SoilComposition SoilCompositionWithLongCo = createSampleSoilComposition(field.getContours().get(0));
+    SoilComposition SoilCompositionWithNullDate = createSampleSoilComposition(field.getContours().get(0));
+    SoilCompositionWithLongCo.setCo("A".repeat(51));
+    SoilCompositionWithNullDate.setSampleDate(null);
+    //When
+    SoilCompositionDTO soilCompositionWithLongCoDTO = soilCompositionMapper.map(SoilCompositionWithLongCo);
+    SoilCompositionDTO SoilCompositionWithNullDateDTO = soilCompositionMapper.map(SoilCompositionWithNullDate);
+    String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
+    ResponseEntity<ExceptionBody> responseLongCo = httpSteps.sendPostRequest(soilCompositionWithLongCoDTO, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseNullName = httpSteps.sendPostRequest(SoilCompositionWithNullDateDTO, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, responseLongCo.getStatusCode().value());
+    assertEquals(400, responseNullName.getStatusCode().value());
+    assertNotNull(responseLongCo.getBody());
+    assertNotNull(responseNullName.getBody());
+    List<ApiError> apiErrorsLongCo = responseLongCo.getBody().getErrors();
+    List<ApiError> apiErrorsNullName = responseNullName.getBody().getErrors();
+    assertEquals(1, apiErrorsLongCo.size());
+    assertEquals(1, apiErrorsNullName.size());
+    assertEquals("co: size must be between 1 and 50", apiErrorsLongCo.get(0).getDescription());
+    assertEquals("sampleDate: must not be null", apiErrorsNullName.get(0).getDescription());
   }
 
   @Test
