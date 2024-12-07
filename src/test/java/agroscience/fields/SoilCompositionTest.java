@@ -88,20 +88,27 @@ public class SoilCompositionTest extends AbstractTest {
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
     UUID contourId = field.getContours().get(0).getId();
-    SoilComposition invalidSoilComposition = createSampleSoilComposition(field.getContours().get(0));
-    invalidSoilComposition.setCo("A".repeat(51));
-    invalidSoilComposition.setSampleDate(null);
+    SoilComposition SoilCompositionWithLongCo = createSampleSoilComposition(field.getContours().get(0));
+    SoilComposition SoilCompositionWithNullDate = createSampleSoilComposition(field.getContours().get(0));
+    SoilCompositionWithLongCo.setCo("A".repeat(51));
+    SoilCompositionWithNullDate.setSampleDate(null);
     //When
-    SoilCompositionDTO soilCompositionDTOWithLongCo = soilCompositionMapper.map(invalidSoilComposition);
+    SoilCompositionDTO soilCompositionWithLongCoDTO = soilCompositionMapper.map(SoilCompositionWithLongCo);
+    SoilCompositionDTO SoilCompositionWithNullDateDTO = soilCompositionMapper.map(SoilCompositionWithNullDate);
     String url = "/api/v2/fields-service/contours/" + contourId + "/soil-composition";
-    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(soilCompositionDTOWithLongCo, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseLongCo = httpSteps.sendPostRequest(soilCompositionWithLongCoDTO, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseNullName = httpSteps.sendPostRequest(SoilCompositionWithNullDateDTO, url, ExceptionBody.class);
     //Then
-    assertEquals(400, response.getStatusCode().value());
-    assertNotNull(response.getBody());
-    List<ApiError> apiErrors = response.getBody().getErrors();
-    assertEquals(2, apiErrors.size());
-    assertEquals("sampleDate: must not be null",apiErrors.get(0).getDescription());
-    assertEquals("co: size must be between 1 and 50",apiErrors.get(1).getDescription());
+    assertEquals(400, responseLongCo.getStatusCode().value());
+    assertEquals(400, responseNullName.getStatusCode().value());
+    assertNotNull(responseLongCo.getBody());
+    assertNotNull(responseNullName.getBody());
+    List<ApiError> apiErrorsLongCo = responseLongCo.getBody().getErrors();
+    List<ApiError> apiErrorsNullName = responseNullName.getBody().getErrors();
+    assertEquals(1, apiErrorsLongCo.size());
+    assertEquals(1, apiErrorsNullName.size());
+    assertEquals("co: size must be between 1 and 50", apiErrorsLongCo.get(0).getDescription());
+    assertEquals("sampleDate: must not be null", apiErrorsNullName.get(0).getDescription());
   }
 
   @Test
