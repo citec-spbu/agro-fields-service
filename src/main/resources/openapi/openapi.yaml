@@ -678,6 +678,8 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
+          maxLength: 20
           description: Contour name
         color:
           type: string

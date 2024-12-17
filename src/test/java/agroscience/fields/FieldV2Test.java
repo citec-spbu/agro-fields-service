@@ -7,6 +7,8 @@ import agroscience.fields.v2.mappers.FieldMapperV2;
 import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
+import generated.agroscience.fields.api.model.ApiError;
+import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.FieldDTO;
 import generated.agroscience.fields.api.model.FieldBaseDTO;
 import generated.agroscience.fields.api.model.IdDTO;
@@ -117,6 +119,25 @@ public class FieldV2Test extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     assertEquals(fieldDTO, fieldMapperV2.map(fieldTestRepository.findAllByArchivedIsFalse().get(0)));
     assertEquals(field, fieldTestRepository.findAll().get(0));
+  }
+
+  @Test
+  public void createInvalidFieldTest() {
+    //Given
+    Season season = createSampleSeason();
+    seasonsRepository.save(season);
+    FieldV2 field = createSampleFieldAndContourInside(season);
+    field.setName("A".repeat(21));
+    //When
+    FieldBaseDTO fieldBaseDTO = fieldMapperV2.map(field);
+    String url = "/api/v2/fields-service/seasons/" + season.getId() + "/field";
+    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(fieldBaseDTO, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    List<ApiError> apiErrors = response.getBody().getErrors();
+    assertEquals(1, apiErrors.size());
+    assertEquals("name: size must be between 1 and 20", apiErrors.get(0).getDescription());
   }
 
 }

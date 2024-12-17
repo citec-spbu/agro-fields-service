@@ -8,7 +8,9 @@ import agroscience.fields.v2.repositories.ContoursRepository;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
 import agroscience.fields.v2.services.ContoursService;
+import generated.agroscience.fields.api.model.ApiError;
 import generated.agroscience.fields.api.model.ContourBaseDTO;
+import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.IdDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,6 +127,27 @@ public class ContourTest extends AbstractTest {
     List<Contour> contourList = contourRepository.findAll();
     assertEquals(contourBaseDTO, contourMapper.map(contourList.get(0)));
     assertEquals(contour, contourList.get(0));
+  }
+
+  @Test
+  public void createInvalidContourTest() {
+    //Given
+    Season season = createSampleSeason();
+    seasonRepository.save(season);
+    FieldV2 field = createSampleFieldAndContourInside(season);
+    fieldRepository.save(field);
+    Contour contourLongName = createSampleContour(field);
+    contourLongName.setName("A".repeat(21));
+    //When
+    ContourBaseDTO contourBaseDTO = contourMapper.map(contourLongName);
+    String url = "/api/v2/fields-service/fields/" + field.getId().toString() + "/contour";
+    ResponseEntity<ExceptionBody> response = httpSteps.sendPostRequest(contourBaseDTO, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    List<ApiError> apiErrors = response.getBody().getErrors();
+    assertEquals(1, apiErrors.size());
+    assertEquals("name: size must be between 1 and 20", apiErrors.get(0).getDescription());
   }
 
 }
