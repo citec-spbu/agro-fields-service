@@ -147,7 +147,7 @@ public class ContourTest extends AbstractTest {
     assertNotNull(response.getBody());
     List<ApiError> apiErrors = response.getBody().getErrors();
     assertEquals(1, apiErrors.size());
-    assertEquals("name: size must be between 1 and 20", apiErrors.get(0).getDescription());
+    assertEquals("name: size must be between 1 and 50", apiErrors.get(0).getDescription());
   }
 
 }
