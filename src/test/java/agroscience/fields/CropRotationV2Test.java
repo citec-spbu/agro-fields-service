@@ -7,7 +7,9 @@ import agroscience.fields.v2.mappers.CropRotationMapperV2;
 import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
 import agroscience.fields.v2.repositories.FieldsRepository;
 import agroscience.fields.v2.repositories.SeasonsRepository;
+import generated.agroscience.fields.api.model.ApiError;
 import generated.agroscience.fields.api.model.CropRotationDTO;
+import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.IdDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -132,6 +133,36 @@ public class CropRotationV2Test extends AbstractTest {
     assertEquals(200, response.getStatusCode().value());
     assertEquals(cropRotationDTO, cropRotationMapper.map(cropRotationRepository.findAll().get(0)));
     assertEquals(cropRotation, cropRotationRepository.findAll().get(0));
+  }
+
+  @Test
+  public void createInvalidCropRotationTest() {
+    //Given
+    Season season = createSampleSeason();
+    seasonsRepository.save(season);
+    FieldV2 field = createSampleFieldAndContourInside(season);
+    fieldRepository.save(field);
+    CropRotationV2 cropRotationNullDate = createSampleCropRotation(field.getContours().get(0));
+    CropRotationV2 cropRotationLongCulture = createSampleCropRotation(field.getContours().get(0));
+    cropRotationNullDate.setStartDate(null);
+    cropRotationLongCulture.setCulture("A".repeat(51));
+    //When
+    CropRotationDTO cropRotationDTO = cropRotationMapper.map(cropRotationNullDate);
+    CropRotationDTO cropRotationDTO1 = cropRotationMapper.map(cropRotationLongCulture);
+    String url = "/api/v2/fields-service/contours/" + field.getContours().get(0).getId() + "/crop-rotation";
+    ResponseEntity<ExceptionBody> responseNullDate = httpSteps.sendPostRequest(cropRotationDTO, url, ExceptionBody.class);
+    ResponseEntity<ExceptionBody> responseLongCulture = httpSteps.sendPostRequest(cropRotationDTO1, url, ExceptionBody.class);
+    //Then
+    assertEquals(400, responseNullDate.getStatusCode().value());
+    assertEquals(400, responseLongCulture.getStatusCode().value());
+    assertNotNull(responseNullDate.getBody());
+    assertNotNull(responseLongCulture.getBody());
+    List<ApiError> apiErrorNullDate = responseNullDate.getBody().getErrors();
+    List<ApiError> apiErrorLongCulture = responseLongCulture.getBody().getErrors();
+    assertEquals(1, apiErrorNullDate.size());
+    assertEquals(1, apiErrorLongCulture.size());
+    assertEquals("startDate: must not be null", apiErrorNullDate.get(0).getDescription());
+    assertEquals("culture: size must be between 1 and 50", apiErrorLongCulture.get(0).getDescription());
   }
 
 }

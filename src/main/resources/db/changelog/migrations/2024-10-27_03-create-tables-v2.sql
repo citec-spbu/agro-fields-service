@@ -37,8 +37,8 @@ create table if not exists crop_rotations
   foreign key (contour_id) references contours (id),
   start_date       date    not null,
   end_date         date,
-  culture          text,
-  cultivar         text,
+  culture          text    not null,
+  cultivar         text    not null,
   description      text,
   archived         boolean not null default false
 );
