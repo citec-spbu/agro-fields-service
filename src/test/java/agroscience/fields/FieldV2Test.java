@@ -127,7 +127,7 @@ public class FieldV2Test extends AbstractTest {
     Season season = createSampleSeason();
     seasonsRepository.save(season);
     FieldV2 field = createSampleFieldAndContourInside(season);
-    field.setName("A".repeat(21));
+    field.setName("A".repeat(51));
     //When
     FieldBaseDTO fieldBaseDTO = fieldMapperV2.map(field);
     String url = "/api/v2/fields-service/seasons/" + season.getId() + "/field";

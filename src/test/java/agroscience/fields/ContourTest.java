@@ -137,7 +137,7 @@ public class ContourTest extends AbstractTest {
     FieldV2 field = createSampleFieldAndContourInside(season);
     fieldRepository.save(field);
     Contour contourLongName = createSampleContour(field);
-    contourLongName.setName("A".repeat(21));
+    contourLongName.setName("A".repeat(51));
     //When
     ContourBaseDTO contourBaseDTO = contourMapper.map(contourLongName);
     String url = "/api/v2/fields-service/fields/" + field.getId().toString() + "/contour";
