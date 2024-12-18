@@ -24,7 +24,7 @@ import org.hibernate.annotations.FetchMode;
 @EqualsAndHashCode(callSuper = true)
 public class FieldV2 extends AbstractEntity {
 
-  @Column(name = "name")
+  @Column(name = "name", length = 20, nullable = false)
   private String name;
 
   @Column(name = "description")

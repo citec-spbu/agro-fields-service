@@ -609,13 +609,14 @@ components:
           readOnly: true
         name:
           type: string
-          description: The name of the field
+          minLength: 1
+          maxLength: 50
+          description: The name of the field should be in the range from 1 to 20
         description:
           type: string
           description: Description of the field
       required:
         - name
-        - description
 
     FieldDTO:
       allOf:
@@ -679,6 +680,8 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
+          maxLength: 50
           description: Contour name
         color:
           type: string
