@@ -145,7 +145,7 @@ public class CropRotationV2Test extends AbstractTest {
     CropRotationV2 cropRotationNullDate = createSampleCropRotation(field.getContours().get(0));
     CropRotationV2 cropRotationLongCulture = createSampleCropRotation(field.getContours().get(0));
     cropRotationNullDate.setStartDate(null);
-    cropRotationLongCulture.setCulture("A".repeat(21));
+    cropRotationLongCulture.setCulture("A".repeat(51));
     //When
     CropRotationDTO cropRotationDTO = cropRotationMapper.map(cropRotationNullDate);
     CropRotationDTO cropRotationDTO1 = cropRotationMapper.map(cropRotationLongCulture);
@@ -162,7 +162,7 @@ public class CropRotationV2Test extends AbstractTest {
     assertEquals(1, apiErrorNullDate.size());
     assertEquals(1, apiErrorLongCulture.size());
     assertEquals("startDate: must not be null", apiErrorNullDate.get(0).getDescription());
-    assertEquals("culture: size must be between 1 and 20", apiErrorLongCulture.get(0).getDescription());
+    assertEquals("culture: size must be between 1 and 50", apiErrorLongCulture.get(0).getDescription());
   }
 
 }
