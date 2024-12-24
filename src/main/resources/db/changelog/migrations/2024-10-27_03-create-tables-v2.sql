@@ -1,7 +1,7 @@
 create table if not exists seasons
 (
   id              uuid    primary key,
-  name            text,
+  name            text    not null,
   start_date      date    not null,
   end_date        date    not null,
   organization_id uuid    not null,
