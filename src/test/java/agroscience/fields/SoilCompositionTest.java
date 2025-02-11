@@ -1,12 +1,12 @@
 package agroscience.fields;
 
-import agroscience.fields.v2.entities.FieldV2;
-import agroscience.fields.v2.entities.Season;
-import agroscience.fields.v2.entities.SoilComposition;
-import agroscience.fields.v2.mappers.SoilCompositionMapper;
-import agroscience.fields.v2.repositories.FieldsRepository;
-import agroscience.fields.v2.repositories.SeasonsRepository;
-import agroscience.fields.v2.repositories.SoilCompositionsRepository;
+import agroscience.fields.entities.FieldV2;
+import agroscience.fields.entities.Season;
+import agroscience.fields.entities.SoilComposition;
+import agroscience.fields.mappers.SoilCompositionMapper;
+import agroscience.fields.repositories.FieldsRepository;
+import agroscience.fields.repositories.SeasonsRepository;
+import agroscience.fields.repositories.SoilCompositionsRepository;
 import generated.agroscience.fields.api.model.ApiError;
 import generated.agroscience.fields.api.model.ExceptionBody;
 import generated.agroscience.fields.api.model.IdDTO;
