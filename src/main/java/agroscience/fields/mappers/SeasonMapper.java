@@ -1,0 +1,18 @@
+package agroscience.fields.mappers;
+
+import agroscience.fields.entities.Season;
+import generated.agroscience.fields.api.model.SeasonBaseDTO;
+import generated.agroscience.fields.api.model.SeasonWithFieldsDTO;
+import java.util.List;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface SeasonMapper {
+
+  Season map(SeasonBaseDTO seasonDTO);
+
+  List<SeasonBaseDTO> map(List<Season> all);
+
+  List<SeasonWithFieldsDTO> mapWithField(List<Season> all);
+
+}
