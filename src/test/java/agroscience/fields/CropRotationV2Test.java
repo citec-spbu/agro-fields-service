@@ -1,12 +1,12 @@
 package agroscience.fields;
 
-import agroscience.fields.v2.entities.CropRotationV2;
-import agroscience.fields.v2.entities.FieldV2;
-import agroscience.fields.v2.entities.Season;
-import agroscience.fields.v2.mappers.CropRotationMapperV2;
-import agroscience.fields.v2.repositories.CropRotationRepositoryV2;
-import agroscience.fields.v2.repositories.FieldsRepository;
-import agroscience.fields.v2.repositories.SeasonsRepository;
+import agroscience.fields.entities.CropRotationV2;
+import agroscience.fields.entities.FieldV2;
+import agroscience.fields.entities.Season;
+import agroscience.fields.mappers.CropRotationMapperV2;
+import agroscience.fields.repositories.CropRotationRepositoryV2;
+import agroscience.fields.repositories.FieldsRepository;
+import agroscience.fields.repositories.SeasonsRepository;
 import generated.agroscience.fields.api.model.ApiError;
 import generated.agroscience.fields.api.model.CropRotationDTO;
 import generated.agroscience.fields.api.model.ExceptionBody;

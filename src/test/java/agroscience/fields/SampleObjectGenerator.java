@@ -1,20 +1,19 @@
 package agroscience.fields;
 
-import agroscience.fields.dto.field.CoordinatesDTO;
-import agroscience.fields.dto.field.GeomDTO;
-import agroscience.fields.v2.entities.Contour;
-import agroscience.fields.v2.entities.FieldV2;
-import agroscience.fields.v2.entities.Season;
-import agroscience.fields.v2.entities.SoilComposition;
-import agroscience.fields.v2.entities.CropRotationV2;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
+import agroscience.fields.entities.Contour;
+import agroscience.fields.entities.CropRotationV2;
+import agroscience.fields.entities.FieldV2;
+import agroscience.fields.entities.Season;
+import agroscience.fields.entities.SoilComposition;
+import generated.agroscience.fields.api.model.CoordinatesDTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
 public class SampleObjectGenerator {
 
@@ -24,11 +23,8 @@ public class SampleObjectGenerator {
     CoordinatesDTO coordinates3 = new CoordinatesDTO(4.0, 3.0);
     CoordinatesDTO coordinates4 = new CoordinatesDTO(1.0, 2.0);
 
-    List<CoordinatesDTO> coordinatesList = List.of(coordinates1, coordinates2, coordinates3, coordinates4);
+    List<CoordinatesDTO> coordinates = List.of(coordinates1, coordinates2, coordinates3, coordinates4);
 
-    var geomDto = new GeomDTO("Polygon", coordinatesList);
-
-    var coordinates = geomDto.getCoordinates();
     GeometryFactory geometryFactory = new GeometryFactory();
     // Преобразовать координаты в массив точек
     Coordinate[] polygonCoordinates = new Coordinate[coordinates.size()];
@@ -49,7 +45,7 @@ public class SampleObjectGenerator {
     return season;
   }
 
-  public static FieldV2 createSampleFieldAndContourInside(Season season){
+  public static FieldV2 createSampleFieldAndContourInside(Season season) {
     FieldV2 field = new FieldV2();
     field.setSeason(season);
     field.setName("Test Field");
@@ -84,7 +80,7 @@ public class SampleObjectGenerator {
     soilComposition.setCo("0.05 mg/kg");
     soilComposition.setMn("6.2 mg/kg");
     soilComposition.setZn("1.1 mg/kg");
-    Coordinate coordinate = new Coordinate(2,2.5);
+    Coordinate coordinate = new Coordinate(2, 2.5);
     GeometryFactory geometryFactory = new GeometryFactory();
     Point coordinates = geometryFactory.createPoint(coordinate);
     soilComposition.setCoordinates(coordinates);
