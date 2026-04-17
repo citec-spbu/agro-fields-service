@@ -1,12 +1,9 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jre
 
-# Устанавливаем директорию приложения внутри контейнера
 WORKDIR /app
 
-# Копируем JAR-файл в контейнер
 COPY target/*.jar fields.jar
 
-# Определяем команду для запуска приложения при запуске контейнера
 CMD ["java", "-jar", "fields.jar"]
 
 

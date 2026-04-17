@@ -19,7 +19,8 @@ public class Constants {
       "/webjars/**",
       "/swagger-ui.html",
       "/docs",
-      "/api/internal/**"
+      "/api/internal/**",
+      "/error"
   };
 
 }

@@ -346,6 +346,32 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /api/internal/fields-service/fields/{id}/contours:
+    get:
+      tags:
+        - MeteoSlave
+      operationId: internalFindContoursByField
+      summary: Internal field contours for DZZ sync (trusted network, no JWT)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Contours
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContourBaseDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v2/fields-service/contours/{id}/crop-rotation:
     post:
@@ -771,6 +797,11 @@ components:
         description:
           type: string
           description: Description of the crop rotation
+        harvestYieldTPerHa:
+          type: number
+          format: double
+          nullable: true
+          description: Actual harvest yield, tonnes per hectare (optional)
       required:
         - id
         - startDate
