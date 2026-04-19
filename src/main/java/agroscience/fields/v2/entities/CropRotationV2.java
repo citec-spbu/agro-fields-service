@@ -34,7 +34,7 @@ public class CropRotationV2 extends AbstractEntity {
   @Column(name = "description", length = 256)
   private String description;
 
-  /** Урожайность по факту уборки, т/га (для аналитики план — факт — результат) */
+  /** Урожайность по факту уборки, т/га (для аналитики план — факт — результат). */
   @Column(name = "harvest_yield_t_per_ha")
   private Double harvestYieldTPerHa;
 
