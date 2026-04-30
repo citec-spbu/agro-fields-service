@@ -1,47 +1,32 @@
-# Запуск проекта
+# agro-fields-service
 
-./mvnw clean package -DskipTests  
-docker compose up
+Java-микросервис управления полями, контурами, культурами и севооборотами.
 
-# Конфигурация
+## Стек
+- Java 17
+- Spring Boot
+- PostgreSQL/PostGIS
+- Liquibase
+- Docker / Docker Compose
 
-Порт 8002, для бд порт 5434
+## Быстрый запуск
+```bash
+docker network create agronetwork 2>/dev/null || true
+docker compose up -d --build
+```
 
-Приложение обращается к метео сервису на порту 8003  
-к контейнеру с названием "meteo-back" из той же сети  
-agronetwork
+Сервис доступен на `http://localhost:8004`, Swagger - `http://localhost:8004/docs`.
+База данных доступна на `localhost:5434`.
 
-# Swagger
-http://localhost:8002/docs  
-Для ручного тестирования необходимо проставить jwt токен в окошко Authorize в сваггере.  
-После этого любой запрос будет содержать токен, который вы вставили.
+## Локальная сборка и тесты
+```bash
+./mvnw clean package -DskipTests
+./mvnw test
+```
 
-# Схема БД
+## Переменные окружения
+Конфигурация хранится в `.env` и используется сервисом и контейнером БД.
 
-![img.png](docs/dbSchema.png)
-
-# Индексы
-
-![img.png](docs/idx.png)
-
-# Тесты
-
-Тесты выполнялись с помощью библиотеки Junit 5  
-./mvn clean test -- эта команда выполнит интеграционное тестирование  
-Тестирование проводится с помощью тестового контейнера в докере.  
-Контейнер поднимается и удаляется автоматически при запуске и окончании тестов.
-
-## Покрытие тестов
-
-![img.png](docs/tests.png)
-
-# Разное
-
-Даты в приложении принимаются в формате  
-dd-MM-yyyy
-
-# Запуск проекта для дебага и разработки
-
-В директории local выполнить docker compose up , чтобы поднять локальную базу  
-Указать профиль local при запуске. Сваггер http://localhost:8080/docs
-![img.png](docs/local-profile.png)
+## Дополнительно
+- SQL-миграции находятся в `src/main/resources/db/changelog/migrations`.
+- Для CDC/Debezium в контейнере БД включён `wal_level=logical`.

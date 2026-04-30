@@ -31,7 +31,7 @@ public interface ContourMapper {
   @Named("toGeom")
   default Geometry mapGeom(List<CoordinatesDTO> coordinates) {
     GeometryFactory geometryFactory = new GeometryFactory();
-    // Преобразовать координаты в массив точек
+    // Convert coordinates into a point array.
     Coordinate[] polygonCoordinates = new Coordinate[coordinates.size()];
     for (int i = 0; i < coordinates.size(); i++) {
       polygonCoordinates[i] =

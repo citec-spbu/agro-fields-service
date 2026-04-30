@@ -35,3 +35,6 @@ build/
 
 ###TRASH###
 mvnw.cmd
+.env
+.env.*
+!.env.example

@@ -129,8 +129,7 @@ public class FieldService {
       throw new AuthException("You do not belong to an organization with id " + field.getFieldOrganizationId());
     }
 
-    // Важно удалить у кропов тоже, иначе будет DataIntegrityViolationException
-    //Либо удаление вовсе не сработает
+    // Remove links on crop side as well to avoid DataIntegrityViolationException.
     field.getCropRotations().forEach(cr -> cr.getCrop().getCropRotations().remove(cr));
     fieldRepository.delete(field);
   }

@@ -51,7 +51,7 @@ public class AdminServiceTest extends AbstractTest {
 
     var coordinates = geomDto.getCoordinates();
     GeometryFactory geometryFactory = new GeometryFactory();
-    // Преобразовать координаты в массив точек
+    // Convert coordinates into a point array.
     Coordinate[] polygonCoordinates = new Coordinate[coordinates.size()];
     for (int i = 0; i < coordinates.size(); i++) {
       polygonCoordinates[i] =
